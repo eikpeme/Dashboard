@@ -142,12 +142,12 @@ function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>Daily Reguest Artizans</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
+                  <ArrowUpward className={classes.upArrowCardCategory} /> 5%
                 </span>{" "}
-                increase in today sales.
+                increase today.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -170,12 +170,17 @@ function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}>Total Subscriptions</h4>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                  <ArrowUpward className={classes.upArrowCardCategory} /> 5%
+                </span>{" "}
+                  increase today.
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime /> updated 4 minutes ago
               </div>
             </CardFooter>
           </Card>
@@ -192,12 +197,17 @@ function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <h4 className={classes.cardTitle}> Daily Completed Tasks</h4>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                  <ArrowUpward className={classes.upArrowCardCategory} /> 5%
+                </span>{" "}
+                  increase today.
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <AccessTime /> updated 4 minutes ago
               </div>
             </CardFooter>
           </Card>
