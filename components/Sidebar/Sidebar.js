@@ -137,7 +137,7 @@ export default function Sidebar(props) {
             paper: classNames(classes.drawerPaper, {
               [classes.drawerPaperRTL]: props.rtlActive,
             }),
-          }}
+          }} 
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
