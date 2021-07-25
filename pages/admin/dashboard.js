@@ -71,7 +71,7 @@ function Dashboard() {
               <CardIcon color="dark">
               <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Total Artizans</p>
+              <p className={classes.cardCategory}>Total Art</p>
               <h3 className={classes.cardTitle}>40</h3>
             </CardHeader>
             <CardFooter stats>
@@ -113,7 +113,7 @@ function Dashboard() {
               <CardIcon color="info">
                 <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Active Artizans</p>
+              <p className={classes.cardCategory}>Active Art</p>
               <h3 className={classes.cardTitle}>45</h3>
             </CardHeader>
             <CardFooter stats>
@@ -154,7 +154,7 @@ function Dashboard() {
               <div className={classes.stats}>
                 <AccessTime /> updated 4 minutes ago
               </div>
-            </CardFooter>
+            </CardFooter> 
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
