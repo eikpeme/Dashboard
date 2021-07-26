@@ -18,6 +18,7 @@ export default function FixedPlugin(props) {
   const [bgImage, setBgImage] = React.useState(props.bgImage);
   const handleClick = () => {
     props.handleFixedClick();
+      
   };
   return (
     <div
@@ -147,41 +148,6 @@ export default function FixedPlugin(props) {
             >
               <img src={imagine4} alt="..." />
             </a>
-          </li>
-
-          <li className="button-container">
-            <div className="button-container">
-              <Button
-                color="success"
-                href="https://www.creative-tim.com/product/nextjs-material-dashboard?ref=njsmd-fixed-plugin"
-                target="_blank"
-                fullWidth
-              >
-                Download free!
-              </Button>
-            </div>
-          </li>
-          <li className="button-container">
-            <div className="button-container">
-              <Button
-                color="warning"
-                href="https://www.creative-tim.com/product/nextjs-material-dashboard-pro?ref=njsmd-fixed-plugin"
-                target="_blank"
-                fullWidth
-              >
-                Get PRO version
-              </Button>
-            </div>
-          </li>
-          <li className="button-container">
-            <Button
-              color="info"
-              fullWidth
-              href="https://www.creative-tim.com/learning-lab/nextjs/overview/material-dashboard?ref=njsmd-fixed-plugin"
-              target="_blank"
-            >
-              Documentation
-            </Button>
           </li>
           <li className="adjustments-line" />
         </ul>

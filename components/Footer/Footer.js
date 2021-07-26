@@ -42,13 +42,13 @@ export default function Footer(props) {
           <span>
             &copy; {1900 + new Date().getYear()}{" "}
             <a
-              href="https://www.creative-tim.com?ref=njsmd-footer"
+              href="https://www.devstack.ng"
               target="_blank"
               className={classes.a}
             >
-              Creative Tim
+              DevStack.ng
             </a>
-            , made with love for a better web
+            , made with &#10084;&#65039; from DevStack team
           </span>
         </p>
       </div>
