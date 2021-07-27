@@ -254,6 +254,9 @@ const title = {
     lineHeight: "1",
   },
 };
+const GridWrapper = {
+  backgroundColor: grayColor[12]
+}
 
 const cardTitle = {
   ...title,
@@ -317,4 +320,5 @@ export {
   cardTitle,
   cardSubtitle,
   cardLink,
+  GridWrapper,
 };
