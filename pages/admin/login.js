@@ -40,6 +40,7 @@ const styles = {
     card: {
         paddingBottom: "0.1em",
         marginTop: "2em",
+        width: "100%",
     },
     gridContainer: {
         marginTop: "4em"
@@ -55,15 +56,15 @@ export default function Login(props){
     return (
         <div className={classes.gridContainer}>
             <GridContainer>
-            <GridItem item xl={1} md={2} sm={1} />
+            <GridItem item xl={12} md={2} sm={12} />
                 <GridItem item xl={12} md={8} sm={12}>
                     <Card className={classes.card}>
                         <CardHeader color="primary" className={classes.cardHeader}>
-                            <h4 className={classes.cardTitleWhite}>Artizans and Users</h4>
+                            <h4 className={classes.cardTitleWhite}>Great to see you again</h4>
                             <p className={classes.cardCategoryWhite}></p>
                         </CardHeader>
                         <CardBody>
-                            <GridContainer>
+                            <GridItem item xl={12} md={12} sm={12} type="submit">
                                 <GridItem item xl={12} md={12} sm={12}>
                                     <TextField 
                                         id="standard-basic"
@@ -84,7 +85,7 @@ export default function Login(props){
                                         required
                                     />
                                 </GridItem>
-                                <GridItem item xl={12} md={12} sm={2} >
+                                <GridItem item xl={12} md={12} sm={12} >
                                     <Button 
                                         fullWidth 
                                         type="submit" 
@@ -92,17 +93,15 @@ export default function Login(props){
                                         href="/admin/dashboard"
                                         className={classes.button}
                                         onClick={(e) => e.preventDefault()}
-                                        
-                                        
                                     >
                                     Log in
                                     </Button>
                                 </GridItem>
-                            </GridContainer>
+                            </GridItem>
                         </CardBody>
                     </Card>
                 </GridItem>
-                <GridItem item xl={1} md={2} sm={1} />
+                <GridItem item xl={12} md={2} sm={12} />
             </GridContainer>
         </div>
     )
