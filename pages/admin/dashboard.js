@@ -58,7 +58,7 @@ function Dashboard() {
                 <Danger>
                 <Accessibility />
                 </Danger>
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                <a href="/#" onClick={(e) => e.preventDefault()}>
                   View Users
                 </a>
               </div>

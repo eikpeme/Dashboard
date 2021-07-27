@@ -138,10 +138,10 @@ a {
 }
 
 a:hover,
-a:focus {
+a:focus { 
   color: #89229b;
   text-decoration: none;
-}
+} 
 
 legend {
   border-bottom: 0;
