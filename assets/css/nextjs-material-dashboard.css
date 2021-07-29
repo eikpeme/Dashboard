@@ -253,6 +253,9 @@ footer ul li a:hover {
   top: 120px;
   badge-primary-background-color: #9c27b0;
 }
+.MuiGrid-container {
+  display: block
+}
 
 .fixed-plugin .SocialMediaShareButton,
 .fixed-plugin .github-btn {
@@ -546,4 +549,10 @@ footer ul li a:hover {
   z-index: 9999;
   position: absolute;
   background: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  text-align: center;
+  color: rgb(255, 5, 5);
+
 }
