@@ -25,7 +25,6 @@ const Login = (props) => {
         setValues({ ...values, [prop]: event.target.value });
     };
     
-    
     return (
         <div>
             <Container sm="true">
@@ -60,7 +59,6 @@ const Login = (props) => {
                                         fullWidth 
                                         type="submit" 
                                         variant="contained"
-                                       
                                         className={classes.button}
                                     >
                                         log In
