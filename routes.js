@@ -18,7 +18,7 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/user-profile",
+    path: "/artizans-profile",
     name: "Artizans",
     icon: Person,
     layout: "/admin",
