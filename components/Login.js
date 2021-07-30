@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button"
 import {useState} from 'react'
 
-const Login = () => {
+const Login = (props) => {
     const useStyles = makeStyles(styles);
     const classes = useStyles();
     const [values, setValues] = useState({
@@ -25,14 +25,14 @@ const Login = () => {
     
     return (
         <div>
-            <Container sm>
+            <Container sm={true}>
                 <Card>
                     <CardHeader color="primary">
                         <h4 className={classes.cardTitleWhitew}>Welcome Back</h4>
                         <p className={classes.cardCategoryWhitew}>Great to have you back</p>
                     </CardHeader>
                     <CardBody>
-                        <Container sm>
+                        <Container sm={true}>
                             <Grid xs={12} sm={12} md={12} >
                                 <TextField 
                                     fullWidth 
@@ -41,6 +41,7 @@ const Login = () => {
                                     type="email"
                                     color="primary"
                                     required
+                                    
                                 />
                                 <TextField 
                                     fullWidth 
@@ -52,7 +53,7 @@ const Login = () => {
                                     color="primary"
                                     required
                                 />
-                                <Button 
+                                <Button  
                                     fullWidth 
                                     type="submit" 
                                     variant="contained"
@@ -61,7 +62,7 @@ const Login = () => {
                                     onClick={(e) => e.preventDefault()}
                                 >
                                 Log in
-                                </Button>
+                                </Button> 
                             </Grid>
                         </Container>
                     </CardBody>
