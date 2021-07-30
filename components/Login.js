@@ -8,25 +8,27 @@ import Grid  from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button"
 import {useState} from 'react'
+import { useRouter } from "next/router";
+import Link from "next/link"
+
 
 const Login = (props) => {
+    const router = useRouter();
     const useStyles = makeStyles(styles);
     const classes = useStyles();
     const [values, setValues] = useState({
         email: '',
         password: '',
         showPassword: false,
-      });
-    
+    });
       const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
-      };
+    };
     
     
     return (
         <div>
             <Container sm="true">
-        
                 <Card>
                     <CardHeader color="primary">
                         <h4 className={classes.cardTitleWhitew}>Welcome Back</h4>
@@ -42,7 +44,6 @@ const Login = (props) => {
                                     type="email"
                                     color="primary"
                                     required
-                                    
                                 />
                                 <TextField 
                                     fullWidth 
@@ -54,22 +55,22 @@ const Login = (props) => {
                                     color="primary"
                                     required
                                 />
-                                <Button  
-                                    fullWidth 
-                                    type="submit" 
-                                    variant="contained"
-                                    href="/admin/dashboard"
-                                    className={classes.button}
-                                    onClick={(e) => e.preventDefault()}
-                                >
-                                Log in
-                                </Button> 
+                                <Link href="/admin/dashboard"  onClick={ (e) => e.preventDefault() }>
+                                    <Button  
+                                        fullWidth 
+                                        type="submit" 
+                                        variant="contained"
+                                       
+                                        className={classes.button}
+                                    >
+                                        log In
+                                    </Button>
+                                </Link> 
                             </Grid>
                         </Container>
                     </CardBody>
                 </Card>
             </Container>
-           
         </div>
     )
 }
