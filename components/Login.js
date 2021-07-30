@@ -25,15 +25,16 @@ const Login = (props) => {
     
     return (
         <div>
-            <Container sm={true}>
+            <Container sm="true">
+        
                 <Card>
                     <CardHeader color="primary">
                         <h4 className={classes.cardTitleWhitew}>Welcome Back</h4>
                         <p className={classes.cardCategoryWhitew}>Great to have you back</p>
                     </CardHeader>
                     <CardBody>
-                        <Container sm={true}>
-                            <Grid xs={12} sm={12} md={12} >
+                        <Container sm="true">
+                            <Grid item xs={12} sm={12} md={12} >
                                 <TextField 
                                     fullWidth 
                                     label="Email" 

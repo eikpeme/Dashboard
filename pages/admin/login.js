@@ -5,9 +5,9 @@ import Container from "@material-ui/core/Container"
 const login = () => {
     return (
         <div>
-            <Container fluid>
+            <Container fluid="true">
                <Login />
-            </Container>
+            </Container> 
             
         </div>
     )
