@@ -1,6 +1,7 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import Table from "components/Table/Table.js";
 import InputLabel from "@material-ui/core/InputLabel";
 // layout for this page
 import Admin from "layouts/Admin.js";
@@ -15,7 +16,7 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
-import avatar from "assets/img/pass.svg";
+import tim from "assets/img/new_logo.png";
 
 const styles = {
   cardCategoryWhite: {
@@ -29,10 +30,11 @@ const styles = {
     color: "#FFFFFF",
     marginTop: "0px",
     minHeight: "auto",
-    fontWeight: "300",
+    fontWeight: "500",
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none",
+    textAlign: "center",
   },
 };
 
@@ -41,135 +43,27 @@ function ArtizansProfile() {
   const classes = useStyles();
   return (
     <div>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
+      <GridContainer item xs={12}>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-              <p className={classes.cardCategoryWhite}>Complete your profile</p>
+              <h4 className={classes.cardTitleWhite}>Active Artizan</h4>
             </CardHeader>
             <CardBody>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
-                  <CustomInput
-                    labelText="Company"
-                    id="company-disabled"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                      disabled: false,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email address"
-                    id="email-address"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="First Name"
-                    id="first-name"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="City"
-                    id="city"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Country"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Postal Code"
-                    id="postal-code"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                  <CustomInput
-                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                    id="about-me"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 5,
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-            <CardFooter>
-              <Button color="primary">Update Profile</Button>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card profile>
-            <CardAvatar profile>
-              <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                <img src={avatar} alt="..." />
-              </a>
-            </CardAvatar>
-            <CardBody profile>
-              <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
-              <p className={classes.description}>
-                Don{"'"}t be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
-              </p>
-              <Button color="primary" round>
-                Follow
-              </Button>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
+                tableData={[
+                  ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim} />],
+                  ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim} />],
+                  ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim} />],
+                  ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim} />],
+                  ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim} />],
+                  ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim} />],
+                  ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim} />],
+                  ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim} />],
+                ]}
+              />
             </CardBody>
           </Card>
         </GridItem>
