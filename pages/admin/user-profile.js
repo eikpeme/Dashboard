@@ -44,30 +44,53 @@ function UserProfile() {
   return (
     <div>
       <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                    <Card>
-                        <CardHeader color="primary">
-                            <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
-                        </CardHeader>
-                        <CardBody>
-                            <Table
-                                tableHeaderColor="primary"
-                                tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                                tableData={[
-                                    ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                                    ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                                    ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                                    ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                                    ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                                    ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                                    ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                                    ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                                ]}
-                            />
-                        </CardBody>
-                    </Card>
-                </GridItem>
-            </GridContainer>
+          <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                  <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
+                  </CardHeader>
+                  <CardBody>
+                    <Table
+                      tableHeaderColor="primary"
+                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
+                      tableData={[
+                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
+                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
+                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
+                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
+                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
+                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
+                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
+                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
+                      ]}
+                    />
+                  </CardBody>
+              </Card>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
+              <Card>
+                  <CardHeader color="primary">
+                    <h4 className={classes.cardTitleWhite}>Active Users</h4>
+                  </CardHeader>
+                  <CardBody>
+                    <Table
+                      tableHeaderColor="primary"
+                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
+                      tableData={[
+                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
+                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
+                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
+                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
+                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
+                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
+                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
+                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
+                      ]}
+                    />
+                  </CardBody>
+              </Card>
+          </GridItem>
+      </GridContainer>
     </div>
   );
 }
