@@ -27,10 +27,10 @@ export default function FixedPlugin(props) {
       })}
     >
       <div id="fixedPluginClasses" className={props.fixedClasses}>
-        <div onClick={handleClick}>
+        {/* <div onClick={handleClick}>
           <i className="fa fa-cog fa-2x" />
-        </div>
-        <ul className="dropdown-menu">
+        </div> */}
+        {/* <ul className="dropdown-menu">
           <li className="header-title">SIDEBAR FILTERS</li>
           <li className="adjustments-line">
             <a className="switch-trigger">
@@ -150,7 +150,7 @@ export default function FixedPlugin(props) {
             </a>
           </li>
           <li className="adjustments-line" />
-        </ul>
+        </ul> */}
       </div>
     </div>
   );
