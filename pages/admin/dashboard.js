@@ -25,7 +25,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-
+import Link from "next/link"
+import { useRouter } from "next/router";
 import { bugs, pending, resolved } from "variables/general.js";
 
 import {
@@ -37,6 +38,7 @@ import {
 import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle.js";
 
 function Dashboard() {
+  const router = useRouter();
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   return (
@@ -58,9 +60,11 @@ function Dashboard() {
                 <Danger>
                 <Accessibility />
                 </Danger>
-                <a href="/#" onClick={(e) => e.preventDefault()}>
-                  View Users
-                </a>
+                <Link href="/admin/user-profile">
+                  <a  onClick={(e) => e.preventDefault()}>
+                    View Users
+                  </a>
+                </Link>
               </div>
             </CardFooter>
           </Card>
@@ -281,7 +285,7 @@ function Dashboard() {
             headerColor="dark"
             tabs={[
               {
-                tabName: "Activate/Deactivate",
+                tabName: "A/D",
                 tabIcon: BugReport,
                 tabContent: (
                   <Tasks
@@ -322,7 +326,7 @@ function Dashboard() {
             headerColor="dark"
             tabs={[
               {
-                tabName: "Activate/Deactivate",
+                tabName: "A/D",
                 tabIcon: BugReport,
                 tabContent: (
                   <Tasks
