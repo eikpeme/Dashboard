@@ -11,7 +11,6 @@ import {useState} from 'react'
 import { useRouter } from "next/router";
 import Link from "next/link"
 
-
 const Login = (props) => {
     const router = useRouter();
     const useStyles = makeStyles(styles);
@@ -24,50 +23,57 @@ const Login = (props) => {
       const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
-    
     return (
         <div>
+            <div className={classes.cardsbodies}></div>
             <Container sm="true">
-                <Card>
-                    <CardHeader color="primary">
-                        <h4 className={classes.cardTitleWhitew}>Welcome Back</h4>
-                        <p className={classes.cardCategoryWhitew}>Great to have you back</p>
-                    </CardHeader>
-                    <CardBody>
-                        <Container sm="true">
-                            <Grid item xs={12} sm={12} md={12} >
-                                <TextField 
-                                    fullWidth 
-                                    label="Email" 
-                                    id="email"
-                                    type="email"
-                                    color="primary"
-                                    required
-                                />
-                                <TextField 
-                                    fullWidth 
-                                    id="outlined-adornment-password"
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    value={values.password}
-                                    onChange={handleChange('password')}
-                                    label="Password"
-                                    color="primary"
-                                    required
-                                />
-                                <Link href="/admin/dashboard"  onClick={ (e) => e.preventDefault() }>
-                                    <Button  
-                                        fullWidth 
-                                        type="submit" 
-                                        variant="contained"
-                                        className={classes.button}
-                                    >
-                                        log In
-                                    </Button>
-                                </Link> 
-                            </Grid>
-                        </Container>
-                    </CardBody>
-                </Card>
+                <Grid container spacing={3}>
+                <Grid item xs={12} sm={12} md={2}></Grid>
+                    <Grid item xs={12} sm={12} md={8}>
+                        <Card >
+                            <CardHeader color="primary">
+                                <h4 className={classes.cardTitleWhitew}>Welcome Back</h4>
+                                <p className={classes.cardCategoryWhitew}>Great to have you back</p>
+                            </CardHeader>
+                            <CardBody>
+                                <Container sm="true">
+                                    <Grid item xs={12} sm={12} md={12}>
+                                        <TextField 
+                                            fullWidth 
+                                            label="Email" 
+                                            id="email"
+                                            type="email"
+                                            color="primary"
+                                            required
+                                        />
+                                        <TextField 
+                                            fullWidth 
+                                            id="outlined-adornment-password"
+                                            type={values.showPassword ? 'text' : 'password'}
+                                            value={values.password}
+                                            onChange={handleChange('password')}
+                                            label="Password"
+                                            color="primary"
+                                            required
+                                        
+                                        />
+                                        <Link href="/admin/dashboard"  onClick={ (e) => e.preventDefault() }>
+                                            <Button  
+                                                fullWidth 
+                                                type="submit" 
+                                                variant="contained"
+                                                className={classes.button}
+                                            >
+                                                log In
+                                            </Button>
+                                        </Link> 
+                                    </Grid>
+                                </Container>
+                            </CardBody>
+                        </Card>
+                    </Grid>
+                <Grid item xs={12} sm={12} md={2}></Grid>
+                </Grid>
             </Container>
         </div>
     )
