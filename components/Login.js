@@ -7,22 +7,42 @@ import CardBody from "components/Card/CardBody.js";
 import Grid  from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button"
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import { useRouter } from "next/router";
-import Link from "next/link"
+import axios from 'axios';
+import UserContext from "../utility/useContext"
 
-const Login = (props) => {
-    const router = useRouter();
+const Login = () => {
+    const router = useRouter(); 
     const useStyles = makeStyles(styles);
     const classes = useStyles();
-    const [values, setValues] = useState({
-        email: '',
-        password: '',
-        showPassword: false,
-    });
-      const handleChange = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
-    };
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('')
+    const { dispatch } = useContext(UserContext);
+
+
+     const handleSubmit = async(e) => {
+        e.preventDefault();
+        const loginParams = {
+            email,
+            password,
+            method: 'POST',
+        }
+        try {
+            const apiResponse = await axios.post( '/auth/admin/login', { header: loginParams })
+
+            if (apiResponse === 'success') {
+                dispatch({type: 'login'})
+                return setTimeout(() => router.push('/'), 1000);
+            }
+            window.location.reload('')
+            setError('')
+        } catch(err){
+            setError('Invalid credentials, please try again')
+        }
+        
+     }
     return (
         <div>
             <div className={classes.cardsbodies}></div>
@@ -37,27 +57,29 @@ const Login = (props) => {
                             </CardHeader>
                             <CardBody>
                                 <Container sm="true">
-                                    <Grid item xs={12} sm={12} md={12}>
-                                        <TextField 
-                                            fullWidth 
-                                            label="Email" 
-                                            id="email"
-                                            type="email"
-                                            color="primary"
-                                            required
-                                        />
-                                        <TextField 
-                                            fullWidth 
-                                            id="outlined-adornment-password"
-                                            type={values.showPassword ? 'text' : 'password'}
-                                            value={values.password}
-                                            onChange={handleChange('password')}
-                                            label="Password"
-                                            color="primary"
-                                            required
-                                        
-                                        />
-                                        <Link href="/admin/dashboard"  onClick={ (e) => e.preventDefault() }>
+                                    <form onSubmit={handleSubmit}>
+                                        <Grid item xs={12} sm={12} md={12}>
+                                            <TextField 
+                                                fullWidth 
+                                                label="Email"
+                                                id="email"
+                                                type="email"
+                                                value={email}
+                                                color="primary"
+                                                required
+                                                onChange={(e) => setEmail(e.target.value)}
+                                            />
+                                            <TextField 
+                                                fullWidth
+                                                id="password"
+                                                type="password"
+                                                value={password}
+                                                onChange={(e) => setPassword( e.target.vaue)}
+                                                label="Password"
+                                                color="primary"
+                                                required
+                                            
+                                            />
                                             <Button  
                                                 fullWidth 
                                                 type="submit" 
@@ -66,9 +88,10 @@ const Login = (props) => {
                                             >
                                                 log In
                                             </Button>
-                                        </Link> 
-                                    </Grid>
+                                        </Grid>
+                                    </form>
                                 </Container>
+                                <h2 className="error">{error}</h2>
                             </CardBody>
                         </Card>
                     </Grid>
