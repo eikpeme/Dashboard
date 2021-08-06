@@ -28,7 +28,7 @@ export default async (req, res) => {
     .catch((err) => {
       return res.status(401).json({
         status: 'fail',
-        message: err.response.data.message ,
+        message: err.response,
       });
     });
 };
