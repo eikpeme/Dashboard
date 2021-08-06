@@ -12,4 +12,5 @@ export const defaultState = {
  */
 const UserContext = createContext(defaultState);
 
-export default UserContext;
+export default UserContext; 
+  

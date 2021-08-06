@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import UserContextProvider from '../components/UserProvider'
 
 import PageChange from "components/PageChange/PageChange.js";
 
@@ -42,6 +43,7 @@ export default class MyApp extends App {
     const Layout = Component.layout || (({ children }) => <>{children}</>);
 
     return (
+      <UserContextProvider>
       <React.Fragment>
         <Head>
           <meta
@@ -53,6 +55,7 @@ export default class MyApp extends App {
           <Component {...pageProps} />
         </Layout>
       </React.Fragment>
+      </UserContextProvider>
     );
   }
 }

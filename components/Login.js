@@ -9,9 +9,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button"
 import {useState, useContext} from 'react'
 import { useRouter } from "next/router";
-import axios from 'axios';
 import UserContext from "../utility/useContext"
-
+import { post } from '../utility/apihelp';
 const Login = () => {
     const router = useRouter(); 
     const useStyles = makeStyles(styles);
@@ -19,29 +18,27 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
-    const { dispatch } = useContext(UserContext);
+    const {dispatch } = useContext(UserContext);
 
-
-     const handleSubmit = async(e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         const loginParams = {
-            email,
-            password,
+            email: email,
+            password: password,
             method: 'POST',
-        }
-        try {
-            const apiResponse = await axios.post( '/auth/admin/login', { header: loginParams })
-
+            baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`
+        } 
+       
+            const apiResponse = await post(loginParams, '/api/login',  );
             if (apiResponse === 'success') {
                 dispatch({type: 'login'})
-                return setTimeout(() => router.push('/'), 1000);
+                return setTimeout(() => router.push('/admin/dashboard'), 1000);
+                
             }
             window.location.reload('')
             setError('')
-        } catch(err){
-            setError('Invalid credentials, please try again')
-        }
-        
+            
+            return setError('invalid credential')
      }
     return (
         <div>
@@ -64,7 +61,6 @@ const Login = () => {
                                                 label="Email"
                                                 id="email"
                                                 type="email"
-                                                value={email}
                                                 color="primary"
                                                 required
                                                 onChange={(e) => setEmail(e.target.value)}
@@ -73,7 +69,6 @@ const Login = () => {
                                                 fullWidth
                                                 id="password"
                                                 type="password"
-                                                value={password}
                                                 onChange={(e) => setPassword( e.target.vaue)}
                                                 label="Password"
                                                 color="primary"
@@ -103,3 +98,5 @@ const Login = () => {
 }
 
 export default Login
+
+  
