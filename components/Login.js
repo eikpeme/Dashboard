@@ -26,19 +26,15 @@ const Login = () => {
             email: email,
             password: password,
             method: 'POST',
-            baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/auth/admin/login`
+            baseUrl: 'https://artizan-api-staged.herokuapp/auth/admin/login'
         } 
-       
-            const apiResponse = await post(loginParams, '/api/login',  );
-            if (apiResponse === 'success') {
-                dispatch({type: 'login'})
-                return setTimeout(() => router.push('/admin/dashboard'), 1000);
-                
-            }
-            window.location.reload('')
-            setError('')
+        const apiResponse = await post(loginParams, '/api/login',  );
+        if (apiResponse === 'success') {
+            dispatch({type: 'login'})
+            return setTimeout(() => router.push('/admin/dashboard'), 1000);
             
-            return setError('invalid credential')
+        }
+        return setError('invalid credential')
      }
     return (
         <div>
