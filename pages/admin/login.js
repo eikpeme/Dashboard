@@ -7,7 +7,7 @@ const login = () => {
         <div>
             <Container fluid="true">
                <Login />
-            </Container> 
+            </Container>
             
         </div>
     )

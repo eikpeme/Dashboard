@@ -17,7 +17,7 @@ const loginStyle = {
     fontWeight: "800"
   },
   cardsbodies: {
-    marginTop: "3em"
+    marginTop: "2em"
   },
   ContainerTop: {
     
@@ -53,7 +53,7 @@ const loginStyle = {
   textTransform: "uppercase",
   letterSpacing: "0",
   willChange: "box-shadow, transform",
-  marginTop: "20em",
+  marginTop: "15em",
   transition:
     "box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
   lineHeight: "1.42857143",
