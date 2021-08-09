@@ -11,6 +11,10 @@ import {useState, useContext} from 'react'
 import { useRouter } from "next/router";
 import UserContext from "../utility/useContext"
 import { post } from '../utility/apihelp';
+import { FailedOperationToast, SuccessfulOperationToast } from "../components/Toast";
+import Link from 'next/link'
+
+ 
 const Login = () => {
     const router = useRouter(); 
     const useStyles = makeStyles(styles);
@@ -19,22 +23,26 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('')
     const {dispatch } = useContext(UserContext);
+    
+    
+    
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         const loginParams = {
             email: email,
             password: password,
-            method: 'POST',
-            baseUrl: 'https://artizan-api-staged.herokuapp/auth/admin/login'
+            requestType: 'POST',
+            requestUrl: 'https://artizan-api-staged.herokuapp/auth/admin/login'
         } 
         const apiResponse = await post(loginParams, '/api/login',  );
         if (apiResponse === 'success') {
+            SuccessfulOperationToast(toast, 'Welcome! Please wait to be redirected to the homepage!');
             dispatch({type: 'login'})
             return setTimeout(() => router.push('/admin/dashboard'), 1000);
             
         }
-        return setError('invalid credential')
+        return FailedOperationToast(toast, apiResponse.message);
      }
     return (
         <div>
@@ -43,7 +51,7 @@ const Login = () => {
                 <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={2}></Grid>
                     <Grid item xs={12} sm={12} md={8}>
-                        <Card >
+                        <Card > 
                             <CardHeader color="primary">
                                 <h4 className={classes.cardTitleWhitew}>Welcome Back</h4>
                                 <p className={classes.cardCategoryWhitew}>Great to have you back</p>
@@ -71,18 +79,17 @@ const Login = () => {
                                                 required
                                             
                                             />
-                                            <Button  
+                                            <Link href="/admin/dashboard"><Button  
                                                 fullWidth 
                                                 type="submit" 
                                                 variant="contained"
                                                 className={classes.button}
                                             >
                                                 log In
-                                            </Button>
+                                            </Button></Link>
                                         </Grid>
                                     </form>
                                 </Container>
-                                <h2 className="error">{error}</h2>
                             </CardBody>
                         </Card>
                     </Grid>
