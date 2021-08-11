@@ -8,7 +8,7 @@ import UserContext, { defaultState } from '../utility/useContext';
  * Reducer to help manage global state.
  */
 const UserReducer = (initialState, action) => {
-  switch (action.type) {
+  switch (action.type) { 
     case 'login':
       return {
         ...initialState,
