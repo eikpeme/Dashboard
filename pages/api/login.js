@@ -9,21 +9,23 @@ export default async (req, res) => {
   };
 
   return axios
-    .post('https://artizan-api-staged.herokuapp/auth/admin/login', loginParams )
+    .post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams )
     .then((response) => {
       if (response.data.status === 'success') {
         cookies.set('jwt', response.data.token, {
           httpOnly: true,
-          expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000),
+          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           sameSite: 'lax',
         });
 
         return res.status(200).json({
           status: 'success', 
         });
-      } 
+      }
 
-      return null;
+      return res.status(409).json({
+        stadus: 'fail'
+      });
     })
     .catch((err) => {
       return res.status(401).json({
