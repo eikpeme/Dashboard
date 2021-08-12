@@ -33,10 +33,10 @@ const handleSubmit = (e) => {
 		email: email,
 		password: password,
 	}
-	 
+	setLoading(true)
 	axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
 	).then(response => {
-		setLoading(true)
+		setLoading(false)
 		setSuccess('Success')
 		setUserSession(response.data.token, response.data.user )
 		return setTimeout(() => router.push('/admin/dashboard'), 1000);
@@ -86,14 +86,16 @@ const handleSubmit = (e) => {
 												color="primary"
 												required
 											/>
+											<div className={classes.error}>{error}</div>
 										  <Button  
 												fullWidth 
 												type="submit" 
 												variant="contained"
 												value={loading? "Loading...": "Login"}
 												className={classes.button}
+												isDisabled={loading}
 											>
-											  login
+											 Login
 										  </Button>
 										</Grid>
 									</form>
