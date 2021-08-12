@@ -50,7 +50,7 @@ function Dashboard() {
               <CardIcon color="warning">
                 <Icon> <Accessibility /> </Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Total Users</p>
+              <p className={classes.cardCategory}>Total Users </p>
               <h3 className={classes.cardTitle}>
                 300
               </h3>
@@ -75,7 +75,7 @@ function Dashboard() {
               <CardIcon color="dark">
               <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Total Art</p>
+              <p className={classes.cardCategory}>Total Artizans</p>
               <h3 className={classes.cardTitle}>40</h3>
             </CardHeader>
             <CardFooter stats>
@@ -83,7 +83,7 @@ function Dashboard() {
                 <Danger>
                 <Accessibility />
                 </Danger>
-                <a href="#" onClick={(e) => e.preventDefault()}>
+                <a href="/artizans-profile" onClick={(e) => e.preventDefault()}>
                   View Artizans
                 </a>
               </div>
@@ -117,7 +117,7 @@ function Dashboard() {
               <CardIcon color="info">
                 <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Active Art</p>
+              <p className={classes.cardCategory}>Active Artizans</p>
               <h3 className={classes.cardTitle}>45</h3>
             </CardHeader>
             <CardFooter stats>

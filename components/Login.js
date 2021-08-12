@@ -7,7 +7,7 @@ import CardBody from "components/Card/CardBody.js";
 import Grid  from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import {useState, useContext, useEffect} from 'react'
+import {useState, useContext} from 'react'
 import { useRouter } from "next/router";
 import axios from 'axios'
 import UserContext from "../utility/useContext"
@@ -27,16 +27,18 @@ const Login = () => {
     
     
 
-const handleSubmit = async(e) => {
+const handleSubmit = (e) => {
 	e.preventDefault();
-	 
-	await axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', {
+	const loginParams = {
 		email: email,
 		password: password,
-	}).then(response => {
-		setLoading(false)
+	}
+	 
+	axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
+	).then(response => {
+		setLoading(true)
+		setSuccess('Success')
 		setUserSession(response.data.token, response.data.user )
-		setSuccess('setSuccess')
 		return setTimeout(() => router.push('/admin/dashboard'), 1000);
 	}).catch(err => {
 		setLoading(true)
@@ -79,21 +81,17 @@ const handleSubmit = async(e) => {
 												id="password"
 												type="password"
 												value={password}
-												onChange={(e) => setPassword( e.target.vaue)}
+												onChange={(e) => setPassword( e.target.value)}
 												label="Password"
 												color="primary"
 												required
-																			
 											/>
-											<div>{error}</div>
-									    <div>{suc}</div>
 										  <Button  
 												fullWidth 
 												type="submit" 
 												variant="contained"
-												value={loading? "Loading..." : "Login"}
+												value={loading? "Loading...": "Login"}
 												className={classes.button}
-												
 											>
 											  login
 										  </Button>
