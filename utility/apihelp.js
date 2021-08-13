@@ -7,7 +7,7 @@ export const post = async (data, url) => {
 export const getUsers = () => {
   const ctx = sessionStorage.getItem('user');
   if(ctx) return JSON.parse(ctx)
-else return null
+   else return null
 };
 
 export const getToken = () => {
@@ -15,8 +15,8 @@ export const getToken = () => {
 
 };
 export const setUserSession = (token, user) => {
-  sessionStorage.getItem("token", token)
-  sessionStorage.getItem("user", JSON.stringify(user));
+  sessionStorage.setItem("token", token)
+  sessionStorage.setItem("user", JSON.stringify(user));
 };
 export const removeUserSession = () => {
   sessionStorage.removeItem('token');
