@@ -18,21 +18,23 @@ const Login = () => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const email = useFormInput('')
+	const password = useFormInput('')
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
 	const [loading, setLoading] = useState(false)
 	const {dispatch } = useContext(UserContext);
+
     
     
 
 const handleSubmit = (e) => {
 	e.preventDefault();
 	const loginParams = {
-		email: email,
-		password: password,
+		email: email.value,
+		password: password.value
 	}
+	setError(null)
 	setLoading(true)
 	axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
 	).then(response => {
@@ -43,9 +45,7 @@ const handleSubmit = (e) => {
 		return setTimeout(() => router.push('/admin/dashboard'), 1000);
 	}).catch(err => {
 		setLoading(true)
-		if(err.response.status === 401 || err.response.status === 400) {
-			setError('Something went wrong, please try again');
-		}
+		if(err.response.status === 401) setError(err.response.data.message); 
 		else {
 			setError('Something went wrong, please try again')
 		}
@@ -53,7 +53,8 @@ const handleSubmit = (e) => {
 }
 	return (
 		<div>
-		  <div className={classes.cardsbodies}></div>
+			{suc && <><small style={{ color: 'green' }}>{suc}</small><br /></>}<br />
+		    <div className={classes.cardsbodies}></div>
 			<Container sm="true">
 				<Grid container spacing={3}>
 				<Grid item xs={12} sm={12} md={2}></Grid>
@@ -70,34 +71,30 @@ const handleSubmit = (e) => {
 											<TextField 
 												fullWidth 
 												label="Email"
-												id="email"
 												type="email"
 												color="primary"
 												required
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
+												{...email}
 											/>
 											<TextField 
 												fullWidth
-												id="password"
 												type="password"
-												value={password}
-												onChange={(e) => setPassword( e.target.value)}
+												{...password}
 												label="Password"
 												color="primary"
 												required
 											/>
-											<div className={classes.error}>{error}</div>
+											{error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
 										  <Button  
 												fullWidth 
 												type="submit" 
 												variant="contained"
-												value={loading? "Loading...": "Login"}
+												value={loading? "Loading..." : "Login"}
 												className={classes.button}
 												disabled={loading}
 											>
-											 Login
-										  </Button>
+											Login
+											</Button>
 										</Grid>
 									</form>
 								</Container>
@@ -110,6 +107,18 @@ const handleSubmit = (e) => {
 		</div>
 	)
 }
+
+const useFormInput = initialValue => {
+	const [value, setValue] = useState(initialValue)
+
+	const handleChange = (e) => {
+		setValue(e.target.value)
+	}
+	return {
+		value,
+		onChange: handleChange
+	}
+}  
 
 export default Login
 
