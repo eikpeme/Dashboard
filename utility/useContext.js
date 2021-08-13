@@ -4,7 +4,7 @@ import { createContext } from 'react';
  * Default state for Context.
  */
 export const defaultState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
 };
 
 /**

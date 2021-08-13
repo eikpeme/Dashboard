@@ -39,6 +39,7 @@ const handleSubmit = (e) => {
 		setLoading(false)
 		setSuccess('Success')
 		setUserSession(response.data.token, response.data.user )
+		dispatch({ type: 'login' })
 		return setTimeout(() => router.push('/admin/dashboard'), 1000);
 	}).catch(err => {
 		setLoading(true)
@@ -93,7 +94,7 @@ const handleSubmit = (e) => {
 												variant="contained"
 												value={loading? "Loading...": "Login"}
 												className={classes.button}
-												isDisabled={loading}
+												disabled={loading}
 											>
 											 Login
 										  </Button>
