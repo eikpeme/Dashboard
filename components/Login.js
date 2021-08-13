@@ -12,6 +12,10 @@ import { useRouter } from "next/router";
 import axios from 'axios'
 import UserContext from "../utility/useContext"
 import { setUserSession } from '../utility/apihelp';
+import MuiAlert from "@material-ui/lab/Alert";
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
  
 const Login = () => {
@@ -26,34 +30,38 @@ const Login = () => {
 	const {dispatch } = useContext(UserContext);
 
     
-    
-
-const handleSubmit = (e) => {
-	e.preventDefault();
-	const loginParams = {
-		email: email.value,
-		password: password.value
-	}
-	setError(null)
-	setLoading(true)
-	axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
-	).then(response => {
-		setLoading(false)
-		setSuccess('Success')
-		setUserSession(response.data.token, response.data.user )
-		dispatch({ type: 'login' })
-		return setTimeout(() => router.push('/admin/dashboard'), 1000);
-	}).catch(err => {
-		setLoading(true)
-		if(err.response.status === 401) setError(err.response.data.message); 
-		else {
-			setError('Something went wrong, please try again')
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const loginParams = {
+			email: email.value,
+			password: password.value
 		}
-	}) 
-}
+
+		setError(null)
+		setLoading(true)
+
+		axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
+		).then(response => {
+			setLoading(false)
+			setSuccess('Success')
+			setUserSession(response.data.token, response.data.user )
+			dispatch({ type: 'login' })
+			return setTimeout(() => router.push('/admin/dashboard'), 1000);
+		}).catch(err => {
+			setLoading(true)
+			if(err.response.status === 401 || err.response.status === 400) setError(err.response.data.message); 
+			else {
+				setError('Something went wrong, please try again')
+			}
+		}) 
+	}
 	return (
 		<div>
-			{suc && <><small style={{ color: 'green' }}>{suc}</small><br /></>}<br />
+			{suc && (
+				<Alert severity="success">
+				{suc}
+				</Alert>
+			)}
 		    <div className={classes.cardsbodies}></div>
 			<Container sm="true">
 				<Grid container spacing={3}>
@@ -84,7 +92,6 @@ const handleSubmit = (e) => {
 												color="primary"
 												required
 											/>
-											{error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
 										  <Button  
 												fullWidth 
 												type="submit" 
@@ -95,6 +102,11 @@ const handleSubmit = (e) => {
 											>
 											Login
 											</Button>
+											{error && (
+												<Alert severity="error">
+												{error}
+												</Alert>
+											)}
 										</Grid>
 									</form>
 								</Container>
