@@ -48,9 +48,9 @@ export const UserProvider = ({ children }) => {
           return dispatch({ type: 'login' }); 
         }
 
-        return dispatch({ type: 'fail' });
+        return dispatch({ type: 'logout' });
       })
-      .catch(() => dispatch({ type: 'fail' }));
+      .catch(() => dispatch({ type: 'fail' })); 
   }, []);
 
   /**
