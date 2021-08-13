@@ -12,48 +12,57 @@ import { useRouter } from "next/router";
 import axios from 'axios'
 import UserContext from "../utility/useContext"
 import { setUserSession } from '../utility/apihelp';
+import MuiAlert from "@material-ui/lab/Alert";
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
  
 const Login = () => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const email = useFormInput('')
+	const password = useFormInput('')
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
 	const [loading, setLoading] = useState(false)
 	const {dispatch } = useContext(UserContext);
-    
-    
 
-const handleSubmit = (e) => {
-	e.preventDefault();
-	const loginParams = {
-		email: email,
-		password: password,
-	}
-	setLoading(true)
-	axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
-	).then(response => {
-		setLoading(false)
-		setSuccess('Success')
-		setUserSession(response.data.token, response.data.user )
-		dispatch({ type: 'login' })
-		return setTimeout(() => router.push('/admin/dashboard'), 1000);
-	}).catch(err => {
+    
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const loginParams = {
+			email: email.value,
+			password: password.value
+		}
+
+		setError(null)
 		setLoading(true)
-		if(err.response.status === 401 || err.response.status === 400) {
-			setError('Something went wrong, please try again');
-		}
-		else {
-			setError('Something went wrong, please try again')
-		}
-	}) 
-}
+
+		axios.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams
+		).then(response => {
+			setLoading(false)
+			setSuccess('Success')
+			setUserSession(response.data.token, response.data.user )
+			dispatch({ type: 'login' })
+			return setTimeout(() => router.push('/admin/dashboard'), 1000);
+		}).catch(err => {
+			setLoading(true)
+			if(err.response.status === 401 || err.response.status === 400) setError(err.response.data.message); 
+			else {
+				setError('Something went wrong, please try again')
+			}
+		}) 
+	}
 	return (
 		<div>
-		  <div className={classes.cardsbodies}></div>
+			{suc && (
+				<Alert severity="success">
+				{suc}
+				</Alert>
+			)}
+		    <div className={classes.cardsbodies}></div>
 			<Container sm="true">
 				<Grid container spacing={3}>
 				<Grid item xs={12} sm={12} md={2}></Grid>
@@ -70,34 +79,34 @@ const handleSubmit = (e) => {
 											<TextField 
 												fullWidth 
 												label="Email"
-												id="email"
 												type="email"
 												color="primary"
 												required
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
+												{...email}
 											/>
 											<TextField 
 												fullWidth
-												id="password"
 												type="password"
-												value={password}
-												onChange={(e) => setPassword( e.target.value)}
+												{...password}
 												label="Password"
 												color="primary"
 												required
 											/>
-											<div className={classes.error}>{error}</div>
 										  <Button  
 												fullWidth 
 												type="submit" 
 												variant="contained"
-												value={loading? "Loading...": "Login"}
+												value={loading? "Loading..." : "Login"}
 												className={classes.button}
 												disabled={loading}
 											>
-											 Login
-										  </Button>
+											Login
+											</Button>
+											{error && (
+												<Alert severity="error">
+												{error}
+												</Alert>
+											)}
 										</Grid>
 									</form>
 								</Container>
@@ -110,6 +119,18 @@ const handleSubmit = (e) => {
 		</div>
 	)
 }
+
+const useFormInput = initialValue => {
+	const [value, setValue] = useState(initialValue)
+
+	const handleChange = (e) => {
+		setValue(e.target.value)
+	}
+	return {
+		value,
+		onChange: handleChange
+	}
+}  
 
 export default Login
 
