@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -36,13 +36,35 @@ import {
 } from "variables/charts.js";
 
 import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle.js";
+import MuiAlert from "@material-ui/lab/Alert";
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+import { getToken} from '../../utility/apihelp';
 
 function Dashboard() {
   const router = useRouter();
   const useStyles = makeStyles(styles);
   const classes = useStyles();
+  const [message, setMessage] = useState('');
+ 
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      setMessage('You are not authenticated')
+      return setTimeout(() => router.push('/admin/login'), 2000)
+    }
+    
+  }, []);
+  
   return (
     <div>
+      {message && (
+        <Alert severity="error">
+        {message}
+        </Alert>
+      )}
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>

@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "components/Table/Table.js";
-import InputLabel from "@material-ui/core/InputLabel";
+
 // layout for this page
 import Admin from "layouts/Admin.js";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
-import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-
 import tim from "assets/img/new_logo.png";
+import { useRouter } from "next/router";
+import MuiAlert from "@material-ui/lab/Alert";
+import { getToken} from '../../utility/apihelp';
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
 const styles = {
   cardCategoryWhite: {
@@ -41,8 +43,25 @@ const styles = {
 function Artizans() {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
+  const [message, setMessage] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      setMessage('You are not authenticated')
+      return setTimeout(() => router.push('/admin/login'), 2000)
+    }
+    
+  }, []);
+  
   return (
     <div>
+      {message && (
+        <Alert severity="error">
+        {message}
+        </Alert>
+      )}
       <GridContainer>
           <GridItem xs={12} sm={12} md={12}>
               <Card>
