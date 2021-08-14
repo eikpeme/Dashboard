@@ -28,9 +28,9 @@ const Login = () => {
 	const [suc, setSuccess] = useState('')
 	const [loading, setLoading] = useState(false)
 	const {dispatch } = useContext(UserContext);
-
     
 	const handleSubmit = (e) => {
+		
 		e.preventDefault();
 		const loginParams = {
 			email: email.value,
@@ -49,7 +49,10 @@ const Login = () => {
 			return setTimeout(() => router.push('/admin/dashboard'), 1000);
 		}).catch(err => {
 			setLoading(true)
-			if(err.response.status === 401 || err.response.status === 400) setError(err.response.data.message); 
+			
+			if(err.response.status === 401 || err.response.status === 400) setError(err.response.data.message);
+			else if (email.value === "" || password.value === "")
+			setError("Fields are required");
 			else {
 				setError('Something went wrong, please try again')
 			}

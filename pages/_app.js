@@ -3,12 +3,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
+import axios from "axios";
 import Router from "next/router";
 import UserContextProvider from '../components/UserProvider'
 
 import PageChange from "components/PageChange/PageChange.js";
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
+
+axios.defaults.baseUrl = `https://artizan-api-staged.herokuapp.com`;
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
