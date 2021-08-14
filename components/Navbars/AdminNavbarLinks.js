@@ -20,6 +20,8 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import useWindowSize from "components/Hooks/useWindowSize.js";
 import Link from "next/link"
+import { removeUserSession} from '../../utility/apihelp';
+import { useRouter } from "next/router";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/headerLinksStyle.js";
 
@@ -27,6 +29,7 @@ export default function AdminNavbarLinks() {
   const size = useWindowSize();
   const useStyles = makeStyles(styles);
   const classes = useStyles();
+  const router = useRouter();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
   const handleClickNotification = (event) => {
@@ -50,7 +53,8 @@ export default function AdminNavbarLinks() {
     setOpenProfile(null);
   };
   const handleLogOut = () => {
-    
+    removeUserSession();
+    return setTimeout(() => router.push('/admin/login'), 2000)
   }
   return (
     <div>
