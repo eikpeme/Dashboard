@@ -21,6 +21,10 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           />
+            <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          />
         </Head>
         <title>Artizans App</title>
         <body>

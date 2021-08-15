@@ -10,6 +10,9 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
+import Icon from '@material-ui/core/Icon';
+
 import tim from "assets/img/new_logo.png";
 import { useRouter } from "next/router";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -35,6 +38,9 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none",
     textAlign: "center",
+  },
+  iconColor: {
+    color: "green",
   },
 };
 
@@ -91,16 +97,16 @@ function UserProfile() {
                   <CardBody>
                     <Table
                       tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
+                      tableHead={["ID", "", "Name", "Email", "Phone Number", "Location", "Passport"]}
                       tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
+                        ["1", <Icon className={classes.iconColor}>fiber_manual_record</Icon>, "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
+                        ["2", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
+                        ["3", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
+                        ["4", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
+                        ["5", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
+                        ["6", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
+                        ["7", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
+                        ["8", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
                       ]}
                     />
                   </CardBody>

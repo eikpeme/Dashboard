@@ -12,13 +12,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import tim from "assets/img/new_logo.png";
-import { useRouter } from "next/router";
-import MuiAlert from "@material-ui/lab/Alert";
-import { getToken} from '../../utility/apihelp';
-function Alert(props) {
-	return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
+import Icon from '@material-ui/core/Icon';
 
 const styles = {
   cardCategoryWhite: {
@@ -37,6 +31,9 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none",
     textAlign: "center",
+  },
+  iconColor: {
+    color: "green",
   },
 };
 
@@ -57,58 +54,53 @@ function Artizans() {
   
   return (
     <div>
-      {message && (
-        <Alert severity="error">
-        {message}
-        </Alert>
-      )}
-      <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Artizans Profile Data</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                      tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                      ]}
-                    />
-                  </CardBody>
-              </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Active Artizans</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                      tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                      ]}
-                    />
-                  </CardBody>
-              </Card>
-          </GridItem>
+      <GridContainer item xs={12}>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Artizans Data Profle</h4>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
+                tableData={[
+                  ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim} />],
+                  ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim} />],
+                  ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim} />],
+                  ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim} />],
+                  ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim} />],
+                  ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim} />],
+                  ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim} />],
+                  ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim} />],
+                ]}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Active Artizans</h4>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["ID", "", "Name", "Email", "Phone Number", "Location", "Passport"]}
+                tableData={[
+                  ["1", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim} />],
+                  ["2", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim} />],
+                  ["3", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim} />],
+                  ["4", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim} />],
+                  ["5", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim} />],
+                  ["6", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim} />],
+                  ["7", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim} />],
+                  ["8", <Icon className={classes.iconColor}>fiber_manual_record</Icon>,"Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim} />],
+                ]}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
       </GridContainer>
     </div>
   );
