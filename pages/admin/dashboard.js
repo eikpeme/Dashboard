@@ -66,7 +66,7 @@ function Dashboard() {
         </Alert>
       )}
       <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={6}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="warning">
@@ -91,7 +91,7 @@ function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={6}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="dark">
@@ -112,7 +112,7 @@ function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+        {/* <GridItem xs={12} sm={6} md={3}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="danger">
@@ -132,8 +132,8 @@ function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+        </GridItem> */}
+        {/* <GridItem xs={12} sm={6} md={3}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="info">
@@ -153,9 +153,9 @@ function Dashboard() {
               </div>
             </CardFooter>
           </Card>
-        </GridItem>
+        </GridItem> */}
       </GridContainer>
-      <GridContainer>
+      {/* <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="primary">
@@ -238,9 +238,9 @@ function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-      </GridContainer>
+      </GridContainer> */}
       <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
+        {/* <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
             title="Tasks:"
             headerColor="dark"
@@ -280,8 +280,8 @@ function Dashboard() {
               },
             ]}
           />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
+        </GridItem> */}
+        {/* <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Artizan Users</h4> 
@@ -299,7 +299,7 @@ function Dashboard() {
               />
             </CardBody>
           </Card>
-        </GridItem>
+        </GridItem> */}
         <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs

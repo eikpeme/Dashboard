@@ -86,7 +86,7 @@ function Artizans() {
                   </CardBody>
               </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
+          {/* <GridItem xs={12} sm={12} md={12}>
               <Card>
                   <CardHeader color="primary">
                     <h4 className={classes.cardTitleWhite}>Active Artizans</h4>
@@ -108,7 +108,7 @@ function Artizans() {
                     />
                   </CardBody>
               </Card>
-          </GridItem>
+          </GridItem> */}
       </GridContainer>
     </div>
   );
