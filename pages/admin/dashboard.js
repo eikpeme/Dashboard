@@ -74,7 +74,7 @@ function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Total Users </p>
               <h3 className={classes.cardTitle}>
-                300
+                21
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -98,7 +98,7 @@ function Dashboard() {
               <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total Artizans</p>
-              <h3 className={classes.cardTitle}>40</h3>
+              <h3 className={classes.cardTitle}>1</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -119,7 +119,7 @@ function Dashboard() {
               <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total Service Requests</p>
-              <h3 className={classes.cardTitle}>40</h3>
+              <h3 className={classes.cardTitle}>0</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
