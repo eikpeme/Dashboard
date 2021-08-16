@@ -6,7 +6,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Grid  from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Button from "@material-ui/core/Button";
+import {CircularProgress, Button} from "@material-ui/core";
 import {useState, useContext} from 'react'
 import { useRouter } from "next/router";
 import axios from 'axios'
@@ -26,7 +26,7 @@ const Login = () => {
 	const password = useFormInput('')
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState()
 	const {dispatch } = useContext(UserContext);
     
 	const handleSubmit = (e) => {
@@ -48,7 +48,7 @@ const Login = () => {
 			dispatch({ type: 'login' })
 			return setTimeout(() => router.push('/admin/dashboard'), 1000);
 		}).catch(err => {
-			setLoading(true)
+			setLoading(false)
 			
 			if(err.response.status === 401 || err.response.status === 400) setError(err.response.data.message);
 			else if (email.value === "" || password.value === "")
@@ -77,7 +77,7 @@ const Login = () => {
 							</CardHeader>
 							<CardBody>
 								<Container sm="true">
-									<form onSubmit={handleSubmit} autoComplete="off">
+									<form onSubmit={handleSubmit} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12}>
 											<TextField 
 												fullWidth 
@@ -99,11 +99,11 @@ const Login = () => {
 												fullWidth 
 												type="submit" 
 												variant="contained"
-												value={loading? "Loading..." : "Login"}
 												className={classes.button}
 												disabled={loading}
 											>
-											Login
+											{loading && <CircularProgress size={16} />}
+											{!loading && 'Login'}
 											</Button>
 											{error && (
 												<Alert severity="error">
