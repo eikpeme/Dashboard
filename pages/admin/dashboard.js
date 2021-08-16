@@ -66,7 +66,7 @@ function Dashboard() {
         </Alert>
       )}
       <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="warning">
@@ -74,7 +74,7 @@ function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Total Users </p>
               <h3 className={classes.cardTitle}>
-                300
+                21
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -91,14 +91,14 @@ function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="dark">
               <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total Artizans</p>
-              <h3 className={classes.cardTitle}>40</h3>
+              <h3 className={classes.cardTitle}>1</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -112,194 +112,28 @@ function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
+        <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="primary" stats icon>
-              <CardIcon color="danger">
-                <Accessibility />
+              <CardIcon color="dark">
+              <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Active Users</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <p className={classes.cardCategory}>Total Service Requests</p>
+              <h3 className={classes.cardTitle}>0</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Danger>
                 <Accessibility />
                 </Danger>
-                <a href="#" onClick={(e) => e.preventDefault()}>
-                  View Active Users
+                <a href="/artizans-profile" onClick={(e) => e.preventDefault()}>
+                  View Service Requests
                 </a>
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="primary" stats icon>
-              <CardIcon color="info">
-                <Accessibility />
-              </CardIcon>
-              <p className={classes.cardCategory}>Active Artizans</p>
-              <h3 className={classes.cardTitle}>45</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Danger>
-                <Accessibility />
-                </Danger>
-                <a href="#" onClick={(e) => e.preventDefault()}>
-                  View Active Artizans
-                </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="primary">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Daily Reguest Artizans</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 5%
-                </span>{" "}
-                increase today.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter> 
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="primary">
-              <ChartistGraph
-                className="ct-chart"
-                data={emailsSubscriptionChart.data}
-                type="Bar"
-                options={emailsSubscriptionChart.options}
-                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                listener={emailsSubscriptionChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Total Subscriptions</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 5%
-                </span>{" "}
-                  increase today.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="primary">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}> Daily Completed Tasks</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 5%
-                </span>{" "}
-                  increase today.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="dark"
-            tabs={[
-              {
-                tabName: "Bugs",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                ),
-              },
-              {
-                tabName: "Pending",
-                tabIcon: Info,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={pending}
-                  />
-                ),
-              },
-              {
-                tabName: "Resolved",
-                tabIcon: Check,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={resolved}
-                  />
-                ),
-              },
-            ]}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Artizan Users</h4> 
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={["ID", "Name", "Email", "Phone Number"]}
-                tableData={[
-                  ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832"],
-                  ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932"],
-                  ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678"],
-                  ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772"],
-                ]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
+       
         <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
