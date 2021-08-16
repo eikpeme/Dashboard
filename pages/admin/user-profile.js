@@ -15,7 +15,13 @@ import tim from "assets/img/new_logo.png";
 import { useRouter } from "next/router";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getToken} from '../../utility/apihelp';
-import { CollectionsOutlined } from "@material-ui/icons";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
@@ -39,16 +45,25 @@ const styles = {
     textAlign: "center",
   },
 };
+export const getServerSideProps =  async() =>{
 
-function UserProfile(props) {
+  const baseUrl = 'https://artizan-api-staged.herokuapp.com';
+
+  const response = await axios.get(`${baseUrl}/users`);
+  const data = await response.data;
+
+  return {
+    props: { users: data }
+  }
+
+}
+function UserProfile({users}) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const [message, setMessage] = useState('');
   const router = useRouter();
-  const [usersData, setUserData] = useState()
+  
  
-  const baseUrl = 'https://artizan-api-staged.herokuapp.com'
-
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -58,73 +73,77 @@ function UserProfile(props) {
     
   }, []);
 
-  useEffect(() => {
-
-    getUsersData()
-  }, [setUserData])
-
-const getUsersData = async() => {
-  const response = await axios.get(`${baseUrl}/users`)
-  setUserData(response.data.usersData)
-};
-
-
   return (
-    <div> {usersData.name}
+    <div> 
         {message && (
         <Alert severity="error">
         {message}
         </Alert>
       )}
-      <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <div></div>
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                      tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja"],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos"],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja"],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt"],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja"],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos"],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja"],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt"],
-                      ]}
-                    />
-                  </CardBody>
-              </Card>
-          </GridItem>
-          {/* <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Active Users</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                      tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                      ]}
-                    />
-                  </CardBody>
-              </Card>
-          </GridItem> */}
-      </GridContainer>
+      <div>
+        {users.map(user => (
+          <div key={user.id}>
+            {user.first_name}
+            {user.last_name}
+          </div>
+        ))}
+      </div>
+
+  <GridContainer>
+    <TableContainer>
+      <Card>
+        <CardHeader color="primary">
+            <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
+          </CardHeader>
+        <CardBody>
+        <Table tableHeaderColor="primary" aria-label="simple table">
+        <div>
+        {users.map(user => (
+          <div key={user.id}>
+            {user.first_name}
+            {user.last_name}
+          </div>
+        ))}
+      </div>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="right">First-Name</TableCell>
+              <TableCell align="right">Second-Name</TableCell>
+              <TableCell align="right">Email&nbsp;(g)</TableCell>
+              <TableCell align="right">Phone Number&nbsp;(g)</TableCell>
+              <TableCell align="right">Location&nbsp;(g)</TableCell>
+              <TableCell align="right">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { users.map(user => (
+              <TableRow key={user.name}>
+                <TableCell key={user.id} component="th" scope="row">
+                  {user.first_name}
+                </TableCell>
+                <TableCell key={user.id} component="th" scope="row">
+                  {user.last_name}
+                </TableCell>
+                <TableCell key={user.id} align="right">{user.id}</TableCell>
+                <TableCell key={user.email} align="right">{user.email}</TableCell>
+                <TableCell key={user.phone_number} align="right">{user.phone_number}</TableCell>
+                <TableCell key={user.verification_code} align="right">{user.verification_code}</TableCell>
+                <TableCell key={user.id} align="right">
+                  <Button aria-label="edit" onClick={() => handleEdit(user)}>
+                    Edit
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+            
+          </TableBody>
+        </Table>
+        </CardBody>
+        </Card>
+      </TableContainer>
+    </GridContainer>
+      
     </div>
   );
 }
