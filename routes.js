@@ -24,6 +24,13 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/service-request",
+    name: "Service Request",
+    icon: Person,
+
+    layout: "/admin",
+  },
+  {
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,

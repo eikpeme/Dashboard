@@ -1,112 +1,178 @@
 import React, {useEffect, useState} from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "components/Table/Table.js";
+import {withStyles, makeStyles } from "@material-ui/core/styles";
+
 // layout for this page
 import Admin from "layouts/Admin.js";
+import axios from 'axios';
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import tim from "assets/img/new_logo.png";
 import { useRouter } from "next/router";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getToken} from '../../utility/apihelp';
+import {
+  TextField,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Table
+
+} 
+from '@material-ui/core';
+
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common,
+    color: theme.palette.common.black,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
+  
+  const useStyles = makeStyles({
+    table: {
+      minWidth: 700,
+    },
+    cardCategoryWhite: {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0",
+    },
+    cardTitleWhite: {
+      color: "#FFFFFF",
+      marginTop: "0px",
+      minHeight: "auto",
+      fontWeight: "500",
+      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+      marginBottom: "3px",
+      textDecoration: "none",
+      textAlign: "center",
+    },
+    searchWrapper: {
+      textAlign: "center",
+      marginBottom: "2em"
+    }
+  });
 
-const styles = {
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0",
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "500",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    textAlign: "center",
-  },
-};
 
-function UserProfile() {
-  const useStyles = makeStyles(styles);
+export const getServerSideProps =  async() =>{
+
+  const baseUrl = 'https://artizan-api-staged.herokuapp.com';
+
+  const response = await axios.get(`${baseUrl}/users`);
+  const data = await response.data;
+
+  return {
+    props: { users: data }
+  }
+
+}
+function UserProfile({users}) {
   const classes = useStyles();
   const [message, setMessage] = useState('');
+  const [search, setSearch] = useState('');
   const router = useRouter();
-
+  
+ 
   useEffect(() => {
     const token = getToken();
     if (!token) {
       setMessage('You are not authenticated')
       return setTimeout(() => router.push('/admin/login'), 2000)
-    }
+    };
     
   }, []);
+
   return (
-    <div>
+    <div> 
         {message && (
         <Alert severity="error">
         {message}
         </Alert>
       )}
-      <GridContainer>
-          <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                      tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                      ]}
-                    />
-                  </CardBody>
-              </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                  <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Active Users</h4>
-                  </CardHeader>
-                  <CardBody>
-                    <Table
-                      tableHeaderColor="primary"
-                      tableHead={["ID", "Name", "Email", "Phone Number", "Location", "Passport"]}
-                      tableData={[
-                        ["1", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["2", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["3", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["4", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                        ["5", "Dakota Rice", "dakotarice123@yahoo.com", "09021239832", "Abuja", <img src={tim}/>],
-                        ["6", "Minerva Hooper", "minervahoooper@gmail.com", "08123458932", "Lagos", <img src={tim}/>],
-                        ["7", "Sage Rodriguez", "sagerodriguez@hotmail.com", "07043245678", "Abuja", <img src={tim}/>],
-                        ["8", "Philip Chaney", "philipchaney@gmail.com", "08119929772", "Port Harcourt", <img src={tim}/>],
-                      ]}
-                    />
-                  </CardBody>
-              </Card>
-          </GridItem>
-      </GridContainer>
+      
+        <Card>
+          <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
+          </CardHeader>
+          <CardBody>
+          <div className={classes.searchWrapper}>
+            <TextField
+              type="serach"
+              placeholder="Serach"
+              onChange={
+                (e) => setSearch(e.target.value)
+              }
+            />
+            </div>
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Verification Code</StyledTableCell>
+                    <StyledTableCell align="right">First Name</StyledTableCell>
+                    <StyledTableCell align="right">Last Name</StyledTableCell>
+                    <StyledTableCell align="right">Email Address</StyledTableCell>
+                    <StyledTableCell align="right">Phone Number</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                    {users
+                    .filter((user) => {
+                      if(search ===""){
+                      return user 
+                      }else if(user.first_name){
+                        return user
+                    }
+                    })
+                      .map((user) => {
+                        return (
+                          <StyledTableRow>
+                            <StyledTableCell key={user.id} component="th" scope="row">
+                              {user.verification_code}
+                            </StyledTableCell>
+                            <StyledTableCell key={user.first_name} align="right">
+                              {user.first_name}
+                            </StyledTableCell>
+                            <StyledTableCell key={user.last_name} align="right">
+                              {user.last_name}
+                            </StyledTableCell>
+                            <StyledTableCell key={user.email} align="right">
+                              {user.email}
+                            </StyledTableCell>
+                            <StyledTableCell key={user.phone_number} align="right">
+                              {user.phone_number}
+                            </StyledTableCell>
+                          </StyledTableRow>
+                        )
+                      })
+                    }
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardBody>
+        </Card>
     </div>
   );
 }

@@ -80,7 +80,7 @@ export const getServerSideProps =  async() =>{
 
   const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
-  const response = await axios.get(`${baseUrl}/artizans`);
+  const response = await axios.get(`${baseUrl}/service_requests`);
   const data = await response.data;
 
   return {
@@ -88,7 +88,7 @@ export const getServerSideProps =  async() =>{
   }
 
 }
-function ArtizansProfile({users}) {
+function ServiceRequest({users}) {
   const classes = useStyles();
   const [message, setMessage] = useState('');
   const [search, setSearch] = useState('');
@@ -114,7 +114,7 @@ function ArtizansProfile({users}) {
       
         <Card>
           <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Artizans Profile Data</h4>
+              <h4 className={classes.cardTitleWhite}>Service Request</h4>
           </CardHeader>
           <CardBody>
           <div className={classes.searchWrapper}>
@@ -167,6 +167,7 @@ function ArtizansProfile({users}) {
                           </StyledTableRow>
                         )
                       })
+                    
                     }
                 </TableBody>
               </Table>
@@ -177,6 +178,6 @@ function ArtizansProfile({users}) {
   );
 }
 
-ArtizansProfile.layout = Admin;
+ServiceRequest.layout = Admin;
 
-export default ArtizansProfile;
+export default ServiceRequest;
