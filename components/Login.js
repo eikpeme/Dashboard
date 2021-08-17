@@ -95,19 +95,19 @@ const Login = () => {
 												color="primary"
 												required
 											/>
-										  <Button  
+										    <Button  
 												fullWidth 
 												type="submit" 
 												variant="contained"
 												className={classes.button}
 												disabled={loading}
 											>
-											{loading && <CircularProgress size={16} />}
-											{!loading && 'Login'}
+												{loading && <CircularProgress size={16} />}
+												{!loading && 'Login'}
 											</Button>
 											{error && (
 												<Alert severity="error">
-												{error}
+													{error}
 												</Alert>
 											)}
 										</Grid>
