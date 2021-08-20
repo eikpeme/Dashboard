@@ -104,7 +104,7 @@ const Login = () => {
 											>
 												{loading && <CircularProgress size={16} />}
 												{!loading && 'Login'}
-											</Button>
+											</Button> 
 											{error && (
 												<Alert severity="error">
 													{error}
