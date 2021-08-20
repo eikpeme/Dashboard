@@ -31,6 +31,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Grid } from "@material-ui/core";
+import { CardFooter } from "reactstrap";
+
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -79,6 +82,9 @@ const useStyles = makeStyles({
   searchWrapper: {
     textAlign: "center",
     marginBottom: "2em"
+  },
+  button: {
+    backGround: "linear-gradient(60deg, #ab47bc, #8e24aa",
   }
 });
 
@@ -105,11 +111,11 @@ function UserProfile({ users }) {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
-};
+  };
 
-const handleClose = () => {
+  const handleClose = () => {
     setOpen(false);
-};
+  };
 
 
   useEffect(() => {
@@ -166,7 +172,7 @@ const handleClose = () => {
                   })
                   .map((user) => {
                     return (
-                      <StyledTableRow  onClick={handleClickOpen}>
+                      <StyledTableRow onClick={handleClickOpen}>
                         <StyledTableCell key={user.id} component="th" scope="row">
                           {user.verification_code}
                         </StyledTableCell>
@@ -186,33 +192,71 @@ const handleClose = () => {
                     )
                   })
                 }
-                {/* form modal  */}
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      Let Google help apps determine location. This means sending anonymous location data to
-                      Google, even when no apps are running.
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                      Disagree
-                    </Button>
-                    <Button onClick={handleClose} color="primary" autoFocus>
-                      Agree
-                    </Button>
-                  </DialogActions>
-                </Dialog>
               </TableBody>
             </Table>
           </TableContainer>
         </CardBody>
+      </Card>
+      <Card>
+        {/* form modal  */}
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <CardHeader color="primary">
+            <DialogTitle className={classes.cardTitleWhite} id="form-dialog-title">Edit User Profile</DialogTitle>
+          </CardHeader>
+          <CardBody>
+            <DialogContent>
+              <DialogContentText>
+                Kindly fill in the correct informations
+              </DialogContentText>
+              <form >
+                <Grid item xs={12}>
+                  <TextField
+                    autoFocus
+                    variant="outlined"
+                    margin="dense"
+                    id="firstname"
+                    label="First Name"
+                    type="name"
+                    fullWidth
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Email Address"
+                    type="email"
+                    fullWidth
+                  />
+                  <TextField
+                    variant="outlined"
+                    autoFocus
+                    margin="dense"
+                    id="phone"
+                    label="phone"
+                    type="text"
+                    fullWidth
+                  />
+                </Grid>
+              </form>
+            </DialogContent>
+          </CardBody>
+          <CardFooter>
+            <DialogActions>
+              <Button
+                color="primary"
+                fullWidth
+                type="submit"
+                variant="contained"
+                onClick={handleClose}
+              >
+                Done
+              </Button>
+            </DialogActions>
+          </CardFooter>
+
+        </Dialog>
       </Card>
     </div>
   );
