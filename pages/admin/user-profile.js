@@ -224,9 +224,9 @@ function UserProfile({ users }) {
                 }
                 { !users &&
                 <StyledTableRow>
-                <StyledTableCell key={user.size} component="th" scope="row">
+                <StyledTableCell key={user.sizes} component="th" scope="row">
                   <CircularProgress size={16}/>
-                </StyledTableCell>
+                </StyledTableCell> 
                 </StyledTableRow>
                 }
                 {users && !users.length &&
