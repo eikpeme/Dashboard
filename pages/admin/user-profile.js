@@ -64,6 +64,18 @@ const useStyless = makeStyles({
     fontSize: "14px",
     marginTop: "0",
     marginBottom: "0",
+   
+  },
+  buttt: {
+    backgroundColor: 'purple',
+    marginBottom: '1em',
+    color: 'white',
+    fontWeight: "600",
+    "&:hover,&:focus" : {
+      color: 'purple',
+      backgroundColor: 'gray',
+      fontWeight: "800",
+    }
   },
   cardTitleWhite: {
     color: "#FFFFFF",
@@ -136,6 +148,9 @@ function UserProfile({ users }) {
               }
             />
           </div>
+          <Link href="/admin/users/add" className={classes.edit}>
+          <Button className={classess.buttt}>Add User</Button>
+        </Link>
           <TableContainer component={Paper}>
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
