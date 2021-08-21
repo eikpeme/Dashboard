@@ -131,8 +131,7 @@ function ArtizansProfile({users}) {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Verification Code</StyledTableCell>
-                    <StyledTableCell align="right">First Name</StyledTableCell>
-                    <StyledTableCell align="right">Last Name</StyledTableCell>
+                    <StyledTableCell align="right">Full Name</StyledTableCell>
                     <StyledTableCell align="right">Email Address</StyledTableCell>
                     <StyledTableCell align="right">Phone Number</StyledTableCell>
                   </TableRow>
@@ -153,10 +152,7 @@ function ArtizansProfile({users}) {
                               {user.verification_code}
                             </StyledTableCell>
                             <StyledTableCell key={user.first_name} align="right">
-                              {user.first_name}
-                            </StyledTableCell>
-                            <StyledTableCell key={user.last_name} align="right">
-                              {user.last_name}
+                              {user.first_name + ' ' + user.last_name}
                             </StyledTableCell>
                             <StyledTableCell key={user.email} align="right">
                               {user.email}
