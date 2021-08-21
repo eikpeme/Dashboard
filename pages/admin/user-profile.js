@@ -10,8 +10,12 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import styles from "assets/jss/nextjs-material-dashboard/components/tasksStyle.js";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getToken } from '../../utility/apihelp';
+import Edit from "@material-ui/icons/Edit";
+import Close from "@material-ui/icons/Close";
 import {
   TextField,
   TableBody,
@@ -20,21 +24,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Table
-
+  Tooltip,
+  IconButton,
+  Table,
+  CircularProgress,
+  Button
 }
   from '@material-ui/core';
-// modal import 
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Grid } from "@material-ui/core";
-import { CardFooter } from "reactstrap";
-
-
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -58,7 +54,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles({
+const useStyless = makeStyles({
   table: {
     minWidth: 700,
   },
@@ -83,13 +79,11 @@ const useStyles = makeStyles({
     textAlign: "center",
     marginBottom: "2em"
   },
-  button: {
-    backGround: "linear-gradient(60deg, #ab47bc, #8e24aa",
-  }
-});
+  
+}); 
 
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
 
   const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
@@ -102,21 +96,13 @@ export const getServerSideProps = async () => {
 
 }
 function UserProfile({ users }) {
+  const useStyles = makeStyles(styles);
   const classes = useStyles();
+  const classess = useStyless();
   const [message, setMessage] = useState('');
   const [search, setSearch] = useState('');
   const router = useRouter();
-
-  // modal state 
-  const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  
 
   useEffect(() => {
     const token = getToken();
@@ -137,33 +123,33 @@ function UserProfile({ users }) {
 
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>User Profile Data</h4>
+          <h4 className={classess.cardTitleWhite}>User Profile Data</h4>
 
         </CardHeader>
         <CardBody>
-          <div className={classes.searchWrapper}>
+          <div className={classess.searchWrapper}>
             <TextField
               type="serach"
               placeholder="Serach"
               onChange={
-                (e) => setSearch(e.target.value)
+                (e) => {setSearch(e.target.value)}
               }
             />
           </div>
           <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="customized table">
+            <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Verification Code</StyledTableCell>
-                  <StyledTableCell align="right">First Name</StyledTableCell>
-                  <StyledTableCell align="right">Last Name</StyledTableCell>
+                  <StyledTableCell align="right">Full Name</StyledTableCell>
                   <StyledTableCell align="right">Email Address</StyledTableCell>
                   <StyledTableCell align="right">Phone Number</StyledTableCell>
+                  <StyledTableCell align="right">Edit</StyledTableCell>
+                  <StyledTableCell align="right">Delete</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users
-                  .filter((user) => {
+                {users.filter((user) => {
                     if (search === "") {
                       return user
                     } else if (user.first_name) {
@@ -172,15 +158,12 @@ function UserProfile({ users }) {
                   })
                   .map((user) => {
                     return (
-                      <StyledTableRow onClick={handleClickOpen}>
-                        <StyledTableCell key={user.id} component="th" scope="row">
+                      <StyledTableRow className={classes.data}>
+                        <StyledTableCell  key={user.id} component="th" scope="row">
                           {user.verification_code}
                         </StyledTableCell>
                         <StyledTableCell key={user.first_name} align="right">
-                          {user.first_name}
-                        </StyledTableCell>
-                        <StyledTableCell key={user.last_name} align="right">
-                          {user.last_name}
+                          {user.first_name + ' ' + user.last_name}
                         </StyledTableCell>
                         <StyledTableCell key={user.email} align="right">
                           {user.email}
@@ -188,75 +171,73 @@ function UserProfile({ users }) {
                         <StyledTableCell key={user.phone_number} align="right">
                           {user.phone_number}
                         </StyledTableCell>
+                        <StyledTableCell  align="right">
+                        <Link href="/admin/users/edit" className={classes.edit}>
+                          <Tooltip
+                            id="tooltip-top"
+                            title="Edit User"
+                            placement="top"
+                            classes={{ tooltip: classes.tooltip }}
+                          >
+                            <IconButton
+                              aria-label="Edit"
+                              className={classes.tableActionButton}
+                            >
+                              <Edit
+                                className={
+                                  classes.tableActionButtonIcon + " " + classes.edit
+                                }
+                              />
+                              </IconButton>
+                          </Tooltip>
+                          </Link>
+                        </StyledTableCell>
+                        <StyledTableCell  align="right">
+                          <Button onClick={() => deleteUser(user.id)} className={classes.delete} disabled={user.isDeleting}>
+                              {user.isDeleting 
+                                ? <span className={classes.editing}></span>
+                                : <span>
+                                  <Tooltip
+                                    id="tooltip-top-start"
+                                    title="Delete User"
+                                    placement="top"
+                                    classes={{ tooltip: classes.tooltip }}
+                                  >
+                                    <IconButton
+                                      aria-label="Close"
+                                      className={classes.tableActionButton}
+                                    >
+                                      <Close
+                                        className={
+                                          classes.tableActionButtonIcon + " " + classes.close
+                                        }
+                                      />
+                                    </IconButton>
+                                  </Tooltip>
+                                </span>
+                              }
+                          </Button> 
+                        </StyledTableCell>
                       </StyledTableRow>
                     )
                   })
                 }
+                { !users &&
+                <StyledTableRow>
+                <StyledTableCell key={user.size} component="th" scope="row">
+                  <CircularProgress size={16}/>
+                </StyledTableCell>
+                </StyledTableRow>
+                }
+                {users && !users.length &&
+                  <StyledTableCell key={user.notFound} component="th" scope="row">
+                    <p>No Users To Found</p>
+                  </StyledTableCell>
+               }
               </TableBody>
             </Table>
           </TableContainer>
         </CardBody>
-      </Card>
-      <Card>
-        {/* form modal  */}
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <CardHeader color="primary">
-            <DialogTitle className={classes.cardTitleWhite} id="form-dialog-title">Edit User Profile</DialogTitle>
-          </CardHeader>
-          <CardBody>
-            <DialogContent>
-              <DialogContentText>
-                Kindly fill in the correct informations
-              </DialogContentText>
-              <form >
-                <Grid item xs={12}>
-                  <TextField
-                    autoFocus
-                    variant="outlined"
-                    margin="dense"
-                    id="firstname"
-                    label="First Name"
-                    type="name"
-                    fullWidth
-                  />
-
-                  <TextField
-                    variant="outlined"
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Email Address"
-                    type="email"
-                    fullWidth
-                  />
-                  <TextField
-                    variant="outlined"
-                    autoFocus
-                    margin="dense"
-                    id="phone"
-                    label="phone"
-                    type="text"
-                    fullWidth
-                  />
-                </Grid>
-              </form>
-            </DialogContent>
-          </CardBody>
-          <CardFooter>
-            <DialogActions>
-              <Button
-                color="primary"
-                fullWidth
-                type="submit"
-                variant="contained"
-                onClick={handleClose}
-              >
-                Done
-              </Button>
-            </DialogActions>
-          </CardFooter>
-
-        </Dialog>
       </Card>
     </div>
   );
