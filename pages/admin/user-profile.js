@@ -163,7 +163,7 @@ function UserProfile({ users }) {
                           {user.verification_code}
                         </StyledTableCell>
                         <StyledTableCell key={user.first_name} align="right">
-                          {user.first_name + ' ' + user.last_name}
+                          {user.first_name + ' ' + ' ' + user.last_name}
                         </StyledTableCell>
                         <StyledTableCell key={user.email} align="right">
                           {user.email}
