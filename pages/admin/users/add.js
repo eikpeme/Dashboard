@@ -92,7 +92,7 @@ const add = () => {
 												<TextField 
 													fullWidth
 													type="text"
-													label="Location"
+													label="Address"
 													color="primary"
 													required
 												/>
@@ -109,7 +109,6 @@ const add = () => {
 													type="password"
 													color="primary"
 													required
-												
 												/>
 												<TextField 
 													fullWidth
