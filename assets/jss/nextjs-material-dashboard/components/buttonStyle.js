@@ -45,7 +45,7 @@ const buttonStyle = {
     cursor: "pointer",
     "&:hover,&:focus": {
       color: whiteColor,
-      backgroundColor: grayColor[0],
+      backgroundColor: successColor[0],
       boxShadow:
         "0 14px 26px -12px rgba(" +
         hexToRgb(grayColor[0]) +

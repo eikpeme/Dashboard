@@ -163,7 +163,6 @@ function ServiceRequest({users}) {
                           </StyledTableRow>
                         )
                       })
-                    
                     }
                 </TableBody>
               </Table>

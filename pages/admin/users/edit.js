@@ -1,17 +1,13 @@
 import PropTypes from 'prop-types'
 import React from "react";
+import { useForm } from 'react-hook-form';
 
-function edit(props) {
-    return (
-        <div>
-            
-        </div>
-    )
+export default AddEdit;
+
+export async function getStaticProps({ params }) {
+    const user = await userService.getById(params.id);
+
+    return {
+        props: { user }
+    }
 }
-
-edit.propTypes = {
-
-}
-
-export default edit
-
