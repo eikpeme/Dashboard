@@ -31,12 +31,20 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/users/crud",
+    name: "CRUD Operation",
+    icon: Person,
+
+    layout: "/admin",
+  },
+  {
     path: "/notifications",
     name: "Notifications",
     icon: Notifications,
 
     layout: "/admin",
   },
+ 
 ];
 
 export default dashboardRoutes;

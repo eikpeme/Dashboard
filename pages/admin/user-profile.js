@@ -10,12 +10,10 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import styles from "assets/jss/nextjs-material-dashboard/components/tasksStyle.js";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getToken } from '../../utility/apihelp';
-import Edit from "@material-ui/icons/Edit";
-import Close from "@material-ui/icons/Close";
+
 import {
   TextField,
   TableBody,
@@ -24,11 +22,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Tooltip,
-  IconButton,
   Table,
-  CircularProgress,
-  Button
 }
   from '@material-ui/core';
 
@@ -65,17 +59,6 @@ const useStyless = makeStyles({
     marginTop: "0",
     marginBottom: "0",
    
-  },
-  buttt: {
-    backgroundColor: 'purple',
-    marginBottom: '1em',
-    color: 'white',
-    fontWeight: "600",
-    "&:hover,&:focus" : {
-      color: 'purple',
-      backgroundColor: 'gray',
-      fontWeight: "800",
-    }
   },
   cardTitleWhite: {
     color: "#FFFFFF",
@@ -148,9 +131,6 @@ function UserProfile({ users }) {
               }
             />
           </div>
-          <Link href="/admin/users/add" className={classes.edit}>
-          <Button className={classess.buttt}>Add User</Button>
-        </Link>
           <TableContainer component={Paper}>
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
@@ -159,8 +139,6 @@ function UserProfile({ users }) {
                   <StyledTableCell align="right">Full Name</StyledTableCell>
                   <StyledTableCell align="right">Email Address</StyledTableCell>
                   <StyledTableCell align="right">Phone Number</StyledTableCell>
-                  <StyledTableCell align="right">Edit</StyledTableCell>
-                  <StyledTableCell align="right">Delete</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -186,69 +164,11 @@ function UserProfile({ users }) {
                         <StyledTableCell key={user.phone_number} align="right">
                           {user.phone_number}
                         </StyledTableCell>
-                        <StyledTableCell  align="right">
-                        <Link href="/admin/users/edit" className={classes.edit}>
-                          <Tooltip
-                            id="tooltip-top"
-                            title="Edit User"
-                            placement="top"
-                            classes={{ tooltip: classes.tooltip }}
-                          >
-                            <IconButton
-                              aria-label="Edit"
-                              className={classes.tableActionButton}
-                            >
-                              <Edit
-                                className={
-                                  classes.tableActionButtonIcon + " " + classes.edit
-                                }
-                              />
-                              </IconButton>
-                          </Tooltip>
-                          </Link>
-                        </StyledTableCell>
-                        <StyledTableCell  align="right">
-                          <Button onClick={() => deleteUser(user.id)} className={classes.delete} disabled={user.isDeleting}>
-                              {user.isDeleting 
-                                ? <span className={classes.editing}></span>
-                                : <span>
-                                  <Tooltip
-                                    id="tooltip-top-start"
-                                    title="Delete User"
-                                    placement="top"
-                                    classes={{ tooltip: classes.tooltip }}
-                                  >
-                                    <IconButton
-                                      aria-label="Close"
-                                      className={classes.tableActionButton}
-                                    >
-                                      <Close
-                                        className={
-                                          classes.tableActionButtonIcon + " " + classes.close
-                                        }
-                                      />
-                                    </IconButton>
-                                  </Tooltip>
-                                </span>
-                              }
-                          </Button> 
-                        </StyledTableCell>
                       </StyledTableRow>
                     )
                   })
                 }
-                { !users &&
-                <StyledTableRow>
-                <StyledTableCell key={user.sizes} component="th" scope="row">
-                  <CircularProgress size={16}/>
-                </StyledTableCell> 
-                </StyledTableRow>
-                }
-                {users && !users.length &&
-                  <StyledTableCell key={user.notFound} component="th" scope="row">
-                    <p>No Users To Found</p>
-                  </StyledTableCell>
-               }
+                
               </TableBody>
             </Table>
           </TableContainer>
