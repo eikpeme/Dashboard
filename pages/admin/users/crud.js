@@ -149,7 +149,7 @@ function Crud({ users }) {
             />
           </div>
           <Link href="/admin/users/add" className={classes.edit}>
-          <Button className={classess.buttt}>Add User</Button>
+          <Button className={classess.buttt}>Add Artizans</Button>
         </Link>
           <TableContainer component={Paper}>
             <Table className={classess.table} aria-label="customized table">

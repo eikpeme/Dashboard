@@ -10,12 +10,10 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import styles from "assets/jss/nextjs-material-dashboard/components/tasksStyle.js";
 import MuiAlert from "@material-ui/lab/Alert";
 import { getToken } from '../../utility/apihelp';
-import Edit from "@material-ui/icons/Edit";
-import Close from "@material-ui/icons/Close";
+
 import {
   TextField,
   TableBody,
@@ -24,11 +22,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Tooltip,
-  IconButton,
   Table,
-  CircularProgress,
-  Button
 }
   from '@material-ui/core';
 
