@@ -83,17 +83,15 @@ const add = () => {
 	const address = useFormInput('')
 	const password = useFormInput('')
 	const category_id = useFormInput('')
-	const geo_location = useFormInput('')
+	const lat = useFormInput('')
+	const long = useFormInput('')
 	const short_description = useFormInput('')
 
 
-
-
- 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
 
-		const artizans = {
+		const artizan = {
 			first_name: first_name.value,
 			last_name: last_name.value,
 			email: email.value,
@@ -102,17 +100,18 @@ const add = () => {
 			rating: rating.value,
 			address: address.value,
 			category_id: category_id.value,
-			geo_location: geo_location.value,
+			geo_location: {
+				coordinates: [ long.value, lat.value ]
+			},
 			password: password.value,
 			short_description: short_description.value
 		}
-			
 		setError(null)
 		setLoading(true)
 
 		const creatAtizanApi = 'https://artizan-api-staged.herokuapp.com/artizans/create';
 		try {
-			await axios.post(creatAtizanApi, artizans)
+			await axios.post(creatAtizanApi, artizan)
 			setLoading(false)
 				return setSuccess('Artizan added successfully')
 			
@@ -180,14 +179,7 @@ const add = () => {
 													required
 												  {...email}
 												/>
-												<TextField 
-													fullWidth
-													type="text"
-													label="Geo-Location"
-													color="primary"
-													required
-												  {...geo_location}
-												/>
+											
 													<TextField 
 													fullWidth
 													type="text"
@@ -215,6 +207,22 @@ const add = () => {
 													
 												/>
 												<TextField 
+													fullWidth
+													type="text"
+													label="Long"
+													color="primary"
+												
+												  {...long}
+												/>
+												<TextField 
+													fullWidth
+													type="text"
+													label="Lat"
+													color="primary"
+													required
+													{...lat}
+												/>
+												<TextField 
 													fullWidth 
 													label="Password"
 													type="password"
@@ -226,7 +234,6 @@ const add = () => {
 													fullWidth
 													color="primary"
 													label="Short Description"
-													defaultValue=""
 													{...short_description}
 													required
 											/>
