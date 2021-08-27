@@ -101,7 +101,7 @@ const add = () => {
 			address: address.value,
 			category_id: category_id.value,
 			geo_location: {
-				coordinates: [ long.value, lat.value ]
+				coordinates: [ parseInt(long.value), parseInt(lat.value)]
 			},
 			password: password.value,
 			short_description: short_description.value
@@ -113,7 +113,8 @@ const add = () => {
 		try {
 			await axios.post(creatAtizanApi, artizan)
 			setLoading(false)
-				return setSuccess('Artizan added successfully')
+				setSuccess('Artizan added successfully')
+			    return setTimeout(() => router.push('/admin/dashboard'), 2000)
 			
 		} catch (error) {
 			setLoading(false)
@@ -302,6 +303,6 @@ const useFormInput = initialValue => {
 } 
 
  
-
+add.layout = Admin;
 export default add
 

@@ -168,7 +168,8 @@ function Crud({ users }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.filter((user) => {
+                {users
+                .filter((user) => {
                     if (search === "") {
                       return user
                     } else if (user.first_name) {
