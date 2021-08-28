@@ -141,11 +141,6 @@ const add = ({ids}) => {
 	const long = useFormInput('')
 	const short_description = useFormInput('')
 
-	const handleChangeEvent = (event) => {
-		setPersonName(event.target.value);
-	  };
-	
-
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
@@ -214,140 +209,143 @@ const add = ({ids}) => {
 												labelId="demo-mutiple-name-label"
 												id="demo-mutiple-name"
 												multiple
-												value={personName}
-												onChange={handleChangeEvent}
 												input={<Input />}
 												MenuProps={MenuProps}
 												>
 												{ids.map((id) => (
-													<MenuItem key={id} value={id} style={getStyles(id, personName, theme)}>
+													<MenuItem 
+														key={id} 
+														style={getStyles(id, theme)}
+														{...category_id}
+													>
 													{id._id}
 													</MenuItem>
 												))}
+												
 												</Select>
 											</FormControl>
+									
+											<TextField 
+												fullWidth
+												type="text"
+												label="First Name"
+												color="primary"
+												required
+												{...first_name}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Last Name"
+												color="primary"
+												required
+												{...last_name}
+											/>
+											<TextField 
+												fullWidth
+												type="Email"
+												label="Email"
+												color="primary"
+												required
+											{...email}
+											/>
 										
 												<TextField 
-													fullWidth
-													type="text"
-													label="First Name"
-													color="primary"
-													required
-													{...first_name}
-												/>
-												<TextField 
-													fullWidth
-													type="text"
-													label="Last Name"
-													color="primary"
-													required
-													{...last_name}
-												/>
-												<TextField 
-													fullWidth
-													type="Email"
-													label="Email"
-													color="primary"
-													required
-												{...email}
-												/>
-											
-													<TextField 
-													fullWidth
-													type="text"
-													label="Phone Number"
-													color="primary"
-													required
-													{...phone_number}
-												/>
-												<TextField 
-													fullWidth
-													type="text"
-													label="Address"
-													color="primary"
-													required
-												{...address}
-												/>
-												
-												<TextField 
-													fullWidth
-													type="number"
-													label="Rating"
-													color="primary"
-													required
-													{...rating}
-													
-												/>
-												<TextField 
-													fullWidth
-													type="text"
-													label="Long"
-													color="primary"
-												
-												{...long}
-												/>
-												<TextField 
-													fullWidth
-													type="text"
-													label="Lat"
-													color="primary"
-													required
-													{...lat}
-												/>
-												<TextField 
-													fullWidth 
-													label="Password"
-													type="password"
-													color="primary"
-													required
-													{...password}
-												/>
-												<TextField
-													fullWidth
-													color="primary"
-													label="Short Description"
-													{...short_description}
-													required
-												/>
-												<TextField 
-													fullWidth
-													type="text"
-													label="Certificate Description"
-													color="primary"
-													required
-													{...certifications}
-												/>
-								
-												<div>Upload your certificate</div>
-												<TextField
 												fullWidth
-													accept="image/*"
-													className={classess.input}
-													id="contained-button-file"
-													multiple
-													label=""
-													type="file"
-												/>
-												<label htmlFor="contained-button-file">
-													<Fab component="span" className={classess.button}>
-															<AddPhotoAlternateIcon />
-														</Fab>
-													</label>
-													<Button  
-													fullWidth 
-													type="submit" 
-													variant="contained"
-													className={classes.button}
-													disabled={loading}
-												>
-													{loading && <CircularProgress size={16} />}
-													{!loading && 'Add Artizan'}
-												</Button> 
-												{error && (
-													<Alert severity="error">
-														{error}
-													</Alert>
-												)}
+												type="text"
+												label="Phone Number"
+												color="primary"
+												required
+												{...phone_number}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Address"
+												color="primary"
+												required
+											{...address}
+											/>
+											
+											<TextField 
+												fullWidth
+												type="number"
+												label="Rating"
+												color="primary"
+												required
+												{...rating}
+												
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Long"
+												color="primary"
+											
+											{...long}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Lat"
+												color="primary"
+												required
+												{...lat}
+											/>
+											<TextField 
+												fullWidth 
+												label="Password"
+												type="password"
+												color="primary"
+												required
+												{...password}
+											/>
+											<TextField
+												fullWidth
+												color="primary"
+												label="Short Description"
+												{...short_description}
+												required
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Certificate Description"
+												color="primary"
+												required
+												{...certifications}
+											/>
+							
+											<div>Upload your certificate</div>
+											<TextField
+											fullWidth
+												accept="image/*"
+												className={classess.input}
+												id="contained-button-file"
+												multiple
+												label=""
+												type="file"
+											/>
+											<label htmlFor="contained-button-file">
+												<Fab component="span" className={classess.button}>
+														<AddPhotoAlternateIcon />
+													</Fab>
+												</label>
+												<Button  
+												fullWidth 
+												type="submit" 
+												variant="contained"
+												className={classes.button}
+												disabled={loading}
+											>
+												{loading && <CircularProgress size={16} />}
+												{!loading && 'Add Artizan'}
+											</Button> 
+											{error && (
+												<Alert severity="error">
+													{error}
+												</Alert>
+											)}
 											
 										</Grid>
 									</form>
@@ -355,8 +353,8 @@ const add = ({ids}) => {
 							</CardBody>
 						</Card>
 					</Grid>
-					<Grid item xs={12} sm={12} md={2}></Grid>
-					</Grid>
+				<Grid item xs={12} sm={12} md={2}></Grid>
+				</Grid>
 			</Container>
 		</div>
 	)
