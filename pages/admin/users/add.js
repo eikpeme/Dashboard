@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import styles from "assets/jss/nextjs-material-dashboard/views/loginStyle.js";
 import Card from "components/Card/Card.js";
 import Container from "@material-ui/core/Container"
@@ -14,45 +14,60 @@ function Alert(props) {
   }
 
 
-const useStyless = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-  cardCategoryWhite: {
-    color: "rgba(255,255,255,.62)",
-    margin: "0",
-    fontSize: "14px",
-    marginTop: "0",
-    marginBottom: "0",
-   
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "500",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    textAlign: "center",
-  },
-  searchWrapper: {
-    textAlign: "center",
-    marginBottom: "2em"
-  },
-	input: {
-    display: "none"
-  },
-  button: {
-    color: 'purple',
-    margin: 10
-  },
-  secondaryButton: {
-    color: "gray",
-    margin: 10
-  },
-  
-}); 
+const useStyless = makeStyles((theme) => ({
+	formControl: {
+	margin: theme.spacing(1),
+	minWidth: 120,
+	maxWidth: 300,
+	},
+	chips: {
+	display: 'flex',
+	flexWrap: 'wrap',
+	},
+	chip: {
+	margin: 2,
+	},
+	noLabel: {
+	marginTop: theme.spacing(3),
+	},
+	table: {
+		minWidth: 700,
+    },
+	cardCategoryWhite: {
+		color: "rgba(255,255,255,.62)",
+		margin: "0",
+		fontSize: "14px",
+		marginTop: "0",
+		marginBottom: "0",
+	
+	},
+	cardTitleWhite: {
+		color: "#FFFFFF",
+		marginTop: "0px",
+		minHeight: "auto",
+		fontWeight: "500",
+		fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+		marginBottom: "3px",
+		textDecoration: "none",
+		textAlign: "center",
+	},
+	searchWrapper: {
+		textAlign: "center",
+		marginBottom: "2em"
+	},
+		input: {
+		display: "none"
+	},
+	button: {
+		color: 'purple',
+		margin: 10
+	},
+	secondaryButton: {
+		color: "gray",
+		margin: 10
+	},
+	
+})); 
 
 
 import 
@@ -62,12 +77,51 @@ TextField,
 Button,
 CircularProgress,
 Fab,
+Select,
+MenuItem,
+Input,
+FormControl,
+InputLabel
 }
 from '@material-ui/core'; 
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+function getStyles(name, personName, theme) {
+	return {
+	  fontWeight:
+		personName.indexOf(name) === -1
+		  ? theme.typography.fontWeightRegular
+		  : theme.typography.fontWeightMedium,
+	};
+}  
+
+export const getStaticProps = async () => {
+
+	const category_idBaseApi =  'https://artizan-api-staged.herokuapp.com'
+  
+	const response = await axios.get(`${category_idBaseApi}/categories`);
+	const data = await response.data;
+  
+	return {
+	  props: { ids: data }
+	}
+  
+  }
+
  
-const add = () => {
+const add = ({ids}) => {
 	const router = useRouter(); 
+	const theme = useTheme();
+  const [personName, setPersonName] = useState([]);
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
@@ -87,6 +141,11 @@ const add = () => {
 	const long = useFormInput('')
 	const short_description = useFormInput('')
 
+	const handleChangeEvent = (event) => {
+		setPersonName(event.target.value);
+	  };
+	
+
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
@@ -101,7 +160,7 @@ const add = () => {
 			address: address.value,
 			category_id: category_id.value,
 			geo_location: {
-				coordinates: [ parseInt(long.value), parseInt(lat.value)]
+				coordinates: [ parseInt(long.value), parseInt(lat.value) ]
 			},
 			password: password.value,
 			short_description: short_description.value
@@ -123,6 +182,8 @@ const add = () => {
 				setError('Something went wrong, please try again')
 			}
 		}
+	
+
 		
 	}
 	
@@ -146,16 +207,26 @@ const add = () => {
 							<CardBody> 
 								<Container sm="true">
 									<form onSubmit={handleCreateAtizans} autoComplete="email">
-										<Grid item xs={12} sm={12} md={12}>
-											
-												<TextField 
-													fullWidth
-													type="text"
-													label="category ID"
-													color="primary"
-													required
-													{...category_id}
-												/>
+										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
+											<InputLabel id="demo-mutiple-name-label">Category Id</InputLabel>
+											<FormControl className={classes.formControl}>
+												<Select
+												labelId="demo-mutiple-name-label"
+												id="demo-mutiple-name"
+												multiple
+												value={personName}
+												onChange={handleChangeEvent}
+												input={<Input />}
+												MenuProps={MenuProps}
+												>
+												{ids.map((id) => (
+													<MenuItem key={id} value={id} style={getStyles(id, personName, theme)}>
+													{id._id}
+													</MenuItem>
+												))}
+												</Select>
+											</FormControl>
+										
 												<TextField 
 													fullWidth
 													type="text"
@@ -178,7 +249,7 @@ const add = () => {
 													label="Email"
 													color="primary"
 													required
-												  {...email}
+												{...email}
 												/>
 											
 													<TextField 
@@ -213,7 +284,7 @@ const add = () => {
 													label="Long"
 													color="primary"
 												
-												  {...long}
+												{...long}
 												/>
 												<TextField 
 													fullWidth
@@ -237,7 +308,7 @@ const add = () => {
 													label="Short Description"
 													{...short_description}
 													required
-											/>
+												/>
 												<TextField 
 													fullWidth
 													type="text"
@@ -259,24 +330,25 @@ const add = () => {
 												/>
 												<label htmlFor="contained-button-file">
 													<Fab component="span" className={classess.button}>
-														<AddPhotoAlternateIcon />
-													</Fab>
-												</label>
-												<Button  
-												fullWidth 
-												type="submit" 
-												variant="contained"
-												className={classes.button}
-												disabled={loading}
-											>
-												{loading && <CircularProgress size={16} />}
-												{!loading && 'Add Artizan'}
-											</Button> 
-											{error && (
-												<Alert severity="error">
-													{error}
-												</Alert>
-											)}
+															<AddPhotoAlternateIcon />
+														</Fab>
+													</label>
+													<Button  
+													fullWidth 
+													type="submit" 
+													variant="contained"
+													className={classes.button}
+													disabled={loading}
+												>
+													{loading && <CircularProgress size={16} />}
+													{!loading && 'Add Artizan'}
+												</Button> 
+												{error && (
+													<Alert severity="error">
+														{error}
+													</Alert>
+												)}
+											
 										</Grid>
 									</form>
 								</Container>
@@ -303,6 +375,5 @@ const useFormInput = initialValue => {
 } 
 
  
-add.layout = Admin;
 export default add
 
