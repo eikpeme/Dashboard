@@ -95,10 +95,10 @@ const MenuProps = {
     },
   },
 };
-function getStyles(name, personName, theme) {
+function getStyles(id, personName, theme) {
 	return {
 	  fontWeight:
-		personName.indexOf(name) === -1
+		personName.indexOf(id) === -1
 		  ? theme.typography.fontWeightRegular
 		  : theme.typography.fontWeightMedium,
 	};
@@ -141,6 +141,10 @@ const add = ({ids}) => {
 	const long = useFormInput('')
 	const short_description = useFormInput('')
 
+	const handleChange = (event) => {
+		setPersonName(event.target.value);
+	  };
+
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
@@ -172,10 +176,8 @@ const add = ({ids}) => {
 			
 		} catch (error) {
 			setLoading(false)
-			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
-			else {
-				setError('Something went wrong, please try again')
-			}
+			return	setError('Something went wrong, please try again')
+			
 		}
 	
 
@@ -206,17 +208,20 @@ const add = ({ids}) => {
 											<InputLabel id="demo-mutiple-name-label">Category Id</InputLabel>
 											<FormControl className={classes.formControl}>
 												<Select
-												labelId="demo-mutiple-name-label"
-												id="demo-mutiple-name"
-												multiple
-												input={<Input />}
-												MenuProps={MenuProps}
-												>
-												{ids.map((id) => (
+													labelId="demo-mutiple-name-label"
+													id="demo-mutiple-name"
+													input={<Input/>}
+													multiple
+													{...category_id} 
+													value={personName}
+													onChange={handleChange}
+													MenuProps={MenuProps}
+													>
+													{ids.map((id) => (
 													<MenuItem 
 														key={id} 
-														style={getStyles(id, theme)}
-														{...category_id}
+														value={id._id}
+														style={getStyles(id,personName, theme)}
 													>
 													{id._id}
 													</MenuItem>
