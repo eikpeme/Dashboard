@@ -120,7 +120,7 @@ export const getStaticProps = async () => {
 	// const db = await res.db;
   
 	return {
-	  props: { ids: data, }
+	  props: { ids: data }
 	}
   
   }
@@ -179,7 +179,7 @@ const Edit = ({ids, artisans}) => {
                                                 {ids.map((id) => (
                                                 <MenuItem 
                                                     key={id} 
-                                                    value={id._id}
+                                                    value={id}
                                                     style={getStyles(id, personName, theme)}
                                                     
                                                 >
@@ -188,12 +188,16 @@ const Edit = ({ids, artisans}) => {
                                             ))}
 												</Select>
 											</FormControl>
+											{/* {artizans.map((artizan) => {
+												<div>{artizan.email}</div>
+											})} */}
                                             <TextField
                                                 fullWidth
                                                 type="text"
                                                 label="First Name"
                                                 color="primary"
                                                 required
+												
                                             />
 											<TextField 
 												fullWidth
