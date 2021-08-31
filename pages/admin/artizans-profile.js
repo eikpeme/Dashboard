@@ -107,7 +107,7 @@ export const getStaticProps = async () => {
   }
 
 }
-function Crud({ users }) {
+function ArtizanProfiles({ users }) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -271,6 +271,6 @@ function Crud({ users }) {
   );
 }
 
-Crud.layout = Admin;
+ArtizanProfiles.layout = Admin;
 
-export default Crud;
+export default ArtizanProfiles;

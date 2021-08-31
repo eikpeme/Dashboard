@@ -7,6 +7,7 @@ import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
+import Admin from "layouts/Admin.js";
 import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
@@ -125,7 +126,7 @@ export const getStaticProps = async () => {
   }
 
  
-const modalComponent = ({ids, artisans}) => {
+const Edit = ({ids, artisans}) => {
 	const router = useRouter(); 
 	const theme = useTheme();
 	const useStyles = makeStyles(styles);
@@ -320,7 +321,7 @@ const modalComponent = ({ids, artisans}) => {
 	)
 }
 
-
+Edit.layout = Admin;
  
-export default modalComponent
+export default Edit
 
