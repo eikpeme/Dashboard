@@ -3,6 +3,7 @@ import styles from "assets/jss/nextjs-material-dashboard/views/loginStyle.js";
 import Card from "components/Card/Card.js";
 import Container from "@material-ui/core/Container"
 import CardHeader from "components/Card/CardHeader.js";
+import Admin from "layouts/Admin.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
@@ -140,7 +141,7 @@ const add = ({ids}) => {
 	const lat = useFormInput('')
 	const long = useFormInput('')
 	const short_description = useFormInput('')
-
+	
 	const handleChange = (event) => {
 		setPersonName(event.target.value);
 	  };
@@ -176,8 +177,10 @@ const add = ({ids}) => {
 			
 		} catch (error) {
 			setLoading(false)
-			return	setError('Something went wrong, please try again')
-			
+			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
+			else {
+				setError('Something went wrong, please try again')
+			}
 		}
 	
 
@@ -210,9 +213,8 @@ const add = ({ids}) => {
 												<Select
 													labelId="demo-mutiple-name-label"
 													id="demo-mutiple-name"
-													input={<Input/>}
 													multiple
-													{...category_id} 
+													input={<Input />}
 													value={personName}
 													onChange={handleChange}
 													MenuProps={MenuProps}
@@ -222,6 +224,7 @@ const add = ({ids}) => {
 														key={id} 
 														value={id._id}
 														style={getStyles(id,personName, theme)}
+														{...category_id}
 													>
 													{id._id}
 													</MenuItem>
@@ -377,6 +380,6 @@ const useFormInput = initialValue => {
 	}
 } 
 
- 
+add.layout = Admin;
 export default add
 

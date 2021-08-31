@@ -7,6 +7,7 @@ import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
+import Admin from "layouts/Admin.js";
 import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
@@ -95,6 +96,9 @@ const MenuProps = {
     },
   },
 };
+
+
+
 function getStyles(id, personName, theme) {
 	return {
 	  fontWeight:
@@ -106,19 +110,23 @@ function getStyles(id, personName, theme) {
 
 export const getStaticProps = async () => {
 
-	const category_idBaseApi =  'https://artizan-api-staged.herokuapp.com'
+	const baseUrl =  'https://artizan-api-staged.herokuapp.com'
   
-	const response = await axios.get(`${category_idBaseApi}/categories`);
+	const response = await axios.get(`${baseUrl}/categories`);
 	const data = await response.data;
+
+  
+	// const res = await axios.put(`${baseUrl}/artizans/update`);
+	// const db = await res.db;
   
 	return {
-	  props: { ids: data }
+	  props: { ids: data, }
 	}
   
   }
 
  
-const modalComponent = ({ids}) => {
+const Edit = ({ids, artisans}) => {
 	const router = useRouter(); 
 	const theme = useTheme();
 	const useStyles = makeStyles(styles);
@@ -129,11 +137,13 @@ const modalComponent = ({ids}) => {
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
 
-    const handleChange = (event) => {
+  
+
+    const handleChange = (event) => { 
 		setPersonName(event.target.value);
 	  };
 	
-	
+	{}
 	return (
 		<div>
 			{suc && (
@@ -176,17 +186,15 @@ const modalComponent = ({ids}) => {
                                                 {id._id}
                                                 </MenuItem>
                                             ))}
-												
 												</Select>
 											</FormControl>
-									
-											<TextField 
-												fullWidth
-												type="text"
-												label="First Name"
-												color="primary"
-												required
-											/>
+                                            <TextField
+                                                fullWidth
+                                                type="text"
+                                                label="First Name"
+                                                color="primary"
+                                                required
+                                            />
 											<TextField 
 												fullWidth
 												type="text"
@@ -252,7 +260,6 @@ const modalComponent = ({ids}) => {
 												type="password"
 												color="primary"
 												required
-												
 											/>
 											<TextField
 												fullWidth
@@ -269,7 +276,7 @@ const modalComponent = ({ids}) => {
 												required
 												
 											/>
-							
+                                           
 											<div>Upload your certificate</div>
 											<TextField
 											fullWidth
@@ -293,7 +300,7 @@ const modalComponent = ({ids}) => {
 												disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
-												{!loading && 'Submit'}
+												{!loading && 'Update Artizan'}
 											</Button> 
 											{error && (
 												<Alert severity="error">
@@ -314,7 +321,7 @@ const modalComponent = ({ids}) => {
 	)
 }
 
-
+Edit.layout = Admin;
  
-export default modalComponent
+export default Edit
 
