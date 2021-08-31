@@ -73,16 +73,16 @@ const useStyless = makeStyles((theme) => ({
 
 import 
 { 
-Grid,
-TextField,
-Button,
-CircularProgress,
-Fab,
-Select,
-MenuItem,
-Input,
-FormControl,
-InputLabel
+	Grid,
+	TextField,
+	Button,
+	CircularProgress,
+	Fab,
+	Select,
+	MenuItem,
+	Input,
+	FormControl,
+	InputLabel
 }
 from '@material-ui/core'; 
 
@@ -222,9 +222,8 @@ const add = ({ids}) => {
 													{ids.map((id) => (
 													<MenuItem 
 														key={id} 
-														value={id._id}
+														value={id}
 														style={getStyles(id,personName, theme)}
-														{...category_id}
 													>
 													{id._id}
 													</MenuItem>
