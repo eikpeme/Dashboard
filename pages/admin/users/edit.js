@@ -115,11 +115,11 @@ export const getStaticProps = async () => {
 	const data = await response.data;
 
   
-	const res = await axios.put(`${baseUrl}/artizans/update`);
-	const db = await res.db;
+	// const res = await axios.put(`${baseUrl}/artizans/update`);
+	// const db = await res.db;
   
 	return {
-	  props: { ids: data, artisans:  db }
+	  props: { ids: data, }
 	}
   
   }
@@ -138,7 +138,7 @@ const modalComponent = ({ids, artisans}) => {
 
   
 
-    const handleChange = (event) => {
+    const handleChange = (event) => { 
 		setPersonName(event.target.value);
 	  };
 	

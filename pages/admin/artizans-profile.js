@@ -155,13 +155,12 @@ function Crud({ users }) {
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Id</StyledTableCell>
+                  <StyledTableCell>Verification Code</StyledTableCell>
                   <StyledTableCell align="right">Full Name</StyledTableCell>
                   <StyledTableCell align="right">Email Address</StyledTableCell>
                   <StyledTableCell align="right">Phone Number</StyledTableCell>
-                  <StyledTableCell>Category Id</StyledTableCell>
-                  <StyledTableCell align="right">Password</StyledTableCell>
                   <StyledTableCell align="right">Description</StyledTableCell>
+                  <StyledTableCell align="right">Address</StyledTableCell>
                   <StyledTableCell align="right">Certifications</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
@@ -180,7 +179,7 @@ function Crud({ users }) {
                     return (
                       <StyledTableRow className={classes.data}>
                         <StyledTableCell  key={user.id} component="th" scope="row">
-                          {user._id}
+                          {user.verification_code}
                         </StyledTableCell>
                         <StyledTableCell key={user.first_name} align="right">
                           {user.first_name + ' ' + ' ' + user.last_name}
@@ -190,12 +189,6 @@ function Crud({ users }) {
                         </StyledTableCell>
                         <StyledTableCell key={user.phone_number} align="right">
                           {user.phone_number}
-                        </StyledTableCell>
-                        <StyledTableCell key={user.category_id} align="right">
-                          {user.category_id}
-                        </StyledTableCell>
-                        <StyledTableCell key={user.password} align="right">
-                          {user.password}
                         </StyledTableCell>
                         <StyledTableCell key={user.short_description} align="right">
                           {user.short_description}
