@@ -62,8 +62,8 @@ const useStyless = makeStyles({
     color: "rgba(255,255,255,.62)",
     margin: "0",
     fontSize: "14px",
-    marginTop: "0",
     marginBottom: "0",
+    marginTop: "0",
    
   },
   buttt: {
@@ -94,9 +94,18 @@ const useStyless = makeStyles({
   
 }); 
 
+export const getStaticPaths  = async() => {
+	return {
+		paths: [
+			{
+				params: { artizansid: '1'},
+			},
+		],
+    fallback: false
+	}
+}
 
 export const getStaticProps = async () => {
-
   const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
   const response = await axios.get(`${baseUrl}/artizans`);
@@ -105,7 +114,6 @@ export const getStaticProps = async () => {
   return {
     props: { users: data }
   }
-
 }
 function ArtizanProfiles({ users }) {
   const useStyles = makeStyles(styles);
@@ -155,7 +163,6 @@ function ArtizanProfiles({ users }) {
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Verification Code</StyledTableCell>
                   <StyledTableCell align="right">Full Name</StyledTableCell>
                   <StyledTableCell align="right">Email Address</StyledTableCell>
                   <StyledTableCell align="right">Phone Number</StyledTableCell>
@@ -178,9 +185,6 @@ function ArtizanProfiles({ users }) {
                   .map((user) => {
                     return (
                       <StyledTableRow className={classes.data}>
-                        <StyledTableCell  key={user.id} component="th" scope="row">
-                          {user.verification_code}
-                        </StyledTableCell>
                         <StyledTableCell key={user.first_name} align="right">
                           {user.first_name + ' ' + ' ' + user.last_name}
                         </StyledTableCell>
@@ -200,7 +204,7 @@ function ArtizanProfiles({ users }) {
                           {user.certifications}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href="/admin/users/edit" className={classes.edit}>
+                        <Link href={`/admin/users/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit User"
@@ -221,7 +225,7 @@ function ArtizanProfiles({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <Button onClick={() => deleteUser(user.id)} className={classes.delete} disabled={user.isDeleting}>
+                          <Button onClick={() => deleteUser(user._id)} className={classes.delete} disabled={user.isDeleting}>
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>

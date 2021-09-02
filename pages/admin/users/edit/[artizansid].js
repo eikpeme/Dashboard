@@ -1,13 +1,14 @@
+                       
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import styles from "assets/jss/nextjs-material-dashboard/views/loginStyle.js";
 import Card from "components/Card/Card.js";
 import Container from "@material-ui/core/Container"
 import CardHeader from "components/Card/CardHeader.js";
+import Admin from "layouts/Admin.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import React, {useState} from "react";
-import Admin from "layouts/Admin.js";
+import React, {useState, useEffect} from "react";
 import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
@@ -73,16 +74,16 @@ const useStyless = makeStyles((theme) => ({
 
 import 
 { 
-    Grid,
-    TextField,
-    Button,
-    CircularProgress,
-    Fab,
-    Select,
-    MenuItem,
-    Input,
-    FormControl,
-    InputLabel
+	Grid,
+	TextField,
+	Button,
+	CircularProgress,
+	Fab,
+	Select,
+	MenuItem,
+	Input,
+	FormControl,
+	InputLabel
 }
 from '@material-ui/core'; 
 
@@ -96,54 +97,102 @@ const MenuProps = {
     },
   },
 };
-
-
-
-function getStyles(id, personName, theme) {
+ 
+export const getStaticPaths = async() => {
 	return {
-	  fontWeight:
-		personName.indexOf(id) === -1
-		  ? theme.typography.fontWeightRegular
-		  : theme.typography.fontWeightMedium,
-	};
-}  
+		paths: [
+			{
+				params: { artizansid: ''},
+				
+			},
+		],
+		fallback: false
+	}
+}
+const   baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const getStaticProps = async () => {
-
-	const baseUrl =  'https://artizan-api-staged.herokuapp.com'
-  
 	const response = await axios.get(`${baseUrl}/categories`);
 	const data = await response.data;
-
-  
-	// const res = await axios.put(`${baseUrl}/artizans/update`);
-	// const db = await res.db;
-  
 	return {
-	  props: { ids: data }
+	  props: { ids: data, }
 	}
   
   }
 
  
-const Edit = ({ids, artisans}) => {
+const edit = ({ids}) => {
 	const router = useRouter(); 
-	const theme = useTheme();
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
-    const [personName, setPersonName] = useState([]);
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
-
-  
-
-    const handleChange = (event) => { 
-		setPersonName(event.target.value);
-	  };
 	
-	{}
+	const [artizans, setAtizans] = useState({
+		first_name: '',
+		last_name: '',
+		email: '',
+		phone_number: '',
+		certifications: '',
+		rating: '',
+		address: '',
+		password: '',
+		category_id: '',
+		short_description: '',
+		geo_location: {
+			coordinates: [ parseInt(long), parseInt(lat) ]
+		},
+	});
+
+	const {
+		first_name, 
+		last_name,
+		email,
+		phone_number, 
+		certifications,
+		rating,
+		address,
+		password,
+		short_description,
+		category_id, 
+		long,
+		lat,
+	} = artizans;
+
+	const onInputChange = e => {
+		setAtizans({...artizans, [e.target.name]: e.target.value});
+
+	};
+
+	useEffect(() => {
+		loadArtizans()
+	}, []);
+
+	const handleEditAtizans = async(e) => {
+		e.preventDefault()
+		setError(null)
+		setLoading(true)
+		try {
+			await axios.put(`${baseUrl}/artizans/update/${artizansid}`, artizans)
+			setLoading(false)
+			setSuccess('Artizan edited successfully')
+			return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
+		} catch (error) {
+			setLoading(false)
+			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
+			else {
+				setError('Something went wrong, please try again')
+			}
+		}
+	};
+	
+	const loadArtizans = async e => {
+			const result = await axios.get(`${baseUrl}/artizans/${artizansid}`)
+			setAtizans(result.data);
+	}
+	
 	return (
 		<div>
 			{suc && (
@@ -158,54 +207,55 @@ const Edit = ({ids, artisans}) => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Edit an Artizan</h4>
+								<h4 className={classes.cardTitleWhitew}>Add Artizans</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
 								<Container sm="true">
-									<form autoComplete="email">
+									<form onSubmit={handleEditAtizans} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
 											<InputLabel id="demo-mutiple-name-label">Category Id</InputLabel>
 											<FormControl className={classes.formControl}>
-                                            <Select
-                                                labelId="demo-mutiple-name-label"
-                                                id="demo-mutiple-name"
-                                                input={<Input />}
-                                                multiple
-                                                value={personName}
-                                                onChange={handleChange}
-                                                MenuProps={MenuProps}
-                                                >
-                                                {ids.map((id) => (
-                                                <MenuItem 
-                                                    key={id} 
-                                                    value={id}
-                                                    style={getStyles(id, personName, theme)}
-                                                    
-                                                >
-                                                {id._id}
-                                                </MenuItem>
-                                            ))}
+												<Select
+													labelId="demo-mutiple-name-label"
+													id="demo-mutiple-name"
+													multiple
+													input={<Input />}
+													MenuProps={MenuProps}
+													name="category_id"
+													value={category_id}
+													onChange={e => onInputChange(e)}
+													>
+													{ids.map((id) => (
+													<MenuItem 
+														key={id}
+														value={id}
+													>
+													{id._id}
+													</MenuItem> 
+												))}
+												
 												</Select>
 											</FormControl>
-											{/* {artizans.map((artizan) => {
-												<div>{artizan.email}</div>
-											})} */}
-                                            <TextField
-                                                fullWidth
-                                                type="text"
-                                                label="First Name"
-                                                color="primary"
-                                                required
-												
-                                            />
+											<TextField 
+												fullWidth 
+												type="text"
+												label="First Name"
+												color="primary"
+												required
+												name="first_name"
+												value={first_name}
+												onChange={e => onInputChange(e)}
+											/>
 											<TextField 
 												fullWidth
 												type="text"
 												label="Last Name"
 												color="primary"
 												required
-												
+												name="last_name"
+												value={last_name}
+												onChange={e => onInputChange(e)}
 											/>
 											<TextField 
 												fullWidth
@@ -213,16 +263,20 @@ const Edit = ({ids, artisans}) => {
 												label="Email"
 												color="primary"
 												required
-											
+												name="email"
+												value={email}
+												onChange={e => onInputChange(e)}
 											/>
 										
-												<TextField 
+											<TextField 
 												fullWidth
 												type="text"
 												label="Phone Number"
 												color="primary"
 												required
-												
+												name="phone_number"
+												value={phone_number}
+												onChange={e => onInputChange(e)}
 											/>
 											<TextField 
 												fullWidth
@@ -230,7 +284,9 @@ const Edit = ({ids, artisans}) => {
 												label="Address"
 												color="primary"
 												required
-											
+												name="address"
+												value={address}
+												onChange={e => onInputChange(e)}
 											/>
 											
 											<TextField 
@@ -239,7 +295,9 @@ const Edit = ({ids, artisans}) => {
 												label="Rating"
 												color="primary"
 												required
-												
+												name="rating"
+												value={rating}
+												onChange={e => onInputChange(e)}
 												
 											/>
 											<TextField 
@@ -247,8 +305,9 @@ const Edit = ({ids, artisans}) => {
 												type="text"
 												label="Long"
 												color="primary"
-											
-											
+												name="long"
+												value={long}
+												onChange={e => onInputChange(e)}
 											/>
 											<TextField 
 												fullWidth
@@ -256,7 +315,9 @@ const Edit = ({ids, artisans}) => {
 												label="Lat"
 												color="primary"
 												required
-												
+												name="lat"
+												value={lat}
+												onChange={e => onInputChange(e)}
 											/>
 											<TextField 
 												fullWidth 
@@ -264,12 +325,17 @@ const Edit = ({ids, artisans}) => {
 												type="password"
 												color="primary"
 												required
+												name="password"
+												value={password}
+												onChange={e => onInputChange(e)}
 											/>
 											<TextField
 												fullWidth
 												color="primary"
 												label="Short Description"
-												
+												name="short_description"
+												value={short_description}
+												onChange={e => onInputChange(e)}
 												required
 											/>
 											<TextField 
@@ -278,9 +344,11 @@ const Edit = ({ids, artisans}) => {
 												label="Certificate Description"
 												color="primary"
 												required
-												
+												name="certifications"
+												value={certifications}
+												onChange={e => onInputChange(e)}
 											/>
-                                           
+							
 											<div>Upload your certificate</div>
 											<TextField
 											fullWidth
@@ -304,7 +372,7 @@ const Edit = ({ids, artisans}) => {
 												disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
-												{!loading && 'Update Artizan'}
+												{!loading && 'Edit Artizan'}
 											</Button> 
 											{error && (
 												<Alert severity="error">
@@ -325,7 +393,6 @@ const Edit = ({ids, artisans}) => {
 	)
 }
 
-Edit.layout = Admin;
- 
-export default Edit
+edit.layout = Admin;
+export default edit
 

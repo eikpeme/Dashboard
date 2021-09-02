@@ -96,14 +96,7 @@ const MenuProps = {
     },
   },
 };
-function getStyles(id, personName, theme) {
-	return {
-	  fontWeight:
-		personName.indexOf(id) === -1
-		  ? theme.typography.fontWeightRegular
-		  : theme.typography.fontWeightMedium,
-	};
-}  
+ 
 
 export const getStaticProps = async () => {
 
@@ -122,7 +115,7 @@ export const getStaticProps = async () => {
 const add = ({ids}) => {
 	const router = useRouter(); 
 	const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
+//   const [personName, setPersonName] = useState([]);
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
@@ -141,11 +134,6 @@ const add = ({ids}) => {
 	const lat = useFormInput('')
 	const long = useFormInput('')
 	const short_description = useFormInput('')
-	
-	const handleChange = (event) => {
-		setPersonName(event.target.value);
-	  };
-
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
@@ -173,7 +161,7 @@ const add = ({ids}) => {
 			await axios.post(creatAtizanApi, artizan)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/dashboard'), 2000)
+			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
 			
 		} catch (error) {
 			setLoading(false)
@@ -182,9 +170,6 @@ const add = ({ids}) => {
 				setError('Something went wrong, please try again')
 			}
 		}
-	
-
-		
 	}
 	
 	return (
@@ -208,30 +193,26 @@ const add = ({ids}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateAtizans} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-											<InputLabel id="demo-mutiple-name-label">Category Id</InputLabel>
+											<InputLabel id="demo-mutiple-name-label">Category</InputLabel>
 											<FormControl className={classes.formControl}>
 												<Select
 													labelId="demo-mutiple-name-label"
 													id="demo-mutiple-name"
-													multiple
 													input={<Input />}
-													value={personName}
-													onChange={handleChange}
 													MenuProps={MenuProps}
+													{...category_id}
 													>
 													{ids.map((id) => (
 													<MenuItem 
-														key={id} 
+														key={id}
 														value={id}
-														style={getStyles(id,personName, theme)}
 													>
-													{id._id}
-													</MenuItem>
+													{id.name}
+													</MenuItem> 
 												))}
 												
 												</Select>
 											</FormControl>
-									
 											<TextField 
 												fullWidth
 												type="text"
@@ -288,8 +269,7 @@ const add = ({ids}) => {
 												type="text"
 												label="Long"
 												color="primary"
-											
-											{...long}
+											   {...long}
 											/>
 											<TextField 
 												fullWidth
