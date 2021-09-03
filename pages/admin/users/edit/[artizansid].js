@@ -1,4 +1,3 @@
-                       
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import styles from "assets/jss/nextjs-material-dashboard/views/loginStyle.js";
 import Card from "components/Card/Card.js";
@@ -8,7 +7,7 @@ import Admin from "layouts/Admin.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
@@ -87,41 +86,37 @@ import
 }
 from '@material-ui/core'; 
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
  
 export const getStaticPaths = async() => {
+    const response = await axios.get(`${baseUrl}/artizans`);
+    const data = await response.data;
+    const paths = data.map(artid => {
+        return {
+            params: {
+                artizansid: `${artid._id}`
+            }
+        }
+    })
 	return {
-		paths: [
-			{
-				params: { artizansid: ''},
-				
-			},
-		],
+		paths,
 		fallback: false
 	}
 }
-const   baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async () => {
-	const response = await axios.get(`${baseUrl}/categories`);
-	const data = await response.data;
+const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
+
+export const getStaticProps = async ({params: {artizansid}}) => {
+	const res = await axios.get(`${baseUrl}/artizans/${artizansid}`);
+    const artisansData = await res.data;
+
+	
 	return {
-	  props: { ids: data, }
+	  props: {  artisansData }
 	}
   
   }
-
- 
-const edit = ({ids}) => {
+const add = ({ artisansData}) => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
@@ -129,56 +124,47 @@ const edit = ({ids}) => {
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
-	
-	const [artizans, setAtizans] = useState({
-		first_name: '',
-		last_name: '',
-		email: '',
-		phone_number: '',
-		certifications: '',
-		rating: '',
-		address: '',
-		password: '',
-		category_id: '',
-		short_description: '',
+	const [artizan, setAtizans] = useState({
+		first_name: artisansData.first_name,
+		last_name: artisansData.last_name,
+		email: artisansData.email,
+		phone_number: artisansData.phone_number,
+		certifications: artisansData.certifications,
+		rating: artisansData.rating,
+		address: artisansData.address,
+		category_id: artisansData.category_id,
 		geo_location: {
-			coordinates: [ parseInt(long), parseInt(lat) ]
+			coordinates: [ parseInt(artisansData.long), parseInt(artisansData.lat) ]
 		},
+		password: artisansData.password,
+		short_description: artisansData.short_description,
 	});
 
-	const {
-		first_name, 
+	const { 
+		first_name,
 		last_name,
 		email,
-		phone_number, 
+		phone_number,
 		certifications,
 		rating,
 		address,
-		password,
-		short_description,
-		category_id, 
+		category_id,
 		long,
 		lat,
-	} = artizans;
+		password,
+		short_description
+	} = artizan
 
-	const onInputChange = e => {
-		setAtizans({...artizans, [e.target.name]: e.target.value});
-
-	};
-
-	useEffect(() => {
-		loadArtizans()
-	}, []);
-
-	const handleEditAtizans = async(e) => {
+	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
 		setError(null)
 		setLoading(true)
 		try {
-			await axios.put(`${baseUrl}/artizans/update/${artizansid}`, artizans)
+			await axios.put(`${baseUrl}/artizans/update/${artizansid}`, artizan)
 			setLoading(false)
-			setSuccess('Artizan edited successfully')
-			return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
+				setSuccess('Artizan added successfully')
+			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
+			
 		} catch (error) {
 			setLoading(false)
 			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
@@ -186,13 +172,13 @@ const edit = ({ids}) => {
 				setError('Something went wrong, please try again')
 			}
 		}
-	};
-	
-	const loadArtizans = async e => {
-			const result = await axios.get(`${baseUrl}/artizans/${artizansid}`)
-			setAtizans(result.data);
 	}
-	
+	const handleInputChange = (e) => {
+		const {name, value} = e.target;
+		setAtizans({...artizan, [name]: value})
+		console.log({...artizan, [name]: value})
+		
+	}
 	return (
 		<div>
 			{suc && (
@@ -207,45 +193,32 @@ const edit = ({ids}) => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Add Artizans</h4>
+								<h4 className={classes.cardTitleWhitew}>Edit Artizans</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
 								<Container sm="true">
-									<form onSubmit={handleEditAtizans} autoComplete="email">
+									<form onSubmit={handleCreateAtizans} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-											<InputLabel id="demo-mutiple-name-label">Category Id</InputLabel>
-											<FormControl className={classes.formControl}>
-												<Select
-													labelId="demo-mutiple-name-label"
-													id="demo-mutiple-name"
-													multiple
-													input={<Input />}
-													MenuProps={MenuProps}
-													name="category_id"
-													value={category_id}
-													onChange={e => onInputChange(e)}
-													>
-													{ids.map((id) => (
-													<MenuItem 
-														key={id}
-														value={id}
-													>
-													{id._id}
-													</MenuItem> 
-												))}
-												
-												</Select>
-											</FormControl>
 											<TextField 
-												fullWidth 
+												fullWidth
+												type="text"
+												label="Category Id"
+												color="primary"
+												required
+												value={category_id}
+												name="category_id"
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
 												type="text"
 												label="First Name"
 												color="primary"
 												required
 												name="first_name"
 												value={first_name}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth
@@ -255,7 +228,7 @@ const edit = ({ids}) => {
 												required
 												name="last_name"
 												value={last_name}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth
@@ -264,11 +237,11 @@ const edit = ({ids}) => {
 												color="primary"
 												required
 												name="email"
-												value={email}
-												onChange={e => onInputChange(e)}
+											    value={email}
+												onChange={handleInputChange}
 											/>
 										
-											<TextField 
+												<TextField 
 												fullWidth
 												type="text"
 												label="Phone Number"
@@ -276,7 +249,7 @@ const edit = ({ids}) => {
 												required
 												name="phone_number"
 												value={phone_number}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth
@@ -285,8 +258,8 @@ const edit = ({ids}) => {
 												color="primary"
 												required
 												name="address"
-												value={address}
-												onChange={e => onInputChange(e)}
+											    value={address}
+												onChange={handleInputChange}
 											/>
 											
 											<TextField 
@@ -297,7 +270,7 @@ const edit = ({ids}) => {
 												required
 												name="rating"
 												value={rating}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 												
 											/>
 											<TextField 
@@ -306,8 +279,8 @@ const edit = ({ids}) => {
 												label="Long"
 												color="primary"
 												name="long"
-												value={long}
-												onChange={e => onInputChange(e)}
+											    value={long}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth
@@ -317,7 +290,7 @@ const edit = ({ids}) => {
 												required
 												name="lat"
 												value={lat}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth 
@@ -327,15 +300,15 @@ const edit = ({ids}) => {
 												required
 												name="password"
 												value={password}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 											/>
 											<TextField
 												fullWidth
 												color="primary"
 												label="Short Description"
 												name="short_description"
+												onChange={handleInputChange}
 												value={short_description}
-												onChange={e => onInputChange(e)}
 												required
 											/>
 											<TextField 
@@ -346,7 +319,7 @@ const edit = ({ids}) => {
 												required
 												name="certifications"
 												value={certifications}
-												onChange={e => onInputChange(e)}
+												onChange={handleInputChange}
 											/>
 							
 											<div>Upload your certificate</div>
@@ -372,7 +345,7 @@ const edit = ({ids}) => {
 												disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
-												{!loading && 'Edit Artizan'}
+												{!loading && 'Submit Changes'}
 											</Button> 
 											{error && (
 												<Alert severity="error">
@@ -393,6 +366,8 @@ const edit = ({ids}) => {
 	)
 }
 
-edit.layout = Admin;
-export default edit
+add.layout = Admin;
+export default add
+
+
 
