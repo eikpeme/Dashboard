@@ -94,17 +94,6 @@ const useStyless = makeStyles({
   
 }); 
 
-export const getStaticPaths  = async() => {
-	return {
-		paths: [
-			{
-				params: { artizansid: '1'},
-			},
-		],
-    fallback: false
-	}
-}
-
 export const getStaticProps = async () => {
   const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
