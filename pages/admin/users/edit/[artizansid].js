@@ -78,11 +78,6 @@ import
 	Button,
 	CircularProgress,
 	Fab,
-	Select,
-	MenuItem,
-	Input,
-	FormControl,
-	InputLabel
 }
 from '@material-ui/core'; 
 
@@ -105,17 +100,15 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-
 export const getStaticProps = async ({params: {artizansid}}) => {
 	const res = await axios.get(`${baseUrl}/artizans/${artizansid}`);
     const artisansData = await res.data;
-
-	
 	return {
 	  props: {  artisansData }
 	}
   
   }
+
 const add = ({ artisansData}) => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
@@ -134,7 +127,7 @@ const add = ({ artisansData}) => {
 		address: artisansData.address,
 		category_id: artisansData.category_id,
 		geo_location: {
-			coordinates: [ parseInt(artisansData.long), parseInt(artisansData.lat) ]
+			coordinates: [ artisansData.parseInt(long), artisansData.parseInt(lat) ]
 		},
 		password: artisansData.password,
 		short_description: artisansData.short_description,
@@ -159,19 +152,27 @@ const add = ({ artisansData}) => {
 		e.preventDefault()
 		setError(null)
 		setLoading(true)
-		try {
-			await axios.put(`${baseUrl}/artizans/update/${artizansid}`, artizan)
+		
+		const editArtizan = await fetch(`${baseUrl}/artizans/update`, {
+			method: 'PUT',
+			headers: { 
+				'content-Type': 'content-Type'
+			},
+			body: JSON.stringify(artizan)
+		})
+		if(!editArtizan.ok){
 			setLoading(false)
-				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
+		    setError('Something went wrong, please try again')
 			
-		} catch (error) {
+		} else{ 
 			setLoading(false)
-			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
-			else {
-				setError('Something went wrong, please try again')
-			}
+			const editA = await editArtizan.json()
+;			setSuccess('Artizan added successfully')
+			return setTimeout(() => router.push(`/admin/${editA}/artizans-profile`), 2000)
 		}
+	
+		
+		
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
@@ -324,11 +325,10 @@ const add = ({ artisansData}) => {
 							
 											<div>Upload your certificate</div>
 											<TextField
-											fullWidth
+											    fullWidth
 												accept="image/*"
 												className={classess.input}
 												id="contained-button-file"
-												multiple
 												label=""
 												type="file"
 											/>
