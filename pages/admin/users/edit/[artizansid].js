@@ -126,9 +126,9 @@ const add = ({ artisansData}) => {
 		rating: artisansData.rating,
 		address: artisansData.address,
 		category_id: artisansData.category_id,
-		geo_location: {
-			coordinates: [ artisansData.parseInt(long), artisansData.parseInt(lat) ]
-		},
+		// geo_location: {
+		// 	coordinates: [ artisansData.parseInt(long), artisansData.parseInt(lat) ]
+		// },
 		password: artisansData.password,
 		short_description: artisansData.short_description,
 	});
@@ -142,8 +142,8 @@ const add = ({ artisansData}) => {
 		rating,
 		address,
 		category_id,
-		long,
-		lat,
+		// long,
+		// lat,
 		password,
 		short_description
 	} = artizan
@@ -274,7 +274,7 @@ const add = ({ artisansData}) => {
 												onChange={handleInputChange}
 												
 											/>
-											<TextField 
+											{/* <TextField 
 												fullWidth
 												type="text"
 												label="Long"
@@ -292,7 +292,7 @@ const add = ({ artisansData}) => {
 												name="lat"
 												value={lat}
 												onChange={handleInputChange}
-											/>
+											/> */}
 											<TextField 
 												fullWidth 
 												label="Password"
