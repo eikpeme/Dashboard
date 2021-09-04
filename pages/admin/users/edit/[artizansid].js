@@ -167,7 +167,7 @@ const add = ({ artisansData}) => {
 			const editA = await editArtizan.json()
 ;			setSuccess('Artizan Edited successfully')
 			return setTimeout(() => router.push(`/admin/${editA}/artizans-profile`), 2000)
-		}
+		}  
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
