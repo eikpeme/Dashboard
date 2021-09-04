@@ -112,9 +112,9 @@ const add = ({ artisansData}) => {
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
-	const [loading, setLoading] = useState()
-	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [loading, setLoading] = useState();
+	const [error, setError] = useState('');
+	const [suc, setSuccess] = useState('');
 	const [artizan, setAtizans] = useState({
 		first_name: artisansData.first_name,
 		last_name: artisansData.last_name,
@@ -124,12 +124,12 @@ const add = ({ artisansData}) => {
 		rating: artisansData.rating, 
 		address: artisansData.address,
 		category_id: artisansData.category_id,
-		long: artisansData.geo_location.coordinates[1],
-		lat: artisansData.geo_location.coordinates[0],
+		// long: artisansData.geo_location.coordinates[1],
+		// lat: artisansData.geo_location.coordinates[0],
 		password: artisansData.password,
 		short_description: artisansData.short_description,
 	});
-
+console.log(artisansData)
 	const { 
 		first_name,
 		last_name,
@@ -139,16 +139,16 @@ const add = ({ artisansData}) => {
 		rating,
 		address,
 		category_id,
-		long,
-		lat,
+		// long,
+		// lat,
 		password,
 		short_description
 	} = artizan
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
-		setError(null)
-		setLoading(true)
+		setError(null);
+		setLoading(true);
 		
 		const editArtizan = await fetch(`${baseUrl}/artizans/update`, {
 			method: 'PUT',
@@ -156,21 +156,21 @@ const add = ({ artisansData}) => {
 				'content-Type': 'content-Type'
 			},
 			body: JSON.stringify(artizan)
-		})
+		});
 		if(!editArtizan.ok){
-			setLoading(false)
-		    setError('Something went wrong, please try again')
+			setLoading(false);
+		    setError('Something went wrong, please try again');
 			
 		} else{ 
-			setLoading(false)
-			const editA = await editArtizan.json()
-;			setSuccess('Artizan Edited successfully')
-			return setTimeout(() => router.push(`/admin/${editA}/artizans-profile`), 2000)
+			setLoading(false);
+			const editedA = await editArtizan.json();
+;			setSuccess('Artizan Edited successfully');
+			return setTimeout(() => router.push(`/admin/${editedA}/artizans-profile`), 2000);
 		}  
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
-		setAtizans({...artizan, [name]: value})
+		setAtizans({...artizan, [name]: value});
 	}
 	return (
 		<div>
@@ -263,7 +263,7 @@ const add = ({ artisansData}) => {
 												value={rating}
 												onChange={handleInputChange}
 											/>
-											<TextField 
+											{/* <TextField 
 												fullWidth
 												type="text"
 												label="Long"
@@ -291,7 +291,7 @@ const add = ({ artisansData}) => {
 												name="password"
 												value={password}
 												onChange={handleInputChange}
-											/>
+											/> */}
 											<TextField
 												fullWidth
 												color="primary"
