@@ -115,7 +115,6 @@ const add = ({ artisansData}) => {
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
-
 	const [artizan, setAtizans] = useState({
 		first_name: artisansData.first_name,
 		last_name: artisansData.last_name,
