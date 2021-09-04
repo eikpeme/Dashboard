@@ -113,7 +113,6 @@ function ArtizanProfiles({ users }) {
   const [message, setMessage] = useState('');
   const [search, setSearch] = useState('');
   const router = useRouter();
-  console.log(users)
 
   useEffect(() => {
     const token = getToken();
