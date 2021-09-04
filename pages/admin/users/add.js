@@ -8,7 +8,6 @@ import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
-import { getToken } from '../../utility/apihelp';
 import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
@@ -98,17 +97,10 @@ const MenuProps = {
   },
 };
  
+const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const getStaticProps = async () => {
-	const token = getToken();
-    if (!token) {
-      setMessage('You are not authenticated')
-      return setTimeout(() => router.push('/admin/login'), 2000)
-    };
-
-	const category_idBaseApi =  'https://artizan-api-staged.herokuapp.com'
-  
-	const response = await axios.get(`${category_idBaseApi}/categories`);
+	const response = await axios.get(`${baseUrl}/categories`);
 	const data = await response.data;
   
 	return {
@@ -121,7 +113,6 @@ export const getStaticProps = async () => {
 const add = ({ids}) => {
 	const router = useRouter(); 
 	const theme = useTheme();
-//   const [personName, setPersonName] = useState([]);
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
@@ -162,9 +153,8 @@ const add = ({ids}) => {
 		setError(null)
 		setLoading(true)
 
-		const creatAtizanApi = 'https://artizan-api-staged.herokuapp.com/artizans/create';
 		try {
-			await axios.post(creatAtizanApi, artizan)
+			await axios.post(`${baseUrl}/artizans/create`, artizan)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
 			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
@@ -241,7 +231,7 @@ const add = ({ids}) => {
 												label="Email"
 												color="primary"
 												required
-											{...email}
+											    {...email}
 											/>
 										
 												<TextField 
@@ -258,7 +248,7 @@ const add = ({ids}) => {
 												label="Address"
 												color="primary"
 												required
-											{...address}
+											    {...address}
 											/>
 											
 											<TextField 
@@ -275,7 +265,7 @@ const add = ({ids}) => {
 												type="text"
 												label="Long"
 												color="primary"
-											   {...long}
+											    {...long}
 											/>
 											<TextField 
 												fullWidth

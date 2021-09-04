@@ -76,6 +76,7 @@ const loginStyle = {
       ", 0.2)",
     },
   }
+  
     
 }
 export default loginStyle

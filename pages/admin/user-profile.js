@@ -77,11 +77,8 @@ const useStyless = makeStyles({
   
 }); 
 
-
+const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 export const getStaticProps = async () => {
-
-  const baseUrl = 'https://artizan-api-staged.herokuapp.com';
-
   const response = await axios.get(`${baseUrl}/users`);
   const data = await response.data;
 

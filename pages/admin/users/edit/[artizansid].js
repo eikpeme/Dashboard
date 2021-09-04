@@ -80,8 +80,6 @@ import
 	Fab,
 }
 from '@material-ui/core'; 
-
- 
 export const getStaticPaths = async() => {
     const response = await axios.get(`${baseUrl}/artizans`);
     const data = await response.data;
@@ -117,6 +115,7 @@ const add = ({ artisansData}) => {
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
+
 	const [artizan, setAtizans] = useState({
 		first_name: artisansData.first_name,
 		last_name: artisansData.last_name,
@@ -126,9 +125,8 @@ const add = ({ artisansData}) => {
 		rating: artisansData.rating, 
 		address: artisansData.address,
 		category_id: artisansData.category_id,
-		geo_location: {
-			coordinates: [ artisansData.parseIn(long), artisansData.parseIn(lat) ]
-		},
+		long: artisansData.geo_location.coordinates[1],
+		lat: artisansData.geo_location.coordinates[0],
 		password: artisansData.password,
 		short_description: artisansData.short_description,
 	});
@@ -167,18 +165,13 @@ const add = ({ artisansData}) => {
 		} else{ 
 			setLoading(false)
 			const editA = await editArtizan.json()
-;			setSuccess('Artizan added successfully')
+;			setSuccess('Artizan Edited successfully')
 			return setTimeout(() => router.push(`/admin/${editA}/artizans-profile`), 2000)
 		}
-	
-		
-		
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
 		setAtizans({...artizan, [name]: value})
-		console.log({...artizan, [name]: value})
-		
 	}
 	return (
 		<div>
