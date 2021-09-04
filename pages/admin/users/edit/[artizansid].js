@@ -123,12 +123,12 @@ const add = ({ artisansData}) => {
 		email: artisansData.email,
 		phone_number: artisansData.phone_number,
 		certifications: artisansData.certifications,
-		rating: artisansData.rating,
+		rating: artisansData.rating, 
 		address: artisansData.address,
 		category_id: artisansData.category_id,
-		// geo_location: {
-		// 	coordinates: [ artisansData.parseInt(long), artisansData.parseInt(lat) ]
-		// },
+		geo_location: {
+			coordinates: [ artisansData.parseIn(long), artisansData.parseIn(lat) ]
+		},
 		password: artisansData.password,
 		short_description: artisansData.short_description,
 	});
@@ -142,8 +142,8 @@ const add = ({ artisansData}) => {
 		rating,
 		address,
 		category_id,
-		// long,
-		// lat,
+		long,
+		lat,
 		password,
 		short_description
 	} = artizan
@@ -241,8 +241,7 @@ const add = ({ artisansData}) => {
 											    value={email}
 												onChange={handleInputChange}
 											/>
-										
-												<TextField 
+											<TextField 
 												fullWidth
 												type="text"
 												label="Phone Number"
@@ -262,7 +261,6 @@ const add = ({ artisansData}) => {
 											    value={address}
 												onChange={handleInputChange}
 											/>
-											
 											<TextField 
 												fullWidth
 												type="number"
@@ -272,9 +270,8 @@ const add = ({ artisansData}) => {
 												name="rating"
 												value={rating}
 												onChange={handleInputChange}
-												
 											/>
-											{/* <TextField 
+											<TextField 
 												fullWidth
 												type="text"
 												label="Long"
@@ -292,7 +289,7 @@ const add = ({ artisansData}) => {
 												name="lat"
 												value={lat}
 												onChange={handleInputChange}
-											/> */}
+											/>
 											<TextField 
 												fullWidth 
 												label="Password"
@@ -322,7 +319,6 @@ const add = ({ artisansData}) => {
 												value={certifications}
 												onChange={handleInputChange}
 											/>
-							
 											<div>Upload your certificate</div>
 											<TextField
 											    fullWidth
@@ -335,9 +331,9 @@ const add = ({ artisansData}) => {
 											<label htmlFor="contained-button-file">
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
-													</Fab>
-												</label>
-												<Button  
+												</Fab>
+											</label>
+											<Button
 												fullWidth 
 												type="submit" 
 												variant="contained"
@@ -352,7 +348,6 @@ const add = ({ artisansData}) => {
 													{error}
 												</Alert>
 											)}
-											
 										</Grid>
 									</form>
 								</Container>

@@ -117,7 +117,7 @@ function ArtizanProfiles({ users }) {
     const token = getToken();
     if (!token) {
       setMessage('You are not authenticated')
-      return setTimeout(() => router.push(''), 2000)
+      return setTimeout(() => router.push('/admin/login'), 2000)
     };
 
   }, []);
