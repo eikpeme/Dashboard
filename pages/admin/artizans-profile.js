@@ -99,11 +99,13 @@ export const getStaticProps = async () => {
 
   const response = await axios.get(`${baseUrl}/artizans`);
   const data = await response.data;
+  
 
   return {
     props: { users: data }
   }
 }
+
 function ArtizanProfiles({ users }) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
@@ -111,13 +113,13 @@ function ArtizanProfiles({ users }) {
   const [message, setMessage] = useState('');
   const [search, setSearch] = useState('');
   const router = useRouter();
-  
+  console.log(users)
 
   useEffect(() => {
     const token = getToken();
     if (!token) {
       setMessage('You are not authenticated')
-      return setTimeout(() => router.push(''), 2000)
+      return setTimeout(() => router.push('/admin/login'), 2000)
     };
 
   }, []);

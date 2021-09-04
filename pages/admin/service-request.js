@@ -75,11 +75,8 @@ function Alert(props) {
     }
   });
 
-
-export const getServerSideProps =  async() =>{
-
   const baseUrl = 'https://artizan-api-staged.herokuapp.com';
-
+export const getServerSideProps =  async() =>{
   const response = await axios.get(`${baseUrl}/service_requests`);
   const data = await response.data;
 
