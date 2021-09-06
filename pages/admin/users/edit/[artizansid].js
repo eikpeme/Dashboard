@@ -116,33 +116,13 @@ const add = ({ artisansData}) => {
 	const [error, setError] = useState('');
 	const [suc, setSuccess] = useState('');
 	const [artizan, setAtizans] = useState({
-		first_name: artisansData.first_name,
-		last_name: artisansData.last_name,
+		update_data: { 
+			last_name: artisansData.last_name 
+		},
 		email: artisansData.email,
-		phone_number: artisansData.phone_number,
-		certifications: artisansData.certifications,
-		rating: artisansData.rating, 
-		address: artisansData.address,
-		category_id: artisansData.category_id,
-		// long: artisansData.geo_location.coordinates[1],
-		// lat: artisansData.geo_location.coordinates[0],
-		password: artisansData.password,
-		short_description: artisansData.short_description,
 	});
-console.log(artisansData)
 	const { 
-		first_name,
-		last_name,
 		email,
-		phone_number,
-		certifications,
-		rating,
-		address,
-		category_id,
-		// long,
-		// lat,
-		password,
-		short_description
 	} = artizan
 
 	const handleCreateAtizans = async(e) => {
@@ -150,23 +130,20 @@ console.log(artisansData)
 		setError(null);
 		setLoading(true);
 		
-		const editArtizan = await fetch(`${baseUrl}/artizans/update`, {
-			method: 'PUT',
-			headers: { 
-				'content-Type': 'content-Type'
-			},
-			body: JSON.stringify(artizan)
-		});
-		if(!editArtizan.ok){
-			setLoading(false);
-		    setError('Something went wrong, please try again');
+
+		try {
+			await axios.put(`${baseUrl}/artizans/update`, artizan)
+			setLoading(false)
+			setSuccess('Artizan Edited successfully')
+			return setTimeout(() => router.push(`/admin/artizans-profile`), 2000)
 			
-		} else{ 
-			setLoading(false);
-			const editedA = await editArtizan.json();
-;			setSuccess('Artizan Edited successfully');
-			return setTimeout(() => router.push(`/admin/${editedA}/artizans-profile`), 2000);
-		}  
+		} catch (error) {
+			setLoading(false)
+			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
+			else {
+				setError('Something went wrong, please try again')
+			}
+		}
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
@@ -195,120 +172,12 @@ console.log(artisansData)
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
 											<TextField 
 												fullWidth
-												type="text"
-												label="Category Id"
-												color="primary"
-												required
-												value={category_id}
-												name="category_id"
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="First Name"
-												color="primary"
-												required
-												name="first_name"
-												value={first_name}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Last Name"
-												color="primary"
-												required
-												name="last_name"
-												value={last_name}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
 												type="Email"
 												label="Email"
 												color="primary"
 												required
 												name="email"
 											    value={email}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Phone Number"
-												color="primary"
-												required
-												name="phone_number"
-												value={phone_number}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Address"
-												color="primary"
-												required
-												name="address"
-											    value={address}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="number"
-												label="Rating"
-												color="primary"
-												required
-												name="rating"
-												value={rating}
-												onChange={handleInputChange}
-											/>
-											{/* <TextField 
-												fullWidth
-												type="text"
-												label="Long"
-												color="primary"
-												name="long"
-											    value={long}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Lat"
-												color="primary"
-												required
-												name="lat"
-												value={lat}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth 
-												label="Password"
-												type="password"
-												color="primary"
-												required
-												name="password"
-												value={password}
-												onChange={handleInputChange}
-											/> */}
-											<TextField
-												fullWidth
-												color="primary"
-												label="Short Description"
-												name="short_description"
-												onChange={handleInputChange}
-												value={short_description}
-												required
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Certificate Description"
-												color="primary"
-												required
-												name="certifications"
-												value={certifications}
 												onChange={handleInputChange}
 											/>
 											<div>Upload your certificate</div>
@@ -324,7 +193,7 @@ console.log(artisansData)
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
 												</Fab>
-											</label>
+											</label> 
 											<Button
 												fullWidth 
 												type="submit" 
@@ -353,6 +222,17 @@ console.log(artisansData)
 	)
 }
 
+const useFormInput = initialValue => {
+	const [value, setValue] = useState(initialValue)
+
+	const handleChange = (e) => {
+		setValue(e.target.value)
+	}
+	return {
+		value,
+		onChange: handleChange
+	}
+} 
 add.layout = Admin;
 export default add
 

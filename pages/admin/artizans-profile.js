@@ -93,17 +93,17 @@ const useStyless = makeStyles({
   },
   
 }); 
-
+const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 export const getStaticProps = async () => {
-  const baseUrl = 'https://artizan-api-staged.herokuapp.com';
-
   const response = await axios.get(`${baseUrl}/artizans`);
   const data = await response.data;
   
 
   return {
     props: { users: data }
+    
   }
+  
 }
 
 function ArtizanProfiles({ users }) {
@@ -113,7 +113,8 @@ function ArtizanProfiles({ users }) {
   const [message, setMessage] = useState('');
   const [search, setSearch] = useState('');
   const router = useRouter();
-
+  const [error, setError] = useState('');
+	const [suc, setSuccess] = useState('');
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -122,12 +123,29 @@ function ArtizanProfiles({ users }) {
     };
 
   }, []);
+  const deleteArtizan = async() => {
+    if(window.confirm(`Are you sure you wanna delete this?`)) {
+      const res = await fetch(`${baseUrl}/artizans/${users._id}`, {
+        method: "DELETE"
+      });
+      
+      const dbData = await res.data
+      if(!res.ok){
+		    setError(dbData.message);
+
+      }else{
+        setSuccess(`You have successfully deleted ${users._id}`)
+        return setTimeout(() => router.push('/admin/artizan-profile'))
+      }
+    }
+    
+  }
 
   return (
     <div>
-      {message && (
+      {message, suc && (
         <Alert severity="error">
-          {message}
+          {message}{suc}
         </Alert>
       )}
 
@@ -215,7 +233,7 @@ function ArtizanProfiles({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <Button onClick={() => deleteUser(user._id)} className={classes.delete} disabled={user.isDeleting}>
+                          <Button onClick={ deleteArtizan} className={classes.delete} disabled={user.isDeleting}>
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
@@ -261,6 +279,11 @@ function ArtizanProfiles({ users }) {
           </TableContainer>
         </CardBody>
       </Card>
+      {error && (
+        <Alert severity="error">
+          {error}
+        </Alert>
+      )}
     </div>
   );
 }
