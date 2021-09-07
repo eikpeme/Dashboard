@@ -144,7 +144,7 @@ const add = ({ artisansData}) => {
 				console.log(artizan)
 				await axios.put(`${baseUrl}/artizans/update`, requestBody)
 				setLoading(false)
-				setSuccess('Artizan added successfully')
+				setSuccess('Artizan Edited Successfully')
 				return setTimeout(() => router.push(`/admin/artizans-profile`), 2000)
 		} catch (error) {
 				setLoading(false)
