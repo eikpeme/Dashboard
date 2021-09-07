@@ -80,6 +80,8 @@ import
 	Fab,
 }
 from '@material-ui/core'; 
+
+ 
 export const getStaticPaths = async() => {
     const response = await axios.get(`${baseUrl}/artizans`);
     const data = await response.data;
@@ -104,7 +106,6 @@ export const getStaticProps = async ({params: {artizansid}}) => {
 	return {
 	  props: {  artisansData }
 	}
-  
   }
 
 const add = ({ artisansData}) => {
@@ -112,42 +113,48 @@ const add = ({ artisansData}) => {
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
-	const [loading, setLoading] = useState();
-	const [error, setError] = useState('');
-	const [suc, setSuccess] = useState('');
+	const [loading, setLoading] = useState()
+	const [error, setError] = useState('')
+	const [suc, setSuccess] = useState('')
+
+
 	const [artizan, setAtizans] = useState({
-		update_data: { 
-			last_name: artisansData.last_name 
+		update_data: {
+			last_name: artisansData.last_name
 		},
 		email: artisansData.email,
 	});
+
 	const { 
 		email,
+		last_name
 	} = artizan
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
-		setError(null);
-		setLoading(true);
+		setError(null)
+		setLoading(true)
 		
-
+		
 		try {
-			await axios.put(`${baseUrl}/artizans/update`, artizan)
-			setLoading(false)
-			setSuccess('Artizan Edited successfully')
-			return setTimeout(() => router.push(`/admin/artizans-profile`), 2000)
-			
-		} catch (error) {
-			setLoading(false)
-			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
-			else {
-				setError('Something went wrong, please try again')
+			const requestBody = {
+				email,
+				update_data: { last_name: artizan.update_data}
 			}
+				console.log(artizan)
+				await axios.put(`${baseUrl}/artizans/update`, requestBody)
+				setLoading(false)
+				setSuccess('Artizan added successfully')
+				return setTimeout(() => router.push(`/admin/artizans-profile`), 2000)
+		} catch (error) {
+				setLoading(false)
+				setError('Something went wrong, please try again')
 		}
+		
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
-		setAtizans({...artizan, [name]: value});
+		setAtizans({...artizan, [name]: value})
 	}
 	return (
 		<div>
@@ -172,6 +179,16 @@ const add = ({ artisansData}) => {
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
 											<TextField 
 												fullWidth
+												type="text"
+												label="Last Name"
+												color="primary"
+												required
+												name="update_data"
+												value={last_name}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
 												type="Email"
 												label="Email"
 												color="primary"
@@ -180,6 +197,7 @@ const add = ({ artisansData}) => {
 											    value={email}
 												onChange={handleInputChange}
 											/>
+											
 											<div>Upload your certificate</div>
 											<TextField
 											    fullWidth
@@ -193,7 +211,7 @@ const add = ({ artisansData}) => {
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
 												</Fab>
-											</label> 
+											</label>
 											<Button
 												fullWidth 
 												type="submit" 
@@ -222,17 +240,6 @@ const add = ({ artisansData}) => {
 	)
 }
 
-const useFormInput = initialValue => {
-	const [value, setValue] = useState(initialValue)
-
-	const handleChange = (e) => {
-		setValue(e.target.value)
-	}
-	return {
-		value,
-		onChange: handleChange
-	}
-} 
 add.layout = Admin;
 export default add
 
