@@ -125,7 +125,7 @@ function ArtizanProfiles({ users }) {
   }, []);
   const deleteArtizan = async() => {
     if(window.confirm(`Are you sure you wanna delete this?`)) {
-      const res = await fetch(`${baseUrl}/artizans/${users._id}`, {
+      const res = await fetch(`${baseUrl}/artizans/${user._id}`, {
         method: "DELETE"
       });
       
@@ -134,7 +134,7 @@ function ArtizanProfiles({ users }) {
 		    setError(dbData.message);
 
       }else{
-        setSuccess(`You have successfully deleted ${users._id}`)
+        setSuccess(`You have successfully deleted ${user._id}`)
         return setTimeout(() => router.push('/admin/artizan-profile'))
       }
     }
