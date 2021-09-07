@@ -94,6 +94,7 @@ const useStyless = makeStyles({
   
 }); 
 const baseUrl = 'https://artizan-api-staged.herokuapp.com';
+
 export const getStaticProps = async () => {
   const response = await axios.get(`${baseUrl}/artizans`);
   const data = await response.data;
@@ -123,18 +124,20 @@ function ArtizanProfiles({ users }) {
     };
 
   }, []);
+
+
   const deleteArtizan = async() => {
     if(window.confirm(`Are you sure you wanna delete this?`)) {
-      const res = await fetch(`${baseUrl}/artizans/${user._id}`, {
+      const res = await fetch(`${baseUrl}/artizans/${users.map((user)=> { return (user.email)})}`, {
         method: "DELETE"
       });
       
-      const dbData = await res.data
+      await res.data
       if(!res.ok){
-		    setError(dbData.message);
+		    setError('Oops! Something Went wrong.');
 
       }else{
-        setSuccess(`You have successfully deleted ${user._id}`)
+        setSuccess(`You have successfully deleted`)
         return setTimeout(() => router.push('/admin/artizan-profile'))
       }
     }
@@ -233,7 +236,7 @@ function ArtizanProfiles({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <Button onClick={ deleteArtizan} className={classes.delete} disabled={user.isDeleting}>
+                          <Button onClick={deleteArtizan} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>

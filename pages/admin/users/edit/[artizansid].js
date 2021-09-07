@@ -104,7 +104,7 @@ export const getStaticProps = async ({params: {artizansid}}) => {
 	const res = await axios.get(`${baseUrl}/artizans/${artizansid}`);
     const artisansData = await res.data;
 	return {
-	  props: {  artisansData }
+	  props: {  artisansData}
 	}
   }
 
@@ -141,14 +141,16 @@ const add = ({ artisansData}) => {
 				email,
 				update_data: { last_name: artizan.update_data}
 			}
-				console.log(artizan)
 				await axios.put(`${baseUrl}/artizans/update`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
 				return setTimeout(() => router.push(`/admin/artizans-profile`), 2000)
 		} catch (error) {
 				setLoading(false)
+				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
+			else{
 				setError('Something went wrong, please try again')
+			}
 		}
 		
 	}
