@@ -215,7 +215,7 @@ function ArtizanProfiles({ users }) {
                         <Link href={`/admin/users/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
-                            title="Edit User"
+                            title="Edit Artizan"
                             placement="top"
                             classes={{ tooltip: classes.tooltip }}
                           >
@@ -239,7 +239,7 @@ function ArtizanProfiles({ users }) {
                                 : <span>
                                   <Tooltip
                                     id="tooltip-top-start"
-                                    title="Delete User"
+                                    title="Delete Artizan"
                                     placement="top"
                                     classes={{ tooltip: classes.tooltip }}
                                   >
