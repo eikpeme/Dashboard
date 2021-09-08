@@ -116,8 +116,8 @@ function ServiceRequest({users}) {
           <CardBody>
           <div className={classes.searchWrapper}>
             <TextField
-              type="serach"
-              placeholder="Serach"
+              type="Search"
+              placeholder="Search"
               onChange={
                 (e) => setSearch(e.target.value)
               }
