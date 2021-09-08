@@ -121,8 +121,8 @@ function UserProfile({ users }) {
         <CardBody>
           <div className={classess.searchWrapper}>
             <TextField
-              type="serach"
-              placeholder="Serach"
+              type="Search"
+              placeholder="Search"
               onChange={
                 (e) => {setSearch(e.target.value)}
               }
