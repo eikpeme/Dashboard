@@ -34,8 +34,9 @@ import {
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common,
-    color: theme.palette.common.black,
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    borderBottom: theme.palette.common.black,
   },
   body: {
     fontSize: 14,
@@ -57,6 +58,7 @@ function Alert(props) {
 const useStyless = makeStyles({
   table: {
     minWidth: 700,
+    borderBottom: '1px solid purple',
   },
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -65,6 +67,9 @@ const useStyless = makeStyles({
     marginBottom: "0",
     marginTop: "0",
    
+  },
+  data: {
+    borderBottom: '1px solid purple',
   },
   buttt: {
     backgroundColor: 'purple',
@@ -89,7 +94,7 @@ const useStyless = makeStyles({
   },
   searchWrapper: {
     textAlign: "center",
-    marginBottom: "2em"
+    marginBottom: "2em",
   },
   
 }); 
@@ -104,7 +109,6 @@ export const getStaticProps = async () => {
     props: { users: data }
     
   }
-  
 }
 
 function ArtizanProfiles({ users }) {
@@ -124,21 +128,23 @@ function ArtizanProfiles({ users }) {
     };
 
   }, []);
+  
 
 
-  const deleteArtizan = async() => {
-    if(window.confirm(`Are you sure you wanna delete this?`)) {
-      const res = await fetch(`${baseUrl}/artizans/${users.map((user)=> { return (user.email)})}`, {
-        method: "DELETE"
-      });
-      
-      await res.data
+  const deleteArtizan = async(artizansid) => {
+    if(
+      window.confirm(`Are you sure you wanna delete this Artizan?`)
+    ) {
+      const res = await axios.delete(`${baseUrl}/artizans/${artizansid}`)
+     
+     await res.data
       if(!res.ok){
 		    setError('Oops! Something Went wrong.');
 
       }else{
-        setSuccess(`You have successfully deleted`)
-        return setTimeout(() => router.push('/admin/artizan-profile'))
+        setTimeout(() => setSuccess(`You have successfully deleted`), 2000);
+
+        return setTimeout(() => router.push('/admin/artizan-profile'), 2000)
       }
     }
     
@@ -147,14 +153,14 @@ function ArtizanProfiles({ users }) {
   return (
     <div>
       {message, suc && (
-        <Alert severity="error">
+        <Alert severity="error"  >
           {message}{suc}
         </Alert>
       )}
 
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>User Profile Data</h4>
+          <h4 className={classess.cardTitleWhite}>Artizans</h4>
 
         </CardHeader>
         <CardBody>
@@ -174,6 +180,7 @@ function ArtizanProfiles({ users }) {
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
+                <StyledTableCell align="right">No.</StyledTableCell>
                   <StyledTableCell align="right">Full Name</StyledTableCell>
                   <StyledTableCell align="right">Email Address</StyledTableCell>
                   <StyledTableCell align="right">Phone Number</StyledTableCell>
@@ -185,33 +192,36 @@ function ArtizanProfiles({ users }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users
-                .filter((user) => {
+                {users && users.filter((user) => {
                     if (search === "") {
                       return user
                     } else if (user.first_name) {
                       return user
                     }
                   })
-                  .map((user) => {
+                  .map((user, index) => {
                     return (
-                      <StyledTableRow className={classes.data}>
-                        <StyledTableCell key={user.first_name} align="right">
-                          {user.first_name + ' ' + ' ' + user.last_name}
+                      
+                      <StyledTableRow className={classess.data} key={user._id} >
+                         <StyledTableCell align="right">
+                          {index + 1}
                         </StyledTableCell>
-                        <StyledTableCell key={user.email} align="right">
+                        <StyledTableCell  align="right">
+                          {user.first_name + '  '  +  user.last_name}
+                        </StyledTableCell>
+                        <StyledTableCell  align="right">
                           {user.email}
                         </StyledTableCell>
-                        <StyledTableCell key={user.phone_number} align="right">
+                        <StyledTableCell  align="right">
                           {user.phone_number}
                         </StyledTableCell>
-                        <StyledTableCell key={user.short_description} align="right">
+                        <StyledTableCell align="right">
                           {user.short_description}
                         </StyledTableCell>
-                        <StyledTableCell key={user.address} align="right">
+                        <StyledTableCell align="right">
                           {user.address}
                         </StyledTableCell>
-                        <StyledTableCell key={user.certifications} align="right">
+                        <StyledTableCell  align="right">
                           {user.certifications}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
@@ -236,7 +246,7 @@ function ArtizanProfiles({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <Button onClick={deleteArtizan} className={classes.delete} >
+                          <div onClick={()=> deleteArtizan(user.email)} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
@@ -259,8 +269,9 @@ function ArtizanProfiles({ users }) {
                                   </Tooltip>
                                 </span>
                               }
-                          </Button> 
+                          </div> 
                         </StyledTableCell>
+                        
                       </StyledTableRow>
                     )
                   })

@@ -28,8 +28,8 @@ import {
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common,
-    color: theme.palette.common.black,
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
   },
   body: {
     fontSize: 14,
@@ -115,7 +115,7 @@ function UserProfile({ users }) {
 
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>User Profile Data</h4>
+          <h4 className={classess.cardTitleWhite}>Users</h4>
 
         </CardHeader>
         <CardBody>

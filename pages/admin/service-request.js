@@ -28,8 +28,8 @@ from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common,
-    color: theme.palette.common.black,
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
   },
   body: {
     fontSize: 14,
