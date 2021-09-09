@@ -89,7 +89,8 @@ export const getStaticPaths = async() => {
         return {
             params: {
                 artizansid: `${artid._id}`
-            }
+            },
+			
         }
     })
 	return {
@@ -104,7 +105,7 @@ export const getStaticProps = async ({params: {artizansid}}) => {
 	const res = await axios.get(`${baseUrl}/artizans/${artizansid}`);
     const artisansData = await res.data;
 	return {
-	  props: {  artisansData}
+	  props: { artisansData}
 	}
   }
 
