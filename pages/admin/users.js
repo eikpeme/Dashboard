@@ -160,7 +160,7 @@ function Users({ users }) {
 
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>Artizans</h4>
+          <h4 className={classess.cardTitleWhite}>Users</h4>
 
         </CardHeader>
         <CardBody>
