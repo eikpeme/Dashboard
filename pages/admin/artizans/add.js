@@ -81,7 +81,8 @@ import
 }
 from '@material-ui/core'; 
 
- 
+const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
 const add = () => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
@@ -118,10 +119,10 @@ const add = () => {
 		setLoading(true)
 
 		try {
-			await axios.post(`${baseUrl}/users/create`, users)
+			await axios.post(`${baseUrl}/admins/users/create`, users)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
+			    return setTimeout(() => router.push('/admin/users'), 2000)
 			
 		} catch (error) {
 			setLoading(false)

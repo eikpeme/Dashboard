@@ -100,13 +100,23 @@ const useStyless = makeStyles({
 }); 
 const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const response = await axios.get(`${baseUrl}/users`);
   const data = await response.data;
   
+  if(!data){
+    return{
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
 
   return {
-    props: { users: data }
+    props: {
+       users: data 
+      }
     
   }
 }
@@ -131,17 +141,17 @@ function Users({ users }) {
   
 
 
-  const deleteArtizan = async(artizansid) => {
+  const deleteArtizan = async(userId) => {
     if(
       window.confirm(`Are you sure you wanna delete this User?`)
     ) {
-      const res = await axios.delete(`${baseUrl}/artizans/${artizansid}`)
+      const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
      
      await res.data
-      if(res.ok){
+      if(res.status === 200){
         setSuccess(`You have successfully deleted this User`)
 
-        return setTimeout(() => router.push(`/admin/artizan-profile`), 2000)
+        return setTimeout(() => router.push(`/admin/users`), 2000)
 
       }else{
         setError('Oops! Something Went wrong.')
@@ -149,12 +159,17 @@ function Users({ users }) {
     }
     
   }
-
+ 
   return (
     <div>
-      {message, suc && (
+      {message && (
         <Alert severity="error"  >
-          {message}{suc}
+          {message}
+        </Alert>
+      )}
+       { suc && (
+        <Alert severity="success"  >
+          {suc}
         </Alert>
       )}
 
@@ -173,7 +188,7 @@ function Users({ users }) {
               }
             />
           </div>
-          <Link href="/admin/users/add" className={classes.edit}>
+          <Link href="/admin/artizans/add" className={classes.edit}>
           <Button className={classess.buttt}>Add Users</Button>
         </Link>
           <TableContainer component={Paper}>
@@ -200,7 +215,7 @@ function Users({ users }) {
                   .map((user, index) => {
                     return (
                       
-                      <StyledTableRow className={classess.data} key={user._id} >
+                      <StyledTableRow className={classess.data} key={user._id}>
                          <StyledTableCell align="right">
                           {index + 1}
                         </StyledTableCell>
