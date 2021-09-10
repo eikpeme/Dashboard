@@ -88,7 +88,7 @@ export const getStaticPaths = async() => {
     const paths = data.map(artid => {
         return {
             params: {
-                userId: `${artid._id}`
+                usersId: `${artid._id}`
             },
 			
         }
@@ -101,8 +101,8 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async ({params: {userId}}) => {
-	const res = await axios.get(`${baseUrl}/artizans/${userId}`);
+export const getStaticProps = async ({params: {usersId}}) => {
+	const res = await axios.get(`${baseUrl}/artizans/${usersId}`);
     const artisansData = await res.data;
 	return {
 	  props: { artisansData}
