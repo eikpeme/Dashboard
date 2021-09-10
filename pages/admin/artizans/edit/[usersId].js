@@ -17,19 +17,19 @@ function Alert(props) {
 
 const useStyless = makeStyles((theme) => ({
 	formControl: {
-	margin: theme.spacing(1),
-	minWidth: 120,
-	maxWidth: 300,
+        margin: theme.spacing(1),
+        minWidth: 120,
+        maxWidth: 300,
 	},
 	chips: {
-	display: 'flex',
-	flexWrap: 'wrap',
+        display: 'flex',
+        flexWrap: 'wrap',
 	},
 	chip: {
-	margin: 2,
+        margin: 2,
 	},
 	noLabel: {
-	marginTop: theme.spacing(3),
+        marginTop: theme.spacing(3),
 	},
 	table: {
 		minWidth: 700,
@@ -88,7 +88,7 @@ export const getStaticPaths = async() => {
     const paths = data.map(artid => {
         return {
             params: {
-                artizansid: `${artid._id}`
+                userId: `${artid._id}`
             },
 			
         }
@@ -101,8 +101,8 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async ({params: {artizansid}}) => {
-	const res = await axios.get(`${baseUrl}/artizans/${artizansid}`);
+export const getStaticProps = async ({params: {userId}}) => {
+	const res = await axios.get(`${baseUrl}/artizans/${userId}`);
     const artisansData = await res.data;
 	return {
 	  props: { artisansData}
@@ -145,7 +145,7 @@ const add = ({ artisansData}) => {
 				await axios.put(`${baseUrl}/artizans/update`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
-				return setTimeout(() => router.push(`/admin/artizans-profile`), 2000)
+				return setTimeout(() => router.push(`/admin/users`), 2000)
 		} catch (error) {
 				setLoading(false)
 				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
@@ -173,7 +173,7 @@ const add = ({ artisansData}) => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Edit Artizans</h4>
+								<h4 className={classes.cardTitleWhitew}>Edit Users</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
