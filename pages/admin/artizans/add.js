@@ -78,41 +78,12 @@ import
 	Button,
 	CircularProgress,
 	Fab,
-	Select,
-	MenuItem,
-	Input,
-	FormControl,
-	InputLabel
 }
 from '@material-ui/core'; 
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
  
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
-
-export const getServerSideProps = async () => {
-	const response = await axios.get(`${baseUrl}/categories`);
-	const data = await response.data;
-  
-	return {
-	  props: { ids: data }
-	}
-  
-  }
-
- 
-const add = ({ids}) => {
+const add = () => {
 	const router = useRouter(); 
-	const theme = useTheme();
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
@@ -123,41 +94,34 @@ const add = ({ids}) => {
 	const last_name = useFormInput('')
 	const email = useFormInput('')
 	const phone_number = useFormInput('')
-	const certifications = useFormInput('')
-	const rating = useFormInput('')
 	const address = useFormInput('')
 	const password = useFormInput('')
-	const category_id = useFormInput('')
 	const lat = useFormInput('')
 	const long = useFormInput('')
-	const short_description = useFormInput('')
+	
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
 
-		const artizan = {
+		const users = {
 			first_name: first_name.value,
 			last_name: last_name.value,
 			email: email.value,
 			phone_number: phone_number.value,
-			certifications: certifications.value,
-			rating: rating.value,
 			address: address.value,
-			category_id: category_id.value,
 			geo_location: {
 				coordinates: [ parseInt(long.value), parseInt(lat.value) ]
 			},
 			password: password.value,
-			short_description: short_description.value
 		}
 		setError(null)
 		setLoading(true)
 
 		try {
-			await axios.post(`${baseUrl}/artizans/create`, artizan)
+			await axios.post(`${baseUrl}/users/create`, users)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/artizans'), 2000)
+			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
 			
 		} catch (error) {
 			setLoading(false)
@@ -189,26 +153,7 @@ const add = ({ids}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateAtizans} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-											<InputLabel id="demo-mutiple-name-label">Category</InputLabel>
-											<FormControl className={classes.formControl}>
-												<Select
-													labelId="demo-mutiple-name-label"
-													id="demo-mutiple-name"
-													input={<Input />}
-													MenuProps={MenuProps}
-													{...category_id}
-													>
-													{ids.map((id) => (
-													<MenuItem 
-														key={id}
-														value={id}
-													>
-													{id.name}
-													</MenuItem> 
-												))}
-												
-												</Select>
-											</FormControl>
+											
 											<TextField 
 												fullWidth
 												type="text"
@@ -253,15 +198,6 @@ const add = ({ids}) => {
 											
 											<TextField 
 												fullWidth
-												type="number"
-												label="Rating"
-												color="primary"
-												required
-												{...rating}
-												
-											/>
-											<TextField 
-												fullWidth
 												type="text"
 												label="Long"
 												color="primary"
@@ -283,22 +219,6 @@ const add = ({ids}) => {
 												required
 												{...password}
 											/>
-											<TextField
-												fullWidth
-												color="primary"
-												label="Short Description"
-												{...short_description}
-												required
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Certificate Description"
-												color="primary"
-												required
-												{...certifications}
-											/>
-							
 											<div>Upload your certificate</div>
 											<TextField
 											fullWidth

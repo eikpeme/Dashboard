@@ -184,7 +184,7 @@ function Dashboard() {
                 ),
               },
               {
-                tabName: "Activated",
+                tabName: "Activated", 
                 tabIcon: Info,
                 tabContent: (
                   <Tasks
