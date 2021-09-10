@@ -12,13 +12,13 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
-    path: "/user-profile",
+    path: "/users",
     name: "Users",
     icon: Person,
     layout: "/admin",
   },
   {
-    path: "/artizans-profile",
+    path: "/artizans",
     name: "Artizans",
     icon: Person,
     layout: "/admin",

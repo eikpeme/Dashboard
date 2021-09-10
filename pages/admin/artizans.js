@@ -100,18 +100,30 @@ const useStyless = makeStyles({
 }); 
 const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
-export const getStaticProps = async () => {
+export async function getServerSideProps(context) {
   const response = await axios.get(`${baseUrl}/artizans`);
   const data = await response.data;
-  
+    
+  if(!data){
+    return {
+      redirect: {
+        destination: '/',
+        parmanent: false,
+      }
+    }
+  }
 
   return {
-    props: { users: data }
+    props: {
+       users: data,
+        revalidate: 10, 
+      }
     
   }
 }
 
 function ArtizanProfiles({ users }) {
+  
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -138,13 +150,13 @@ function ArtizanProfiles({ users }) {
       const res = await axios.delete(`${baseUrl}/artizans/${artizansid}`)
      
      await res.data
-      if(!res.ok){
-		    setError('Oops! Something Went wrong.');
+      if(res.status === 200){
+        setSuccess(`You have successfully deleted this Artizan`)
+
+        return setTimeout(() => router.push(`/admin/artizans`), 2000)
 
       }else{
-        setTimeout(() => setSuccess(`You have successfully deleted`), 2000);
-
-        return setTimeout(() => router.push('/admin/artizan-profile'), 2000)
+        setError('Oops! Something Went wrong.')
       }
     }
     
@@ -152,9 +164,14 @@ function ArtizanProfiles({ users }) {
 
   return (
     <div>
-      {message, suc && (
+      {message && (
         <Alert severity="error"  >
-          {message}{suc}
+          {message}
+        </Alert>
+      )}
+       { suc && (
+        <Alert severity="success"  >
+          {suc}
         </Alert>
       )}
 
@@ -262,7 +279,7 @@ function ArtizanProfiles({ users }) {
                                     >
                                       <Close
                                         className={
-                                          classes.tableActionButtonIcon + " " + classes.close
+                                          classes.tableActionButtonIcon + "  " + classes.close
                                         }
                                       />
                                     </IconButton>
