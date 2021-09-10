@@ -83,12 +83,12 @@ from '@material-ui/core';
 
  
 export const getStaticPaths = async() => {
-    const response = await axios.get(`${baseUrl}/artizans`);
+    const response = await axios.get(`${baseUrl}/admins/users`);
     const data = await response.data;
-    const paths = data.map(artid => {
+    const paths = data.map(user => {
         return {
             params: {
-                usersId: `${artid._id}`
+                usersId: `${user._id}`
             },
 			
         }
@@ -97,12 +97,14 @@ export const getStaticPaths = async() => {
 		paths,
 		fallback: false
 	}
+    
 }
+
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const getStaticProps = async ({params: {usersId}}) => {
-	const res = await axios.get(`${baseUrl}/artizans/${usersId}`);
+	const res = await axios.get(`${baseUrl}/admins/users/${usersId}`);
     const artisansData = await res.data;
 	return {
 	  props: { artisansData}
@@ -119,7 +121,7 @@ const add = ({ artisansData}) => {
 	const [suc, setSuccess] = useState('')
 
 
-	const [artizan, setAtizans] = useState({
+	const [users, setAtizans] = useState({
 		update_data: {
 			last_name: artisansData.last_name
 		},
@@ -129,9 +131,9 @@ const add = ({ artisansData}) => {
 	const { 
 		email,
 		last_name
-	} = artizan
+	} = users
 
-	const handleCreateAtizans = async(e) => {
+	const handleCreateUsers = async(e) => {
 		e.preventDefault()
 		setError(null)
 		setLoading(true)
@@ -140,9 +142,9 @@ const add = ({ artisansData}) => {
 		try {
 			const requestBody = {
 				email,
-				update_data: { last_name: artizan.update_data}
+				update_data: { last_name: users.update_data}
 			}
-				await axios.put(`${baseUrl}/artizans/update`, requestBody)
+				await axios.put(`${baseUrl}/admins/users/update`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
 				return setTimeout(() => router.push(`/admin/users`), 2000)
@@ -157,7 +159,7 @@ const add = ({ artisansData}) => {
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
-		setAtizans({...artizan, [name]: value})
+		setAtizans({...users, [name]: value})
 	}
 	return (
 		<div>
@@ -178,13 +180,13 @@ const add = ({ artisansData}) => {
 							</CardHeader>
 							<CardBody> 
 								<Container sm="true">
-									<form onSubmit={handleCreateAtizans} autoComplete="email">
+									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
 											<TextField 
 												fullWidth
 												type="text"
 												label="Last Name"
-												color="primary"
+												color="primary" 
 												required
 												name="update_data"
 												value={last_name}
