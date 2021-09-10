@@ -116,19 +116,33 @@ const add = ({ artisansData}) => {
 	const classess = useStyless();
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [success, setSuccess] = useState('')
 
 
-	const [artizan, setAtizans] = useState({
-		update_data: {
-			last_name: artisansData.last_name
-		},
+	const [artizan, setAtizan] = useState({
+	
 		email: artisansData.email,
+		short_description:artisansData.short_description,
+		phone_number: artisansData.phone_number,
+		certifications: artisansData.certifications,
+		rating: artisansData.rating,
+		password: artisansData.password,
+		address: artisansData.address,
+		first_name: artisansData.first_name,
 	});
 
 	const { 
 		email,
-		last_name
+		last_name,
+		short_description,
+		certifications,
+		phone_number,
+		rating,
+		password,
+		address,
+		first_name
+
+
 	} = artizan
 
 	const handleCreateAtizans = async(e) => {
@@ -157,13 +171,13 @@ const add = ({ artisansData}) => {
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
-		setAtizans({...artizan, [name]: value})
+		setAtizan({...artizan, [name]: value})
 	}
 	return (
 		<div>
-			{suc && (
+			{success && (
 				<Alert severity="success">
-				{suc}
+				{success}
 				</Alert>
 			)}
 		  <div className={classes.cardsbodies}></div>
@@ -180,6 +194,16 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateAtizans} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
+										<TextField 
+												fullWidth
+												type="text"
+												label="First Name"
+												color="primary"
+												required
+												name="first_name"
+											    value={first_name}
+												onChange={handleInputChange}
+											/>
 											<TextField 
 												fullWidth
 												type="text"
@@ -200,7 +224,66 @@ const add = ({ artisansData}) => {
 											    value={email}
 												onChange={handleInputChange}
 											/>
-											
+											<TextField 
+												fullWidth
+												type="text"
+												label="Short_description"
+												color="primary"
+												required
+												name="short_description"
+											    value={short_description}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Phone Number"
+												color="primary"
+												required
+												name="phone_number"
+											    value={phone_number}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Rating"
+												color="primary"
+												required
+												name="rating"
+											    value={rating}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Certifications"
+												color="primary"
+												required
+												name="certifications"
+											    value={certifications}
+												onChange={handleInputChange}
+											/>
+												<TextField 
+												fullWidth
+												type="text"
+												label="Adress"
+												color="primary"
+												required
+												name="address"
+											    value={address}
+												onChange={handleInputChange}
+											/>
+												<TextField 
+												fullWidth
+												type="password"
+												label="Password"
+												color="primary"
+												required
+												name="password"
+											    value={password}
+												onChange={handleInputChange}
+											/>
 											<div>Upload your certificate</div>
 											<TextField
 											    fullWidth
@@ -212,7 +295,7 @@ const add = ({ artisansData}) => {
 											/>
 											<label htmlFor="contained-button-file">
 												<Fab component="span" className={classess.button}>
-														<AddPhotoAlternateIcon />
+													<AddPhotoAlternateIcon />
 												</Fab>
 											</label>
 											<Button

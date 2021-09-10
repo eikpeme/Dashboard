@@ -118,20 +118,29 @@ const add = ({ artisansData}) => {
 	const classess = useStyless();
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [success, setSuccess] = useState('')
 
 
-	const [users, setAtizans] = useState({
-		update_data: {
-			last_name: artisansData.last_name
-		},
+	const [user, setUser] = useState({
+		
 		email: artisansData.email,
+        phone_number: artisansData.phone_number,
+		rating: artisansData.rating,
+		password: artisansData.password,
+		address: artisansData.address,
+        first_name: artisansData.first_name,
+
 	});
 
 	const { 
 		email,
-		last_name
-	} = users
+		last_name,
+        phone_number,
+        first_name,
+        rating,
+        password,
+        address
+	} = user
 
 	const handleCreateUsers = async(e) => {
 		e.preventDefault()
@@ -142,7 +151,7 @@ const add = ({ artisansData}) => {
 		try {
 			const requestBody = {
 				email,
-				update_data: { last_name: users.update_data}
+				update_data: { last_name: user.update_data}
 			}
 				await axios.put(`${baseUrl}/admins/users/update`, requestBody)
 				setLoading(false)
@@ -159,13 +168,13 @@ const add = ({ artisansData}) => {
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
-		setAtizans({...users, [name]: value})
+		setUser({...user, [name]: value})
 	}
 	return (
 		<div>
-			{suc && (
+			{success && (
 				<Alert severity="success">
-				{suc}
+				{success}
 				</Alert>
 			)}
 		  <div className={classes.cardsbodies}></div>
@@ -182,7 +191,17 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-											<TextField 
+                                        <TextField 
+												fullWidth
+												type="text"
+												label="First Name"
+												color="primary"
+												required
+												name="first_name"
+											    value={first_name}
+												onChange={handleInputChange}
+											/>
+                                            <TextField 
 												fullWidth
 												type="text"
 												label="Last Name"
@@ -211,6 +230,46 @@ const add = ({ artisansData}) => {
 												id="contained-button-file"
 												label=""
 												type="file"
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Phone Number"
+												color="primary"
+												required
+												name="phone_number"
+											    value={phone_number}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Rating"
+												color="primary"
+												required
+												name="rating"
+											    value={rating}
+												onChange={handleInputChange}
+											/>
+												<TextField 
+												fullWidth
+												type="text"
+												label="Adress"
+												color="primary"
+												required
+												name="address"
+											    value={address}
+												onChange={handleInputChange}
+											/>
+												<TextField 
+												fullWidth
+												type="password"
+												label="Password"
+												color="primary"
+												required
+												name="password"
+											    value={password}
+												onChange={handleInputChange}
 											/>
 											<label htmlFor="contained-button-file">
 												<Fab component="span" className={classess.button}>

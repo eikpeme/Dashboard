@@ -301,7 +301,7 @@ function ArtizanProfiles({ users }) {
                 </StyledTableRow>
                 }
                 {users && !users.length &&
-                  <StyledTableCell key={user.notFound} component="th" scope="row">
+                  <StyledTableCell key={users.notFound} component="th" scope="row">
                     <p>No Users To Found</p>
                   </StyledTableCell>
                }
