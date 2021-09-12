@@ -108,7 +108,7 @@ export async function getServerSideProps(context) {
     return {
       redirect: {
         destination: '/',
-        parmanent: false,
+        permanent: false,
       }
     }
   }
