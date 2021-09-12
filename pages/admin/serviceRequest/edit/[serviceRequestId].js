@@ -83,12 +83,12 @@ from '@material-ui/core';
 
  
 export const getStaticPaths = async() => {
-    const response = await axios.get(`${baseUrl}/admins/users`);
+    const response = await axios.get(`${baseUrl}/admins/service_requests`);
     const data = await response.data;
     const paths = data.map(user => {
         return {
             params: {
-                serviceRequestId: `${user._id}`
+                serviceRequestId: `${user.user._id}`
             },
 			
         }
@@ -153,10 +153,10 @@ const add = ({ artisansData}) => {
 				email,
 				update_data: { last_name: serviceRequest.update_data}
 			}
-				await axios.put(`${baseUrl}/admins/users/update`, requestBody)
+				await axios.put(`${baseUrl}/admins/service_requests/update`, requestBody)
 				setLoading(false)
-				setSuccess('Artizan Edited Successfully')
-				return setTimeout(() => router.push(`/admin/users`), 2000)
+				setSuccess('ervice-request Edited Successfully')
+				return setTimeout(() => router.push(`/admin/service-request`), 2000)
 		} catch (error) {
 				setLoading(false)
 				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
@@ -168,7 +168,7 @@ const add = ({ artisansData}) => {
 	}
 	const handleInputChange = (e) => {
 		const {name, value} = e.target;
-		setServiceRequest({...user, [name]: value})
+		setServiceRequest({...serviceRequest, [name]: value})
 	}
 	return (
 		<div>
@@ -221,16 +221,7 @@ const add = ({ artisansData}) => {
 											    value={email}
 												onChange={handleInputChange}
 											/>
-											
-											<div>Upload your certificate</div>
-											<TextField
-											    fullWidth
-												accept="image/*"
-												className={classess.input}
-												id="contained-button-file"
-												label=""
-												type="file"
-											/>
+
 											<TextField 
 												fullWidth
 												type="text"
@@ -243,7 +234,7 @@ const add = ({ artisansData}) => {
 											/>
 											<TextField 
 												fullWidth
-												type="text"
+												type="number"
 												label="Rating"
 												color="primary"
 												required
@@ -251,7 +242,7 @@ const add = ({ artisansData}) => {
 											    value={rating}
 												onChange={handleInputChange}
 											/>
-												<TextField 
+											<TextField 
 												fullWidth
 												type="text"
 												label="Adress"
@@ -261,7 +252,7 @@ const add = ({ artisansData}) => {
 											    value={address}
 												onChange={handleInputChange}
 											/>
-												<TextField 
+											<TextField 
 												fullWidth
 												type="password"
 												label="Password"
@@ -271,6 +262,17 @@ const add = ({ artisansData}) => {
 											    value={password}
 												onChange={handleInputChange}
 											/>
+											
+											<div>Upload your certificate</div>
+											<TextField
+											    fullWidth
+												accept="image/*"
+												className={classess.input}
+												id="contained-button-file"
+												label=""
+												type="file"
+											/>
+											
 											<label htmlFor="contained-button-file">
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />

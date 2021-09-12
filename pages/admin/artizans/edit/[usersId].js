@@ -221,8 +221,6 @@ const add = ({ artisansData}) => {
 											    value={email}
 												onChange={handleInputChange}
 											/>
-											
-											<div>Upload your certificate</div>
 											<TextField
 											    fullWidth
 												accept="image/*"
@@ -243,7 +241,7 @@ const add = ({ artisansData}) => {
 											/>
 											<TextField 
 												fullWidth
-												type="text"
+												type="number"
 												label="Rating"
 												color="primary"
 												required
@@ -251,7 +249,7 @@ const add = ({ artisansData}) => {
 											    value={rating}
 												onChange={handleInputChange}
 											/>
-												<TextField 
+											<TextField 
 												fullWidth
 												type="text"
 												label="Adress"
@@ -261,7 +259,7 @@ const add = ({ artisansData}) => {
 											    value={address}
 												onChange={handleInputChange}
 											/>
-												<TextField 
+											<TextField 
 												fullWidth
 												type="password"
 												label="Password"
@@ -271,6 +269,9 @@ const add = ({ artisansData}) => {
 											    value={password}
 												onChange={handleInputChange}
 											/>
+											
+											<div>Upload your certificate</div>
+											
 											<label htmlFor="contained-button-file">
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
