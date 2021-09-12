@@ -141,17 +141,17 @@ function ServiceRequest({ users }) {
   
 
 
-  const deleteArtizan = async(userId) => {
+  const deleteArtizan = async(serviceRequest) => {
     if(
-      window.confirm(`Are you sure you wanna delete this User?`)
+      window.confirm(`Are you sure you wanna delete this Service-Request?`)
     ) {
-      const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
+      const res = await axios.delete(`${baseUrl}/admins/service_requests/${serviceRequest}`)
      
      await res.data
       if(res.status === 200){
-        setSuccess(`You have successfully deleted this User`)
+        setSuccess(`You have successfully deleted this Service-Request`)
 
-        return setTimeout(() => router.push(`/admin/users`), 2000)
+        return setTimeout(() => router.push(`/admin/service-request`), 2000)
 
       }else{
         setError('Oops! Something Went wrong.')
@@ -228,7 +228,7 @@ function ServiceRequest({ users }) {
                           {user.coordinates_trail}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/serviceRequest/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/serviceRequest/edit/${user.user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit service requests"
@@ -249,7 +249,7 @@ function ServiceRequest({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user.email)} className={classes.delete} >
+                          <div onClick={()=> deleteArtizan(user.user._id)} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
