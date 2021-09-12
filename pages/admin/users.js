@@ -101,7 +101,7 @@ const useStyless = makeStyles({
 const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
 export const getServerSideProps = async () => {
-  const response = await axios.get(`${baseUrl}/users`);
+  const response = await axios.get(`${baseUrl}/admins/users`);
   const data = await response.data;
   
   if(!data){
@@ -188,7 +188,7 @@ function Users({ users }) {
               }
             />
           </div>
-          <Link href="/admin/artizans/add" className={classes.edit}>
+          <Link href="/admin/user/add" className={classes.edit}>
           <Button className={classess.buttt}>Add Users</Button>
         </Link>
           <TableContainer component={Paper}>
@@ -232,7 +232,7 @@ function Users({ users }) {
                           {user.address}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/artizans/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/user/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit Users"

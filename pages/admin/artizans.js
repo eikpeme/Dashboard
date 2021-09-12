@@ -190,7 +190,7 @@ function ArtizanProfiles({ users }) {
               }
             />
           </div>
-          <Link href="/admin/users/add" className={classes.edit}>
+          <Link href="/admin/artizan/add" className={classes.edit}>
           <Button className={classess.buttt}>Add Artizans</Button>
         </Link>
           <TableContainer component={Paper}>
@@ -242,7 +242,7 @@ function ArtizanProfiles({ users }) {
                           {user.certifications}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/users/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/artizan/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit Artizan"
