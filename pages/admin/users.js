@@ -30,8 +30,8 @@ import {
 	CircularProgress,
 	Button,
 } from '@material-ui/core'
-import './Pagination.css'
 
+import '../../assets/css/styles.css'
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
 }
@@ -68,7 +68,7 @@ function Users({ users }) {
 	const [error, setError] = useState('')
 	const [suc, setSuccess] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
-	const dataLimit = 2
+	const dataLimit = 10
 	let pageLimit
 
 	useEffect(() => {
