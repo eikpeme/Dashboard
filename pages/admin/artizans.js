@@ -70,6 +70,7 @@ const useStyless = makeStyles({
   },
   data: {
     borderBottom: '1px solid purple',
+    cursor: 'pointer'
   },
   buttt: {
     backgroundColor: 'purple',
@@ -212,7 +213,9 @@ function ArtizanProfiles({ users }) {
                 {users && users.filter((user) => {
                     if (search === "") {
                       return user
-                    } else if (user.first_name) {
+                    } else if 
+                    (user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
+                     || user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
                       return user
                     }
                   })

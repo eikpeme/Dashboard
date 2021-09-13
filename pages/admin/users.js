@@ -147,7 +147,7 @@ function Users({ users }) {
     ) {
       const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
      
-     await res.data
+     res.data
       if(res.status === 200){
         setSuccess(`You have successfully deleted this User`)
 
