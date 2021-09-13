@@ -84,10 +84,6 @@ function Users({ users }) {
 	}
 
 	const filteredUsers = users.filter(user => {
-		Object.keys(user).reduce((value, total) => {
-			return (total = +user[value])
-		}, '')
-
 		if (search === '') {
 			return user
 		} else if (user.first_name) {
@@ -95,7 +91,6 @@ function Users({ users }) {
 		}
 	})
 
-	console.log(filteredUsers)
 	const UserRows = ({ index, user }) => {
 		return (
 			<>
@@ -315,4 +310,3 @@ const useStyless = makeStyles({
 		marginBottom: '2em',
 	},
 })
-
