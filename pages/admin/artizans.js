@@ -207,6 +207,7 @@ function ArtizanProfiles({ users }) {
                   <StyledTableCell align="right">Certifications</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
+                  <StyledTableCell align="right">View Artizan</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -244,6 +245,7 @@ function ArtizanProfiles({ users }) {
                         <StyledTableCell  align="right">
                           {user.certifications}
                         </StyledTableCell>
+                        
                         <StyledTableCell  align="right">
                         <Link href={`/admin/artizan/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
@@ -291,7 +293,11 @@ function ArtizanProfiles({ users }) {
                               }
                           </div> 
                         </StyledTableCell>
-                        
+                        <Link href='/admin/artizan/artizansRecord'>
+                          <StyledTableCell  align="right">
+                            <Button className={classess.buttt}>View...</Button>
+                          </StyledTableCell>
+                        </Link>
                       </StyledTableRow>
                     )
                   })
