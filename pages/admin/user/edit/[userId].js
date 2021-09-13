@@ -17,19 +17,19 @@ function Alert(props) {
 
 const useStyless = makeStyles((theme) => ({
 	formControl: {
-	margin: theme.spacing(1),
-	minWidth: 120,
-	maxWidth: 300,
+        margin: theme.spacing(1),
+        minWidth: 120,
+        maxWidth: 300,
 	},
 	chips: {
-	display: 'flex',
-	flexWrap: 'wrap',
+        display: 'flex',
+        flexWrap: 'wrap',
 	},
 	chip: {
-	margin: 2,
+        margin: 2,
 	},
 	noLabel: {
-	marginTop: theme.spacing(3),
+        marginTop: theme.spacing(3),
 	},
 	table: {
 		minWidth: 700,
@@ -82,61 +82,99 @@ import
 from '@material-ui/core'; 
 
  
-const add = () => {
+export const getStaticPaths = async() => {
+    const response = await axios.get(`${baseUrl}/admins/users`);
+    const data = await response.data;
+    const paths = data.map(user => {
+        return {
+            params: {
+                userId: `${user._id}`
+            },
+			
+        }
+    })
+	return {
+		paths,
+		fallback: false
+	}
+    
+}
+
+
+const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
+export const getStaticProps = async ({params: {userId}}) => {
+	const res = await axios.get(`${baseUrl}/admins/users/${userId}`);
+    const artisansData = await res.data;
+	return {
+	  props: { artisansData}
+	}
+  }
+
+const add = ({ artisansData}) => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
 	const classess = useStyless();
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
-	const first_name = useFormInput('')
-	const last_name = useFormInput('')
-	const email = useFormInput('')
-	const phone_number = useFormInput('')
-	const address = useFormInput('')
-	const password = useFormInput('')
-	const lat = useFormInput('')
-	const long = useFormInput('')
-	
+	const [success, setSuccess] = useState('')
 
-	const handleCreateAtizans = async(e) => {
+
+	const [user, setUser] = useState({
+		
+		email: artisansData.email,
+        phone_number: artisansData.phone_number,
+		rating: artisansData.rating,
+		password: artisansData.password,
+		address: artisansData.address,
+        first_name: artisansData.first_name,
+
+	});
+
+	const { 
+		email,
+		last_name,
+        phone_number,
+        first_name,
+        rating,
+        password,
+        address
+	} = user
+
+	const handleCreateUsers = async(e) => {
 		e.preventDefault()
-
-		const users = {
-			first_name: first_name.value,
-			last_name: last_name.value,
-			email: email.value,
-			phone_number: phone_number.value,
-			address: address.value,
-			geo_location: {
-				coordinates: [ parseInt(long.value), parseInt(lat.value) ]
-			},
-			password: password.value,
-		}
 		setError(null)
 		setLoading(true)
-
+		
+		
 		try {
-			await axios.post(`${baseUrl}/users/create`, users)
-			setLoading(false)
-				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/artizans-profile'), 2000)
-			
+			const requestBody = {
+				email,
+				update_data: { last_name: user.update_data}
+			}
+				await axios.put(`${baseUrl}/admins/users/update`, requestBody)
+				setLoading(false)
+				setSuccess('Artizan Edited Successfully')
+				return setTimeout(() => router.push(`/admin/users`), 2000)
 		} catch (error) {
-			setLoading(false)
-			if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message);
-			else {
+				setLoading(false)
+				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
+			else{
 				setError('Something went wrong, please try again')
 			}
 		}
+		
 	}
-	
+	const handleInputChange = (e) => {
+		const {name, value} = e.target;
+		setUser({...user, [name]: value})
+	}
 	return (
 		<div>
-			{suc && (
+			{success && (
 				<Alert severity="success">
-				{suc}
+				{success}
 				</Alert>
 			)}
 		  <div className={classes.cardsbodies}></div>
@@ -146,29 +184,32 @@ const add = () => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Add Artizans</h4>
+								<h4 className={classes.cardTitleWhitew}>Edit Users</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
 								<Container sm="true">
-									<form onSubmit={handleCreateAtizans} autoComplete="email">
+									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-											
-											<TextField 
+                                        <TextField 
 												fullWidth
 												type="text"
 												label="First Name"
 												color="primary"
 												required
-												{...first_name}
+												name="first_name"
+											    value={first_name}
+												onChange={handleInputChange}
 											/>
-											<TextField 
+                                            <TextField 
 												fullWidth
 												type="text"
 												label="Last Name"
-												color="primary"
+												color="primary" 
 												required
-												{...last_name}
+												name="update_data"
+												value={last_name}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth
@@ -176,65 +217,67 @@ const add = () => {
 												label="Email"
 												color="primary"
 												required
-											    {...email}
+												name="email"
+											    value={email}
+												onChange={handleInputChange}
 											/>
-										
-												<TextField 
+											<TextField
+											    fullWidth
+												accept="image/*"
+												className={classess.input}
+												id="contained-button-file"
+												label=""
+												type="file"
+											/>
+											<TextField 
 												fullWidth
 												type="text"
 												label="Phone Number"
 												color="primary"
 												required
-												{...phone_number}
+												name="phone_number"
+											    value={phone_number}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="number"
+												label="Rating"
+												color="primary"
+												required
+												name="rating"
+											    value={rating}
+												onChange={handleInputChange}
 											/>
 											<TextField 
 												fullWidth
 												type="text"
-												label="Address"
+												label="Adress"
 												color="primary"
 												required
-											    {...address}
+												name="address"
+											    value={address}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="password"
+												label="Password"
+												color="primary"
+												required
+												name="password"
+											    value={password}
+												onChange={handleInputChange}
 											/>
 											
-											<TextField 
-												fullWidth
-												type="text"
-												label="Long"
-												color="primary"
-											    {...long}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Lat"
-												color="primary"
-												required
-												{...lat}
-											/>
-											<TextField 
-												fullWidth 
-												label="Password"
-												type="password"
-												color="primary"
-												required
-												{...password}
-											/>
 											<div>Upload your certificate</div>
-											<TextField
-											fullWidth
-												accept="image/*"
-												className={classess.input}
-												id="contained-button-file"
-												multiple
-												label=""
-												type="file"
-											/>
+											
 											<label htmlFor="contained-button-file">
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
-													</Fab>
-												</label>
-												<Button  
+												</Fab>
+											</label>
+											<Button
 												fullWidth 
 												type="submit" 
 												variant="contained"
@@ -242,14 +285,13 @@ const add = () => {
 												disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
-												{!loading && 'Add Artizan'}
+												{!loading && 'Submit Changes'}
 											</Button> 
 											{error && (
 												<Alert severity="error">
 													{error}
 												</Alert>
 											)}
-											
 										</Grid>
 									</form>
 								</Container>
@@ -263,18 +305,8 @@ const add = () => {
 	)
 }
 
-const useFormInput = initialValue => {
-	const [value, setValue] = useState(initialValue)
-
-	const handleChange = (e) => {
-		setValue(e.target.value)
-	}
-	return {
-		value,
-		onChange: handleChange
-	}
-} 
-
 add.layout = Admin;
 export default add
+
+
 

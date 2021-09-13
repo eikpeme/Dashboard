@@ -38,13 +38,23 @@ function Alert(props) {
 
 const baseUrl = 'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async () => {
-	//Request is to endpoint without /admins/
+export const getServerSideProps = async () => {
 	const response = await axios.get(`${baseUrl}/admins/users`)
 	const data = await response.data
 
+	if (!data) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		}
+	}
+
 	return {
-		props: { users: data },
+		props: {
+			users: data,
+		},
 	}
 }
 
@@ -69,14 +79,15 @@ function Users({ users }) {
 		}
 	}, [])
 
-	const deleteArtizan = async artizansid => {
+	const deleteArtizan = async userId => {
 		if (window.confirm(`Are you sure you wanna delete this User?`)) {
-			const res = await axios.delete(`${baseUrl}/artizans/${artizansid}`)
-			await res.data
-			if (res.ok) {
+			const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
+
+			res.data
+			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this User`)
 
-				return setTimeout(() => router.push(`/admin/artizan-profile`), 2000)
+				return setTimeout(() => router.push(`/admin/users`), 2000)
 			} else {
 				setError('Oops! Something Went wrong.')
 			}
@@ -86,7 +97,10 @@ function Users({ users }) {
 	const filteredUsers = users.filter(user => {
 		if (search === '') {
 			return user
-		} else if (user.first_name) {
+		} else if (
+			user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase()) ||
+			user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())
+		) {
 			return user
 		}
 	})
@@ -168,15 +182,8 @@ function Users({ users }) {
 
 	return (
 		<div>
-			{
-				(message,
-				suc && (
-					<Alert severity="error">
-						{message}
-						{suc}
-					</Alert>
-				))
-			}
+			{message && <Alert severity="error">{message}</Alert>}
+			{suc && <Alert severity="success">{suc}</Alert>}
 
 			<Card>
 				<CardHeader color="primary">

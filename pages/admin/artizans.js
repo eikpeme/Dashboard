@@ -38,7 +38,6 @@ function Alert(props) {
 const baseUrl = 'https://artizan-api-staged.herokuapp.com'
 
 export async function getServerSideProps(context) {
-	//Request is to endpoint without /admins/
 	const response = await axios.get(`${baseUrl}/artizans`)
 	const data = await response.data
 
@@ -46,11 +45,10 @@ export async function getServerSideProps(context) {
 		return {
 			redirect: {
 				destination: '/',
-				parmanent: false,
+				permanent: false,
 			},
 		}
 	}
-
 	return {
 		props: {
 			users: data,
@@ -97,7 +95,10 @@ function ArtizanProfiles({ users }) {
 	const filteredArtizans = users.filter(user => {
 		if (search === '') {
 			return user
-		} else if (user.first_name) {
+		} else if (
+			user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase()) ||
+			user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())
+		) {
 			return user
 		}
 	})
