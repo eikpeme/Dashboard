@@ -151,7 +151,7 @@ function ServiceRequest( {users}) {
       if(res.status === 200){
         setSuccess(`You have successfully deleted this Service-Request`)
 
-        return setTimeout(() => router.push(`/admin/service-request`), 2000)
+        return setTimeout(() => router.push(`/admin/dashboard`), 2000)
 
       }else{
         setError('Oops! Something Went wrong.')
