@@ -197,11 +197,11 @@ function ServiceRequest( {users}) {
                 <TableRow>
                 <StyledTableCell align="right">No.</StyledTableCell>
                   <StyledTableCell align="right"> User: Full Name</StyledTableCell>
-                  {/* <StyledTableCell align="right"> Artizan</StyledTableCell> */}
                   <StyledTableCell align="right">Artizan's status</StyledTableCell>
                   <StyledTableCell align="right">Coordinates Trail</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
+                  <StyledTableCell align="right">View Artizan</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -209,8 +209,8 @@ function ServiceRequest( {users}) {
                     if (search === "") {
                       return user
                     } else if 
-                    (user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
-                     || user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
+                    (user.user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
+                     || user.user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
                       return user
                     }
                   })
@@ -222,11 +222,8 @@ function ServiceRequest( {users}) {
                           {index + 1}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.first_name + '  '  +  user.last_name}
+                          {user.user.first_name + '  '  +  user.user.last_name}
                         </StyledTableCell>
-                        {/* <StyledTableCell  align="right">
-                          {user.artizan}
-                        </StyledTableCell> */}
                         <StyledTableCell  align="right">
                           {user.status}
                         </StyledTableCell>
@@ -234,7 +231,7 @@ function ServiceRequest( {users}) {
                           {user.coordinates_trail}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/serviceRequest/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/serviceRequest/edit/${user.user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit service requests"
@@ -255,7 +252,7 @@ function ServiceRequest( {users}) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user._id)} className={classes.delete} >
+                          <div onClick={()=> deleteArtizan(user.user.email)} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
@@ -280,7 +277,11 @@ function ServiceRequest( {users}) {
                               }
                           </div> 
                         </StyledTableCell>
-                        
+                        <Link href={`/admin/serviceRequest/${user.user._id}`}>
+                          <StyledTableCell  align="right">
+                            <Button className={classess.buttt}>View...</Button>
+                          </StyledTableCell>
+                        </Link>
                       </StyledTableRow>
                     )
                   })
