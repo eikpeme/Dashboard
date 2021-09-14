@@ -293,7 +293,7 @@ function ArtizanProfiles({ users }) {
                               }
                           </div> 
                         </StyledTableCell>
-                        <Link href='/admin/artizan/artizansRecord'>
+                        <Link href={`/admin/artizan/${user._id}`}>
                           <StyledTableCell  align="right">
                             <Button className={classess.buttt}>View...</Button>
                           </StyledTableCell>

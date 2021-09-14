@@ -12,24 +12,22 @@ import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
-
+}
 const useStyless = makeStyles((theme) => ({
 	formControl: {
-	margin: theme.spacing(1),
-	minWidth: 120,
-	maxWidth: 300,
+        margin: theme.spacing(1),
+        minWidth: 120,
+        maxWidth: 300,
 	},
-	chips: {
-	display: 'flex',
-	flexWrap: 'wrap',
+    chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
 	},
 	chip: {
-	margin: 2,
+        margin: 2,
 	},
 	noLabel: {
-	marginTop: theme.spacing(3),
+        marginTop: theme.spacing(3),
 	},
 	table: {
 		minWidth: 700,
@@ -234,13 +232,13 @@ const add = () => {
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
 													</Fab>
-												</label>
-												<Button  
-												fullWidth 
-												type="submit" 
-												variant="contained"
-												className={classes.button}
-												disabled={loading}
+											</label>
+                                            <Button  
+                                                fullWidth 
+                                                type="submit" 
+                                                variant="contained"
+                                                className={classes.button}
+                                                disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
 												{!loading && 'Add Artizan'}

@@ -202,6 +202,7 @@ function Users({ users }) {
                   <StyledTableCell align="right">Address</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
+                  <StyledTableCell align="right">View Artizan</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -210,7 +211,7 @@ function Users({ users }) {
                     return user
                   } else if 
                   (user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
-                   || user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
+                  || user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
                     return user
                   }
                 })
@@ -280,7 +281,11 @@ function Users({ users }) {
                               }
                           </div> 
                         </StyledTableCell>
-                        
+                        <Link href={`/admin/user/${user._id}`}>
+                          <StyledTableCell  align="right">
+                            <Button className={classess.buttt}>View...</Button>
+                          </StyledTableCell>
+                        </Link>
                       </StyledTableRow>
                     )
                   })
