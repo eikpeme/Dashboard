@@ -93,12 +93,12 @@ const useStyless = makeStyles({
 }); 
 
 export const getStaticPaths = async() => {
-  const response = await axios.get(`${baseUrl}/artizans`);
+  const response = await axios.get(`${baseUrl}/admins/users`);
   const data = await response.data;
   const paths = data.map(artid => {
     return {
       params: {
-        artizansRecord: `${artid._id}`
+        userRecord: `${artid._id}`
       },
     }
   })
@@ -110,8 +110,8 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async ({params: {artizansRecord}}) => {
-  const res = await axios.get(`${baseUrl}/artizans/${artizansRecord}`);
+export const getStaticProps = async ({params: {userRecord}}) => {
+  const res = await axios.get(`${baseUrl}/admins/users/${userRecord}`);
   const data = await res.data;
   return {
     props: { user: data}
@@ -124,11 +124,11 @@ function ArtizanProfiles({ user }) {
     <div>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>Artizans Details</h4>
+          <h4 className={classess.cardTitleWhite}>User Details</h4>
 
         </CardHeader>
         <CardBody>
-          <div>Artizan Avata</div>
+          <div>User's Avata</div>
         <label htmlFor="contained-button-file">
           <Fab component="span" className={classess.button}>
             <AddPhotoAlternateIcon />
@@ -142,10 +142,7 @@ function ArtizanProfiles({ user }) {
                   <StyledTableCell align="right">Last Name</StyledTableCell>
                   <StyledTableCell align="right">Email Address</StyledTableCell>
                   <StyledTableCell align="right">Phone Number</StyledTableCell>
-                  <StyledTableCell align="right">Category ID</StyledTableCell>
-                  <StyledTableCell align="right">Description</StyledTableCell>
-                  <StyledTableCell align="right">Address</StyledTableCell>
-                  <StyledTableCell align="right">Certifications</StyledTableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -161,18 +158,6 @@ function ArtizanProfiles({ user }) {
                   </StyledTableCell>
                   <StyledTableCell  align="right">
                     {user.phone_number}
-                  </StyledTableCell>
-                  <StyledTableCell  align="right">
-                    {user.category_id}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {user.short_description}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {user.address}
-                  </StyledTableCell>
-                  <StyledTableCell  align="right">
-                    {user.certifications}
                   </StyledTableCell>
                 </StyledTableRow>
               </TableBody>
