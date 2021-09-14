@@ -147,13 +147,13 @@ function ArtizanProfiles({ user }) {
               <TableBody>
                 <StyledTableRow className={classess.data} key={user._id} >
                   <StyledTableCell  align="right">
-                    {user.user.first_name}
+                    {user.first_name}
                   </StyledTableCell>
                   <StyledTableCell  align="right">
-                    {user.user.last_name}
+                    {user.last_name}
                   </StyledTableCell>
                   <StyledTableCell  align="right">
-                    {user.user.status}
+                    {user.status}
                   </StyledTableCell>
                   
                 </StyledTableRow>
