@@ -234,13 +234,13 @@ const add = () => {
 												<Fab component="span" className={classess.button}>
 														<AddPhotoAlternateIcon />
 													</Fab>
-												</label>
-												<Button  
-												fullWidth 
-												type="submit" 
-												variant="contained"
-												className={classes.button}
-												disabled={loading}
+											</label>
+                                            <Button  
+                                                fullWidth 
+                                                type="submit" 
+                                                variant="contained"
+                                                className={classes.button}
+                                                disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
 												{!loading && 'Add Artizan'}

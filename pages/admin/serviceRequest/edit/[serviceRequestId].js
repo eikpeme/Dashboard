@@ -88,7 +88,7 @@ export const getStaticPaths = async() => {
     const paths = data.map(user => {
         return {
             params: {
-                serviceRequestId: `${user.user._id}`
+                serviceRequestId: `${user._id}`
             },
 			
         }

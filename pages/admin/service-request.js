@@ -115,13 +115,13 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-       users: data 
+       users: data
       }
     
   }
 }
 
-function ServiceRequest({ users }) {
+function ServiceRequest( {users}) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -131,7 +131,7 @@ function ServiceRequest({ users }) {
   const [error, setError] = useState('');
 	const [suc, setSuccess] = useState('');
   useEffect(() => {
-    const token = getToken();
+    const token = getToken(); 
     if (!token) {
       setMessage('You are not authenticated')
       return setTimeout(() => router.push('/admin/login'), 2000)
@@ -196,7 +196,8 @@ function ServiceRequest({ users }) {
               <TableHead>
                 <TableRow>
                 <StyledTableCell align="right">No.</StyledTableCell>
-                  <StyledTableCell align="right">Full Name</StyledTableCell>
+                  <StyledTableCell align="right"> User: Full Name</StyledTableCell>
+                  {/* <StyledTableCell align="right"> Artizan</StyledTableCell> */}
                   <StyledTableCell align="right">Artizan's status</StyledTableCell>
                   <StyledTableCell align="right">Coordinates Trail</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
@@ -221,8 +222,11 @@ function ServiceRequest({ users }) {
                           {index + 1}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.user.first_name + '  '  +  user.user.last_name}
+                          {user.first_name + '  '  +  user.last_name}
                         </StyledTableCell>
+                        {/* <StyledTableCell  align="right">
+                          {user.artizan}
+                        </StyledTableCell> */}
                         <StyledTableCell  align="right">
                           {user.status}
                         </StyledTableCell>
@@ -230,7 +234,7 @@ function ServiceRequest({ users }) {
                           {user.coordinates_trail}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/serviceRequest/edit/${user.user._id}`} className={classes.edit}>
+                        <Link href={`/admin/serviceRequest/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit service requests"
@@ -251,7 +255,7 @@ function ServiceRequest({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user.user._id)} className={classes.delete} >
+                          <div onClick={()=> deleteArtizan(user._id)} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
