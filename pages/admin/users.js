@@ -202,7 +202,7 @@ function Users({ users }) {
                   <StyledTableCell align="right">Address</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
-                  <StyledTableCell align="right">View Artizan</StyledTableCell>
+                  <StyledTableCell align="right">View User</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

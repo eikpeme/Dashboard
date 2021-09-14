@@ -201,7 +201,7 @@ function ServiceRequest( {users}) {
                   <StyledTableCell align="right">Coordinates Trail</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
-                  <StyledTableCell align="right">View Artizan</StyledTableCell>
+                  <StyledTableCell align="right">View Service Request</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
