@@ -82,7 +82,7 @@ import
 from '@material-ui/core'; 
 
  
-export const getStaticPaths = async() => {
+export const getInitialProps = async() => {
     const response = await axios.get(`${baseUrl}/admins/users`);
     const data = await response.data;
     const paths = data.map(user => {
@@ -103,7 +103,7 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async ({params: {userId}}) => {
+export const getServerSideProps = async ({params: {userId}}) => {
 	const res = await axios.get(`${baseUrl}/admins/users/${userId}`);
     const artisansData = await res.data;
 	return {
