@@ -70,7 +70,6 @@ const useStyless = makeStyles({
   },
   data: {
     borderBottom: '1px solid purple',
-    cursor: 'pointer'
   },
   buttt: {
     backgroundColor: 'purple',
@@ -97,16 +96,20 @@ const useStyless = makeStyles({
     textAlign: "center",
     marginBottom: "2em",
   },
+
+	image: {
+		width: "50%"
+	}
   
 }); 
 const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
-export async function getServerSideProps(context) {
-  const response = await axios.get(`${baseUrl}/artizans`);
+export const getServerSideProps = async () => {
+  const response = await axios.get(`${baseUrl}/admins/categories`);
   const data = await response.data;
-    
+  
   if(!data){
-    return {
+    return{
       redirect: {
         destination: '/',
         permanent: false,
@@ -116,15 +119,13 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-       users: data,
-        revalidate: 10, 
+       users: data 
       }
     
   }
 }
 
-function ArtizanProfiles({ users }) {
-  
+function Category({ users }) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -144,15 +145,15 @@ function ArtizanProfiles({ users }) {
   
 
 
-  const deleteArtizan = async(artizansid) => {
+  const deleteArtizan = async(userId) => {
     if(
-      window.confirm(`Are you sure you wanna delete this Artizan?`)
+      window.confirm(`Are you sure you wanna delete this User?`)
     ) {
-      const res = await axios.delete(`${baseUrl}/artizans/${artizansid}`)
+      const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
      
-     await res.data
+     res.data
       if(res.status === 200){
-        setSuccess(`You have successfully deleted this Artizan`)
+        setSuccess(`You have successfully deleted this User`)
 
         return setTimeout(() => router.push(`/admin/dashboard`), 2000)
 
@@ -162,7 +163,7 @@ function ArtizanProfiles({ users }) {
     }
     
   }
-
+ 
   return (
     <div>
       {message && (
@@ -178,7 +179,7 @@ function ArtizanProfiles({ users }) {
 
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>Artizans</h4>
+          <h4 className={classess.cardTitleWhite}>Categories</h4>
 
         </CardHeader>
         <CardBody>
@@ -191,66 +192,53 @@ function ArtizanProfiles({ users }) {
               }
             />
           </div>
-          <Link href="/admin/artizan/add" className={classes.edit}>
-          <Button className={classess.buttt}>Add Artizans</Button>
+          <Link href="/admin/user/add" className={classes.edit}>
+          <Button className={classess.buttt}>Add Category</Button>
         </Link>
           <TableContainer component={Paper}>
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
                 <StyledTableCell align="right">No.</StyledTableCell>
-                  <StyledTableCell align="right">Full Name</StyledTableCell>
-                  <StyledTableCell align="right">Email Address</StyledTableCell>
-                  <StyledTableCell align="right">Phone Number</StyledTableCell>
-                  <StyledTableCell align="right">Description</StyledTableCell>
-                  <StyledTableCell align="right">Address</StyledTableCell>
-                  <StyledTableCell align="right">Certifications</StyledTableCell>
+                  <StyledTableCell align="right">ID</StyledTableCell>
+                  <StyledTableCell align="right">Names</StyledTableCell>
+                  <StyledTableCell align="right">Avata</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
-                  <StyledTableCell align="right">View Artizan</StyledTableCell>
+                  <StyledTableCell align="right">View Category</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {users && users.filter((user) => {
-                    if (search === "") {
-                      return user
-                    } else if 
-                    (user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
-                     || user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
-                      return user
-                    }
-                  })
+                   if (search === "") {
+                    return user
+                  } else if 
+                  (user.name.toString().toLowerCase().includes(search.toString().toLowerCase())
+                  || user._id.toString().toLowerCase().includes(search.toString().toLowerCase())){
+                    return user
+                  }
+                })
                   .map((user, index) => {
                     return (
                       
-                      <StyledTableRow className={classess.data} key={user._id} >
+                      <StyledTableRow className={classess.data} key={user._id}>
                          <StyledTableCell align="right">
                           {index + 1}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.first_name + '  '  +  user.last_name}
+                          {user._id}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.email}
+                          {user.name}
+                        </StyledTableCell>
+                        <StyledTableCell  align="right" >
+													<img src={user.image_url} className={classess.image}/>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.phone_number}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {user.short_description}
-                        </StyledTableCell>
-                        <StyledTableCell align="right">
-                          {user.address}
-                        </StyledTableCell>
-                        <StyledTableCell  align="right">
-                          {user.certifications}
-                        </StyledTableCell>
-                        
-                        <StyledTableCell  align="right">
-                        <Link href={`/admin/artizan/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/user/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
-                            title="Edit Artizan"
+                            title="Edit Users"
                             placement="top"
                             classes={{ tooltip: classes.tooltip }}
                           >
@@ -274,7 +262,7 @@ function ArtizanProfiles({ users }) {
                                 : <span>
                                   <Tooltip
                                     id="tooltip-top-start"
-                                    title="Delete Artizan"
+                                    title="Delete User"
                                     placement="top"
                                     classes={{ tooltip: classes.tooltip }}
                                   >
@@ -293,7 +281,7 @@ function ArtizanProfiles({ users }) {
                               }
                           </div> 
                         </StyledTableCell>
-                        <Link href={`/admin/artizan/${user._id}`}>
+                        <Link href={`/admin/user/${user._id}`}>
                           <StyledTableCell  align="right">
                             <Button className={classess.buttt}>View...</Button>
                           </StyledTableCell>
@@ -310,7 +298,7 @@ function ArtizanProfiles({ users }) {
                 </StyledTableRow>
                 }
                 {users && !users.length &&
-                  <StyledTableCell key={users.notFound} component="th" scope="row">
+                  <StyledTableCell key={user.notFound} component="th" scope="row">
                     <p>No Users To Found</p>
                   </StyledTableCell>
                }
@@ -328,6 +316,6 @@ function ArtizanProfiles({ users }) {
   );
 }
 
-ArtizanProfiles.layout = Admin;
+Category.layout = Admin;
 
-export default ArtizanProfiles;
+export default Category;
