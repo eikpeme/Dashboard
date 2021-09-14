@@ -92,7 +92,7 @@ const useStyless = makeStyles({
   
 }); 
 
-export const getStaticPaths = async() => {
+export const getInitialProps = async() => {
   const response = await axios.get(`${baseUrl}/artizans`);
   const data = await response.data;
   const paths = data.map(artid => {
@@ -110,7 +110,7 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async ({params: {artizansRecord}}) => {
+export const getServerSideProps = async ({params: {artizansRecord}}) => {
   const res = await axios.get(`${baseUrl}/artizans/${artizansRecord}`);
   const data = await res.data;
   return {
