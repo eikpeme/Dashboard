@@ -72,12 +72,13 @@ function ArtizanProfiles({ users }) {
 	let pageLimit
 
 	useEffect(() => {
-		const token = getToken()
+		const token = getToken();
 		if (!token) {
-			setMessage('You are not authenticated')
-			return setTimeout(() => router.push('/admin/login'), 2000)
-		}
-	}, [])
+		  setMessage('You are not authenticated')
+		  return setTimeout(() => router.push('/admin/login'), 2000)
+		};
+	
+	  }, []);
 
 	const deleteArtizan = async artizansid => {
 		if (window.confirm(`Are you sure you wanna delete this Artizan?`)) {

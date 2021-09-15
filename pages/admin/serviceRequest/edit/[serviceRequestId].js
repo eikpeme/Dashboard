@@ -82,7 +82,7 @@ import
 from '@material-ui/core'; 
 
  
-export const getStaticPaths = async() => {
+export const getInitialProps = async() => {
     const response = await axios.get(`${baseUrl}/admins/service_requests`);
     const data = await response.data;
     const paths = data.map(user => {
@@ -103,7 +103,7 @@ export const getStaticPaths = async() => {
 
 const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
-export const getStaticProps = async ({params: {serviceRequestId}}) => {
+export const getServerSideProps = async ({params: {serviceRequestId}}) => {
 	const res = await axios.get(`${baseUrl}/admins/users/${serviceRequestId}`);
     const artisansData = await res.data;
 	return {
@@ -155,7 +155,7 @@ const add = ({ artisansData}) => {
 			}
 				await axios.put(`${baseUrl}/admins/service_requests/update`, requestBody)
 				setLoading(false)
-				setSuccess('ervice-request Edited Successfully')
+				setSuccess('Service-request Edited Successfully')
 				return setTimeout(() => router.push(`/admin/service-request`), 2000)
 		} catch (error) {
 				setLoading(false)
@@ -184,7 +184,7 @@ const add = ({ artisansData}) => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Edit Users</h4>
+								<h4 className={classes.cardTitleWhitew}>Edit Service Request</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
@@ -192,107 +192,107 @@ const add = ({ artisansData}) => {
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
                                         <TextField 
-												fullWidth
-												type="text"
-												label="First Name"
-												color="primary"
-												required
-												name="first_name"
-											    value={first_name}
-												onChange={handleInputChange}
+											fullWidth
+											type="text"
+											label="First Name"
+											color="primary"
+											required
+											name="first_name"
+											value={first_name}
+											onChange={handleInputChange}
 											/>
-                                            <TextField 
-												fullWidth
-												type="text"
-												label="Last Name"
-												color="primary" 
-												required
-												name="update_data"
-												value={last_name}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="Email"
-												label="Email"
-												color="primary"
-												required
-												name="email"
-											    value={email}
-												onChange={handleInputChange}
-											/>
+										<TextField 
+											fullWidth
+											type="text"
+											label="Last Name"
+											color="primary" 
+											required
+											name="update_data"
+											value={last_name}
+											onChange={handleInputChange}
+										/>
+										<TextField 
+											fullWidth
+											type="Email"
+											label="Email"
+											color="primary"
+											required
+											name="email"
+											value={email}
+											onChange={handleInputChange}
+										/>
 
-											<TextField 
-												fullWidth
-												type="text"
-												label="Phone Number"
-												color="primary"
-												required
-												name="phone_number"
-											    value={phone_number}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="number"
-												label="Rating"
-												color="primary"
-												required
-												name="rating"
-											    value={rating}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Adress"
-												color="primary"
-												required
-												name="address"
-											    value={address}
-												onChange={handleInputChange}
-											/>
-											<TextField 
-												fullWidth
-												type="password"
-												label="Password"
-												color="primary"
-												required
-												name="password"
-											    value={password}
-												onChange={handleInputChange}
-											/>
+										<TextField 
+											fullWidth
+											type="text"
+											label="Phone Number"
+											color="primary"
+											required
+											name="phone_number"
+											value={phone_number}
+											onChange={handleInputChange}
+										/>
+										<TextField 
+											fullWidth
+											type="number"
+											label="Rating"
+											color="primary"
+											required
+											name="rating"
+											value={rating}
+											onChange={handleInputChange}
+										/>
+										<TextField 
+											fullWidth
+											type="text"
+											label="Adress"
+											color="primary"
+											required
+											name="address"
+											value={address}
+											onChange={handleInputChange}
+										/>
+										<TextField 
+											fullWidth
+											type="password"
+											label="Password"
+											color="primary"
+											required
+											name="password"
+											value={password}
+											onChange={handleInputChange}
+										/>
 											
-											<div>Upload your certificate</div>
-											<TextField
-											    fullWidth
-												accept="image/*"
-												className={classess.input}
-												id="contained-button-file"
-												label=""
-												type="file"
-											/>
-											
-											<label htmlFor="contained-button-file">
-												<Fab component="span" className={classess.button}>
-														<AddPhotoAlternateIcon />
-												</Fab>
-											</label>
-											<Button
-												fullWidth 
-												type="submit" 
-												variant="contained"
-												className={classes.button}
-												disabled={loading}
-											>
-												{loading && <CircularProgress size={16} />}
-												{!loading && 'Submit Changes'}
-											</Button> 
-											{error && (
-												<Alert severity="error">
-													{error}
-												</Alert>
-											)}
+										<div>Upload your certificate</div>
+										<TextField
+											fullWidth
+											accept="image/*"
+											className={classess.input}
+											id="contained-button-file"
+											label=""
+											type="file"
+										/>
+										
+										<label htmlFor="contained-button-file">
+											<Fab component="span" className={classess.button}>
+													<AddPhotoAlternateIcon />
+											</Fab>
+										</label>
+										<Button
+											fullWidth 
+											type="submit" 
+											variant="contained"
+											className={classes.button}
+											disabled={loading}
+										>
+											{loading && <CircularProgress size={16} />}
+											{!loading && 'Submit Changes'}
+										</Button> 
+										{error && (
+											<Alert severity="error">
+												{error}
+											</Alert>
+										)}
 										</Grid>
 									</form>
 								</Container>

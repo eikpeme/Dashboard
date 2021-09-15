@@ -75,7 +75,6 @@ import
 	TextField,
 	Button,
 	CircularProgress,
-	Fab,
 }
 from '@material-ui/core'; 
 
@@ -85,42 +84,30 @@ const add = () => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
-	const classess = useStyless();
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
-	const first_name = useFormInput('')
-	const last_name = useFormInput('')
-	const email = useFormInput('')
-	const phone_number = useFormInput('')
-	const address = useFormInput('')
-	const password = useFormInput('')
-	const lat = useFormInput('')
-	const long = useFormInput('')
+	const [success, setSuccess] = useState('')
+	const name = useFormInput('')
+	const image_url = useFormInput('')
+	
 	
 
 	const handleCreateAtizans = async(e) => {
 		e.preventDefault()
 
 		const users = {
-			first_name: first_name.value,
-			last_name: last_name.value,
-			email: email.value,
-			phone_number: phone_number.value,
-			address: address.value,
-			geo_location: {
-				coordinates: [ parseInt(long.value), parseInt(lat.value) ]
-			},
-			password: password.value,
+			name: name.value,
+			image_url: image_url.value,
+			
 		}
 		setError(null)
 		setLoading(true)
 
 		try {
-			await axios.post(`${baseUrl}/admins/users/create`, users)
+			await axios.post(`${baseUrl}/admins/categories/create`, users)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/users'), 2000)
+			    return setTimeout(() => router.push('/admin/categories'), 2000)
 			
 		} catch (error) {
 			setLoading(false)
@@ -133,9 +120,9 @@ const add = () => {
 	
 	return (
 		<div>
-			{suc && (
+			{success && (
 				<Alert severity="success">
-				{suc}
+				{success}
 				</Alert>
 			)}
 		  <div className={classes.cardsbodies}></div>
@@ -145,7 +132,7 @@ const add = () => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Add Artizans</h4>
+								<h4 className={classes.cardTitleWhitew}>Add Category</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
@@ -156,83 +143,20 @@ const add = () => {
 											<TextField 
 												fullWidth
 												type="text"
-												label="First Name"
+												label="Name"
 												color="primary"
 												required
-												{...first_name}
+												{...name}
 											/>
+                                            	
 											<TextField 
 												fullWidth
 												type="text"
-												label="Last Name"
+												label="Image Url"
 												color="primary"
 												required
-												{...last_name}
+												{...image_url}
 											/>
-											<TextField 
-												fullWidth
-												type="Email"
-												label="Email"
-												color="primary"
-												required
-											    {...email}
-											/>
-										
-												<TextField 
-												fullWidth
-												type="text"
-												label="Phone Number"
-												color="primary"
-												required
-												{...phone_number}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Address"
-												color="primary"
-												required
-											    {...address}
-											/>
-											
-											<TextField 
-												fullWidth
-												type="text"
-												label="Long"
-												color="primary"
-											    {...long}
-											/>
-											<TextField 
-												fullWidth
-												type="text"
-												label="Lat"
-												color="primary"
-												required
-												{...lat}
-											/>
-											<TextField 
-												fullWidth 
-												label="Password"
-												type="password"
-												color="primary"
-												required
-												{...password}
-											/>
-											<div>Upload your certificate</div>
-											<TextField
-											fullWidth
-												accept="image/*"
-												className={classess.input}
-												id="contained-button-file"
-												multiple
-												label=""
-												type="file"
-											/>
-											<label htmlFor="contained-button-file">
-												<Fab component="span" className={classess.button}>
-														<AddPhotoAlternateIcon />
-													</Fab>
-											</label>
                                             <Button  
                                                 fullWidth 
                                                 type="submit" 

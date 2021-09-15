@@ -96,12 +96,16 @@ const useStyless = makeStyles({
     textAlign: "center",
     marginBottom: "2em",
   },
+
+	image: {
+		width: "50%"
+	}
   
 }); 
 const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
 export const getServerSideProps = async () => {
-  const response = await axios.get(`${baseUrl}/service_requests`);
+  const response = await axios.get(`${baseUrl}/admins/categories`);
   const data = await response.data;
   
   if(!data){
@@ -115,13 +119,13 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-       users: data
+       users: data 
       }
     
   }
 }
 
-function ServiceRequest( {users}) {
+function Category({ users }) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -131,7 +135,7 @@ function ServiceRequest( {users}) {
   const [error, setError] = useState('');
 	const [suc, setSuccess] = useState('');
   useEffect(() => {
-    const token = getToken(); 
+    const token = getToken();
     if (!token) {
       setMessage('You are not authenticated')
       return setTimeout(() => router.push('/admin/login'), 2000)
@@ -141,15 +145,15 @@ function ServiceRequest( {users}) {
   
 
 
-  const deleteArtizan = async(serviceRequest) => {
+  const deleteArtizan = async(userId) => {
     if(
-      window.confirm(`Are you sure you wanna delete this Service-Request?`)
+      window.confirm(`Are you sure you wanna delete this User?`)
     ) {
-      const res = await axios.delete(`${baseUrl}/admins/service_requests/${serviceRequest}`)
+      const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
      
-     await res.data
+     res.data
       if(res.status === 200){
-        setSuccess(`You have successfully deleted this Service-Request`)
+        setSuccess(`You have successfully deleted this User`)
 
         return setTimeout(() => router.push(`/admin/dashboard`), 2000)
 
@@ -175,7 +179,7 @@ function ServiceRequest( {users}) {
 
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>Service Requests</h4>
+          <h4 className={classess.cardTitleWhite}>Categories</h4>
 
         </CardHeader>
         <CardBody>
@@ -188,32 +192,32 @@ function ServiceRequest( {users}) {
               }
             />
           </div>
-          <Link href="/admin/serviceRequest/add" className={classes.edit}>
-          <Button className={classess.buttt}>Add Service Requests</Button>
+          <Link href="/admin/categories/add" className={classes.edit}>
+          <Button className={classess.buttt}>Add Category</Button>
         </Link>
           <TableContainer component={Paper}>
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
                 <StyledTableCell align="right">No.</StyledTableCell>
-                  <StyledTableCell align="right"> User: Full Name</StyledTableCell>
-                  <StyledTableCell align="right">Artizan's status</StyledTableCell>
-                  <StyledTableCell align="right">Coordinates Trail</StyledTableCell>
+                  <StyledTableCell align="right">ID</StyledTableCell>
+                  <StyledTableCell align="right">Names</StyledTableCell>
+                  <StyledTableCell align="right">Avata</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
-                  <StyledTableCell align="right">View Service Request</StyledTableCell>
+                  <StyledTableCell align="right">View Category</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {users && users.filter((user) => {
-                    if (search === "") {
-                      return user
-                    } else if 
-                    (user.user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
-                     || user.user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
-                      return user
-                    }
-                  })
+                   if (search === "") {
+                    return user
+                  } else if 
+                  (user.name.toString().toLowerCase().includes(search.toString().toLowerCase())
+                  || user._id.toString().toLowerCase().includes(search.toString().toLowerCase())){
+                    return user
+                  }
+                })
                   .map((user, index) => {
                     return (
                       
@@ -222,24 +226,24 @@ function ServiceRequest( {users}) {
                           {index + 1}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.user.first_name + '  '  +  user.user.last_name}
+                          {user._id}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.status}
+                          {user.name}
+                        </StyledTableCell>
+                        <StyledTableCell  align="right" >
+													<img src={user.image_url} className={classess.image}/>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.coordinates_trail}
-                        </StyledTableCell>
-                        <StyledTableCell  align="right">
-                        <Link href={`/admin/serviceRequest/edit/${user.user._id}`} className={classes.edit}>
+                        <Link href={`/admin/categories/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
-                            title="Edit service requests"
+                            title="Edit Category"
                             placement="top"
                             classes={{ tooltip: classes.tooltip }}
                           >
                             <IconButton
-                              aria-label="Edit"
+                              aria-label="Edit" 
                               className={classes.tableActionButton}
                             >
                               <Edit
@@ -252,13 +256,13 @@ function ServiceRequest( {users}) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user.user.email)} className={classes.delete} >
+                          <div onClick={()=> deleteArtizan(user.email)} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
                                   <Tooltip
                                     id="tooltip-top-start"
-                                    title="Delete  service requests"
+                                    title="Delete Category"
                                     placement="top"
                                     classes={{ tooltip: classes.tooltip }}
                                   >
@@ -277,7 +281,7 @@ function ServiceRequest( {users}) {
                               }
                           </div> 
                         </StyledTableCell>
-                        <Link href={`/admin/serviceRequest/${user.user._id}`}>
+                        <Link href={`/admin/categories/${user._id}`}>
                           <StyledTableCell  align="right">
                             <Button className={classess.buttt}>View...</Button>
                           </StyledTableCell>
@@ -312,6 +316,6 @@ function ServiceRequest( {users}) {
   );
 }
 
-ServiceRequest.layout = Admin;
+Category.layout = Admin;
 
-export default ServiceRequest;
+export default Category;
