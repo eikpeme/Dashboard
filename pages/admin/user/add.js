@@ -145,7 +145,7 @@ const add = () => {
 					<Grid item xs={12} sm={12} md={8}>
 						<Card > 
 							<CardHeader color="primary">
-								<h4 className={classes.cardTitleWhitew}>Add Artizans</h4>
+								<h4 className={classes.cardTitleWhitew}>Add User</h4>
 								<p className={classes.cardCategoryWhitew}>The choice is yours</p>
 							</CardHeader>
 							<CardBody> 
