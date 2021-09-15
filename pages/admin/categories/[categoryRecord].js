@@ -118,13 +118,13 @@ export const getServerSideProps = async ({params: {categoryRecord}}) => {
   }
 }
 
-function ArtizanProfiles({ user }) {
+function CategoryRecord({ user }) {
   const classess = useStyless();
   return (
     <div>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classess.cardTitleWhite}>Category Details</h4>
+          <h4 className={classess.cardTitleWhite}>Category Detail</h4>
 
         </CardHeader>
         <CardBody>
@@ -159,6 +159,6 @@ function ArtizanProfiles({ user }) {
   );
 }
 
-ArtizanProfiles.layout = Admin;
+CategoryRecord.layout = Admin;
 
-export default ArtizanProfiles;
+export default CategoryRecord;
