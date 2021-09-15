@@ -72,13 +72,12 @@ function ArtizanProfiles({ users }) {
 	let pageLimit
 
 	useEffect(() => {
-		const token = getToken();
+		const token = getToken()
 		if (!token) {
-		  setMessage('You are not authenticated')
-		  return setTimeout(() => router.push('/admin/login'), 2000)
-		};
-	
-	  }, []);
+			setMessage('You are not authenticated')
+			return setTimeout(() => router.push('/admin/login'), 2000)
+		}
+	}, [])
 
 	const deleteArtizan = async artizansid => {
 		if (window.confirm(`Are you sure you wanna delete this Artizan?`)) {
@@ -87,7 +86,7 @@ function ArtizanProfiles({ users }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Artizan`)
 
-				return setTimeout(() => router.push(`/admin/artizans`), 2000)
+				return setTimeout(() => router.push(`/admin/dashboard`), 2000)
 			} else {
 				setError('Oops! Something Went wrong.')
 			}
@@ -117,7 +116,7 @@ function ArtizanProfiles({ users }) {
 					<StyledTableCell align="right">{user.address}</StyledTableCell>
 					<StyledTableCell align="right">{user.certifications}</StyledTableCell>
 					<StyledTableCell align="right">
-						<Link href={`/admin/users/edit/${user._id}`} className={classes.edit}>
+						<Link href={`/admin/artizan/edit/${user._id}`} className={classes.edit}>
 							<Tooltip id="tooltip-top" title="Edit Artizan" placement="top" classes={{ tooltip: classes.tooltip }}>
 								<IconButton aria-label="Edit" className={classes.tableActionButton}>
 									<Edit className={classes.tableActionButtonIcon + ' ' + classes.edit} />
@@ -140,6 +139,11 @@ function ArtizanProfiles({ users }) {
 							)}
 						</div>
 					</StyledTableCell>
+					<Link href={`/admin/artizan/${user._id}`}>
+						<StyledTableCell align="right">
+							<Button className={classess.buttt}>View...</Button>
+						</StyledTableCell>
+					</Link>
 				</StyledTableRow>
 
 				{!users && (
@@ -202,7 +206,7 @@ function ArtizanProfiles({ users }) {
 							}}
 						/>
 					</div>
-					<Link href="/admin/users/add" className={classes.edit}>
+					<Link href="/admin/artizan/add" className={classes.edit}>
 						<Button className={classess.buttt}>Add Artizans</Button>
 					</Link>
 					<TableContainer component={Paper}>
@@ -218,6 +222,7 @@ function ArtizanProfiles({ users }) {
 									<StyledTableCell align="right">Certifications</StyledTableCell>
 									<StyledTableCell align="right">Edit</StyledTableCell>
 									<StyledTableCell align="right">Delete</StyledTableCell>
+									<StyledTableCell align="right">View Artizan</StyledTableCell>
 								</TableRow>
 							</TableHead>
 
