@@ -108,7 +108,7 @@ const add = () => {
 			await axios.post(`${baseUrl}/admins/users/create`, users)
 			setLoading(false)
 			setSuccess('Artizan added successfully')
-			return setTimeout(() => router.push('/admin/dashboard'), 2000)
+			return setTimeout(() => router.push('/admin/users'), 2000)
 		} catch (error) {
 			setLoading(false)
 			if (error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)

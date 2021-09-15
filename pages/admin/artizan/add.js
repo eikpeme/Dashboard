@@ -157,7 +157,7 @@ const add = ({ids}) => {
 			await axios.post(`${baseUrl}/artizans/create`, artizan)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/dashboard'), 2000)
+			    return setTimeout(() => router.push('/admin/artizan'), 2000)
 			
 		} catch (error) {
 			setLoading(false)
