@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 // @material-ui/core components
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -163,5 +162,3 @@ function CategoryRecord({ user }) {
 CategoryRecord.layout = Admin;
 
 export default CategoryRecord;
-=======
->>>>>>> master
