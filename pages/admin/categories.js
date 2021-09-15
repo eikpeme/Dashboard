@@ -192,7 +192,7 @@ function Category({ users }) {
               }
             />
           </div>
-          <Link href="/admin/user/add" className={classes.edit}>
+          <Link href="/admin/categories/add" className={classes.edit}>
           <Button className={classess.buttt}>Add Category</Button>
         </Link>
           <TableContainer component={Paper}>
@@ -235,15 +235,15 @@ function Category({ users }) {
 													<img src={user.image_url} className={classess.image}/>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/user/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/categories/edit/${user._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
-                            title="Edit Users"
+                            title="Edit Category"
                             placement="top"
                             classes={{ tooltip: classes.tooltip }}
                           >
                             <IconButton
-                              aria-label="Edit"
+                              aria-label="Edit" 
                               className={classes.tableActionButton}
                             >
                               <Edit
@@ -262,7 +262,7 @@ function Category({ users }) {
                                 : <span>
                                   <Tooltip
                                     id="tooltip-top-start"
-                                    title="Delete User"
+                                    title="Delete Category"
                                     placement="top"
                                     classes={{ tooltip: classes.tooltip }}
                                   >
@@ -281,7 +281,7 @@ function Category({ users }) {
                               }
                           </div> 
                         </StyledTableCell>
-                        <Link href={`/admin/user/${user._id}`}>
+                        <Link href={`/admin/categories/${user._id}`}>
                           <StyledTableCell  align="right">
                             <Button className={classess.buttt}>View...</Button>
                           </StyledTableCell>
