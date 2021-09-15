@@ -87,7 +87,7 @@ function Users({ users }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this User`)
 
-				return setTimeout(() => router.push(`/admin/users`), 2000)
+				return setTimeout(() => router.push(`/admin/dashboard`), 2000)
 			} else {
 				setError('Oops! Something Went wrong.')
 			}
@@ -115,7 +115,7 @@ function Users({ users }) {
 					<StyledTableCell align="right">{user.phone_number}</StyledTableCell>
 					<StyledTableCell align="right">{user.address}</StyledTableCell>
 					<StyledTableCell align="right">
-						<Link href={`/admin/artizans/edit/${user._id}`} className={classes.edit}>
+						<Link href={`/admin/user/edit/${user._id}`} className={classes.edit}>
 							<Tooltip id="tooltip-top" title="Edit Users" placement="top" classes={{ tooltip: classes.tooltip }}>
 								<IconButton aria-label="Edit" className={classes.tableActionButton}>
 									<Edit className={classes.tableActionButtonIcon + ' ' + classes.edit} />
@@ -138,6 +138,11 @@ function Users({ users }) {
 							)}
 						</div>
 					</StyledTableCell>
+					<Link href={`/admin/user/${user._id}`}>
+						<StyledTableCell align="right">
+							<Button className={classess.buttt}>View...</Button>
+						</StyledTableCell>
+					</Link>
 				</StyledTableRow>
 				{!users && (
 					<StyledTableRow>
@@ -199,7 +204,7 @@ function Users({ users }) {
 							}}
 						/>
 					</div>
-					<Link href="/admin/users/add" className={classes.edit}>
+					<Link href="/admin/user/add" className={classes.edit}>
 						<Button className={classess.buttt}>Add Users</Button>
 					</Link>
 					<TableContainer component={Paper}>
@@ -213,6 +218,7 @@ function Users({ users }) {
 									<StyledTableCell align="right">Address</StyledTableCell>
 									<StyledTableCell align="right">Edit</StyledTableCell>
 									<StyledTableCell align="right">Delete</StyledTableCell>
+									<StyledTableCell align="right">View User</StyledTableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
