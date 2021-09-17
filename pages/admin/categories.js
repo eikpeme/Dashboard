@@ -202,7 +202,7 @@ function Category({ users }) {
                 <StyledTableCell align="right">No.</StyledTableCell>
                   <StyledTableCell align="right">ID</StyledTableCell>
                   <StyledTableCell align="right">Names</StyledTableCell>
-                  <StyledTableCell align="right">Avata</StyledTableCell>
+                  <StyledTableCell align="right">Avatar</StyledTableCell>
                   <StyledTableCell align="right">Edit</StyledTableCell>
                   <StyledTableCell align="right">Delete</StyledTableCell>
                   <StyledTableCell align="right">View Category</StyledTableCell>

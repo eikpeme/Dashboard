@@ -147,15 +147,17 @@ function ServiceRequest( {users}) {
     ) {
       const res = await axios.delete(`${baseUrl}/admins/service_requests/${serviceRequest}`)
      
-     await res.data
+     res.data
+
       if(res.status === 200){
         setSuccess(`You have successfully deleted this Service-Request`)
 
         return setTimeout(() => router.push(`/admin/dashboard`), 2000)
 
-      }else{
-        setError('Oops! Something Went wrong.')
-      }
+      }else if(!res.ok || res.status.response === 500 || res.status.response === 401) setError(res.response.data.message)
+        else{
+          setError('Oops! Something Went wrong.')
+        }
     }
     
   }
@@ -252,7 +254,7 @@ function ServiceRequest( {users}) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user.user.email)} className={classes.delete} >
+                          <div onClick={()=> deleteArtizan(user.user._id)} className={classes.delete} >
                               {user.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
