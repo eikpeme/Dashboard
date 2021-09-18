@@ -98,7 +98,7 @@ export const getInitialProps = async() => {
   const paths = data.map(artid => {
     return {
       params: {
-        serviceRequestRecord: `${artid.user._id}`
+        serviceRequestRecord: `${artid._id}`
       },
     }
   })
@@ -119,6 +119,7 @@ export const getServerSideProps = async ({params: {serviceRequestRecord}}) => {
 }
 
 function ArtizanProfiles({ user }) {
+  console.log(user)
   const classess = useStyless();
   return (
     <div>
@@ -128,7 +129,7 @@ function ArtizanProfiles({ user }) {
 
         </CardHeader>
         <CardBody>
-          <div>Avata</div>
+          <div>Avatar</div>
         <label htmlFor="contained-button-file">
           <Fab component="span" className={classess.button}>
             <AddPhotoAlternateIcon />
