@@ -66,7 +66,7 @@ function Users({ users }) {
 	const [message, setMessage] = useState('')
 	const [search, setSearch] = useState('')
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [success, setSuccess] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 	const dataLimit = 10
 	let pageLimit
@@ -94,7 +94,7 @@ function Users({ users }) {
 		}
 	}
 
-	const filteredUsers = users.filter(user => {
+	const filteredUsers = users.filter(user => { 
 		if (search === '') {
 			return user
 		} else if (
@@ -188,7 +188,7 @@ function Users({ users }) {
 	return (
 		<div>
 			{message && <Alert severity="error">{message}</Alert>}
-			{suc && <Alert severity="success">{suc}</Alert>}
+			{success && <Alert severity="success">{success}</Alert>}
 
 			<Card>
 				<CardHeader color="primary">
