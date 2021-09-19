@@ -22,6 +22,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Link from "next/link"
+import axios from 'axios';
 import { useRouter } from "next/router";
 import { bugs, pending, resolved } from "variables/general.js";
 
@@ -34,12 +35,33 @@ function Alert(props) {
 
 import { getToken} from '../../utility/apihelp';
 
-function Dashboard() {
+// const baseUrl = 'https://artizan-api-staged.herokuapp.com'
+
+// export  const getServerSideProps = async() => {
+//    const response = await axios.get(`${baseUrl}/admins/users`)
+//   const resbody =  response.data
+
+//   if(!resbody){
+//     return{
+//       redirect: {
+//         destination: 'admin/login',
+//         permanent: false,
+//       }
+//     }
+//   }
+//    return{
+//     props: {users: resbody }
+//    }
+// }
+function Dashboard({ users}) {
+console.log(users)
   const router = useRouter();
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const [message, setMessage] = useState('');
- 
+  const [loading, setLoading] = useState('');
+
+
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -65,7 +87,13 @@ function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Total Users </p>
               <h3 className={classes.cardTitle}>
-                21
+              {/* {loading && <CircularProgress size={16} />}
+							{!loading && 'Add Artizan'} */}
+              {users && users.map((user)=> {
+                <div key={user._id}>
+                  {user.first_name} 
+                </div>
+              })}
               </h3>
             </CardHeader>
             <CardFooter stats>
