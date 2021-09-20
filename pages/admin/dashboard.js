@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Accessibility from "@material-ui/icons/Accessibility";
+import PanToolIcon from '@material-ui/icons/PanTool';
 import BugReport from "@material-ui/icons/BugReport";
 import Info from "@material-ui/icons/Info";
 import Check from "@material-ui/icons/Check";
@@ -145,7 +146,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="dark">
-              <Accessibility />
+              <PanToolIcon />
               </CardIcon>
               <p className={classes.cardCategory}>Total Categories</p>
               <h3 className={classes.cardTitle}>
@@ -155,7 +156,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Danger>
-                <Accessibility />
+                <PanToolIcon />
                 </Danger>
                 <a href="/artizans-profile" onClick={(e) => e.preventDefault()}>
                   CATEGORIES

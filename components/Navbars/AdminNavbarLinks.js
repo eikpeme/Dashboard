@@ -172,14 +172,28 @@ export default function AdminNavbarLinks() {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
-                    <Link href="/admin/user-profile">
+                    <Link href="/admin/users">
                       <MenuItem
                         className={classes.dropdownItem}
                       >
-                        Users-Profile
+                        Users
                       </MenuItem>
                     </Link>
-                    <Link href="/admin/artizans-profile">
+                    <Link href="/admin/categories">
+                    <MenuItem
+                      className={classes.dropdownItem}
+                    >
+                      Categories
+                    </MenuItem>
+                    </Link>
+                    <Link href="/admin/service-request">
+                      <MenuItem
+                        className={classes.dropdownItem}
+                      >
+                        Service Request
+                      </MenuItem>
+                    </Link>
+                    <Link href="/admin/artizans">
                     <MenuItem
                       className={classes.dropdownItem}
                     >
