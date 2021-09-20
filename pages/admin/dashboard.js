@@ -35,33 +35,44 @@ function Alert(props) {
 
 import { getToken} from '../../utility/apihelp';
 
-// const baseUrl = 'https://artizan-api-staged.herokuapp.com'
+const baseUrl = 'https://artizan-api-staged.herokuapp.com'
 
-// export  const getServerSideProps = async() => {
-//    const response = await axios.get(`${baseUrl}/admins/users`)
-//   const resbody =  response.data
+export  const getServerSideProps = async() => {
+   const response = await axios.get(`${baseUrl}/admins/users`)
+  const resbody =  response.data;
 
-//   if(!resbody){
-//     return{
-//       redirect: {
-//         destination: 'admin/login',
-//         permanent: false,
-//       }
-//     }
-//   }
-//    return{
-//     props: {users: resbody }
-//    }
-// }
-function Dashboard({ users}) {
-console.log(users)
+  const res = await axios.get(`${baseUrl}/artizans`)
+	const data = await res.data;
+
+  const services = await axios.get(`${baseUrl}/service_requests`);
+  const serviceRequest = await services.data;
+
+  const category = await axios.get(`${baseUrl}/admins/categories`);
+  const categoryBody = await category.data;
+
+  if(!resbody || !data || !serviceRequest){
+    return{
+      redirect: {
+        destination: 'admin/login',
+        permanent: false,
+      }
+    }
+  }
+   return{
+    props: {
+      users: resbody,
+      artizans: data,
+      serviceRequests: serviceRequest,
+      categoryBodies: categoryBody
+    }
+   }
+}
+function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
   const router = useRouter();
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState('');
-
-
+ 
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -79,21 +90,17 @@ console.log(users)
         </Alert>
       )}
       <GridContainer>
-        <GridItem xs={12} sm={6} md={4}>
-          <Card>
+        <GridItem xs={12} sm={3} md={3}>
+          <Card> 
             <CardHeader color="primary" stats icon>
-              <CardIcon color="warning">
+              <CardIcon color="dark">
                 <Icon> <Accessibility /> </Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Total Users </p>
               <h3 className={classes.cardTitle}>
-              {/* {loading && <CircularProgress size={16} />}
-							{!loading && 'Add Artizan'} */}
-              {users && users.map((user)=> {
-                <div key={user._id}>
-                  {user.first_name} 
-                </div>
-              })}
+              <div>
+                {users.length}
+							</div>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -103,21 +110,23 @@ console.log(users)
                 </Danger>
                 <Link href="/admin/user-profile">
                   <a  onClick={(e) => e.preventDefault()}>
-                    View Users
+                    USERS
                   </a>
                 </Link>
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={6} md={4}>
+        <GridItem xs={12} sm={3} md={3}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="dark">
               <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total Artizans</p>
-              <h3 className={classes.cardTitle}>1</h3>
+              <h3 className={classes.cardTitle}>
+                <div>{artizans.length}</div>
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -125,20 +134,23 @@ console.log(users)
                 <Accessibility />
                 </Danger>
                 <a href="/artizans-profile" onClick={(e) => e.preventDefault()}>
-                  View Artizans
+                  ARTIZANS
                 </a>
               </div>
             </CardFooter>
           </Card>
+          
         </GridItem>
-        <GridItem xs={12} sm={6} md={4}>
+        <GridItem xs={12} sm={3} md={3}>
           <Card>
             <CardHeader color="primary" stats icon>
               <CardIcon color="dark">
               <Accessibility />
               </CardIcon>
-              <p className={classes.cardCategory}>Total Service Requests</p>
-              <h3 className={classes.cardTitle}>0</h3>
+              <p className={classes.cardCategory}>Total Categories</p>
+              <h3 className={classes.cardTitle}>
+                <div>{categoryBodies.length}</div>
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -146,7 +158,29 @@ console.log(users)
                 <Accessibility />
                 </Danger>
                 <a href="/artizans-profile" onClick={(e) => e.preventDefault()}>
-                  View Service Requests
+                  CATEGORIES
+                </a>
+              </div>
+            </CardFooter>
+          </Card>
+          
+        </GridItem>
+        <GridItem xs={12} sm={3} md={3}>
+          <Card>
+            <CardHeader color="primary" stats icon>
+              <CardIcon color="dark">
+              <Accessibility />
+              </CardIcon>
+              <p className={classes.cardCategory}>Total Requests</p>
+              <h3 className={classes.cardTitle}>{serviceRequests.length}</h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <Danger>
+                <Accessibility />
+                </Danger>
+                <a href="/artizans-profile" onClick={(e) => e.preventDefault()}>
+                SERVICE REQUESTS
                 </a>
               </div>
             </CardFooter>

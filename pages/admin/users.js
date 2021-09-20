@@ -15,7 +15,6 @@ import styles from 'assets/jss/nextjs-material-dashboard/components/tasksStyle.j
 import MuiAlert from '@material-ui/lab/Alert'
 import { getToken } from '../../utility/apihelp'
 import Edit from '@material-ui/icons/Edit'
-import Dashboard from './dashboard'
 import Close from '@material-ui/icons/Close'
 import {
 	TextField,
@@ -95,7 +94,7 @@ function Users({ users }) {
 		}
 	}
 
-	const filteredUsers = users.filter(user => { 
+	const filteredUsers = users.filter(user => {
 		if (search === '') {
 			return user
 		} else if (
@@ -256,7 +255,6 @@ function Users({ users }) {
 				</CardBody>
 			</Card>
 			{error && <Alert severity="error">{error}</Alert>}
-			<Dashboard users={users} />
 		</div>
 	)
 }
