@@ -114,12 +114,11 @@ export const getServerSideProps = async ({params: {serviceRequestRecord}}) => {
   const res = await axios.get(`${baseUrl}/service_requests/${serviceRequestRecord}`);
   const data = await res.data;
   return {
-    props: { user: data}
+    props: { serviceRequest: data}
   }
 }
 
-function ArtizanProfiles({ user }) {
-  console.log(user)
+function ArtizanProfiles({ serviceRequest }) {
   const classess = useStyless();
   return (
     <div>
@@ -146,15 +145,15 @@ function ArtizanProfiles({ user }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <StyledTableRow className={classess.data} key={user._id} >
+                <StyledTableRow className={classess.data} key={serviceRequest._id} >
                   <StyledTableCell  align="right">
-                    {user.first_name}
+                    {serviceRequest?.first_name}
                   </StyledTableCell>
                   <StyledTableCell  align="right">
-                    {user.last_name}
+                    {serviceRequest?.last_name}
                   </StyledTableCell>
                   <StyledTableCell  align="right">
-                    {user.status}
+                    {serviceRequest?.status}
                   </StyledTableCell>
                   
                 </StyledTableRow>

@@ -101,7 +101,7 @@ const baseUrl = 'https://artizan-api-staged.herokuapp.com'
 
 export const getServerSideProps = async () => {
 	const response = await axios.get(`${baseUrl}/service_requests`)
-	const data = await response.data
+	const data = response.data
 
 	if (!data) {
 		return {
@@ -114,12 +114,13 @@ export const getServerSideProps = async () => {
 
 	return {
 		props: {
-			users: data,
+			serviceRequests: data,
 		},
 	}
 }
 
-function ServiceRequest({ users }) {
+function ServiceRequest({ serviceRequests }) {
+  console.log('serverStyleSheets', serviceRequests)
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const classess = useStyless()
@@ -136,7 +137,7 @@ function ServiceRequest({ users }) {
 		const token = getToken()
 		if (!token) {
 			setMessage('You are not authenticated')
-			return setTimeout(() => router.push('/admin/login'), 2000)
+			return setTimeout(() => router.push('/admin/login'))
 		}
 	}, [])
 
@@ -149,7 +150,7 @@ function ServiceRequest({ users }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Service-Request`)
 
-				return setTimeout(() => router.push(`/admin/dashboard`), 2000)
+				return setTimeout(() => router.push(`/admin/dashboard`))
 			} else if (!res.ok || res.status.response === 500 || res.status.response === 401) setError(res.response.data.message)
 			else {
 				setError('Oops! Something Went wrong.')
@@ -157,28 +158,28 @@ function ServiceRequest({ users }) {
 		}
 	}
 
-	const filteredServices = users.filter(service => {
+	const filteredServices = serviceRequests.filter(service => {
 		if (search === '') {
 			return service
 		} else if (
-			user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase()) ||
-			user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())
+			service?.user?.first_name.toString().toLowerCase().includes(search.toString().toLowerCase()) ||
+			service?.user?.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())
 		) {
-			return user
+			return service
 		}
 	})
 
-	const ServiceRows = ({ index, user }) => {
+	const ServiceRows = ({ index, service }) => {
 		let idx = 10 * (currentPage - 1) + index
 		return (
 			<>
-				<StyledTableRow className={classess.data} key={user._id}>
+				<StyledTableRow className={classess.data} key={service?._id}>
 					<StyledTableCell align="right">{idx + 1}</StyledTableCell>
-					<StyledTableCell align="right">{user.user.first_name + '  ' + user.user.last_name}</StyledTableCell>
-					<StyledTableCell align="right">{user.status}</StyledTableCell>
-					<StyledTableCell align="right">{user.coordinates_trail}</StyledTableCell>
+					<StyledTableCell align="right">{service?.user?.first_name + '  ' + service?.user?.last_name}</StyledTableCell>
+					<StyledTableCell align="right">{service?.status}</StyledTableCell>
+					<StyledTableCell align="right">{service?.coordinates_trail}</StyledTableCell>
 					<StyledTableCell align="right">
-						<Link href={`/admin/serviceRequest/edit/${user.user._id}`} className={classes.edit}>
+						<Link href={`/admin/serviceRequest/edit/${service?.user?._id}`} className={classes.edit}>
 							<Tooltip id="tooltip-top" title="Edit service requests" placement="top" classes={{ tooltip: classes.tooltip }}>
 								<IconButton aria-label="Edit" className={classes.tableActionButton}>
 									<Edit className={classes.tableActionButtonIcon + ' ' + classes.edit} />
@@ -187,8 +188,8 @@ function ServiceRequest({ users }) {
 						</Link>
 					</StyledTableCell>
 					<StyledTableCell align="right">
-						<div onClick={() => deleteArtizan(user.user._id)} className={classes.delete}>
-							{user.isDeleting ? (
+						<div onClick={() => deleteArtizan(service?._id)} className={classes.delete}>
+							{service?.isDeleting ? (
 								<span className={classes.editing}></span>
 							) : (
 								<span>
@@ -201,22 +202,22 @@ function ServiceRequest({ users }) {
 							)}
 						</div>
 					</StyledTableCell>
-					<Link href={`/admin/serviceRequest/${user.user._id}`}>
+					<Link href={`/admin/serviceRequest/${service?._id}`}>
 						<StyledTableCell align="right">
 							<Button className={classess.buttt}>View...</Button>
 						</StyledTableCell>
 					</Link>
 				</StyledTableRow>
 
-				{!users && (
+				{!serviceRequests && (
 					<StyledTableRow>
-						<StyledTableCell key={user.sizes} component="th" scope="row">
+						<StyledTableCell key={serviceRequest.sizes} component="th" scope="row">
 							<CircularProgress size={16} />
 						</StyledTableCell>
 					</StyledTableRow>
 				)}
-				{users && !users.length && (
-					<StyledTableCell key={user.notFound} component="th" scope="row">
+				{serviceRequests && !serviceRequests.length && (
+					<StyledTableCell key={usserviceRequester.notFound} component="th" scope="row">
 						<p>No Users To Found</p>
 					</StyledTableCell>
 				)}
@@ -244,7 +245,7 @@ function ServiceRequest({ users }) {
 	}
 
 	const getPaginationGroup = () => {
-		pageLimit = Math.ceil(users.length / dataLimit)
+		pageLimit = Math.ceil(serviceRequests.length / dataLimit)
 		let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit
 		return new Array(pageLimit).fill().map((_, idx) => start + idx + 1)
 	}
@@ -286,7 +287,7 @@ function ServiceRequest({ users }) {
 							</TableHead>
 							<TableBody>
 								{getPaginatedData().map((d, idx) => {
-									return <ServiceRows key={idx} index={idx} user={d} />
+									return <ServiceRows key={idx} index={idx} service={d} />
 								})}
 							</TableBody>
 						</Table>
