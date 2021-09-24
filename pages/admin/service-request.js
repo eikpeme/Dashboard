@@ -102,7 +102,7 @@ const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
 export const getServerSideProps = async () => {
   const response = await axios.get(`${baseUrl}/service_requests`);
-  const data = await response.data;
+  const data = response.data;
   
   if(!data){
     return{
@@ -115,13 +115,14 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-       users: data
+       serviceRequests: data
       }
     
   }
 }
 
-function ServiceRequest( {users}) {
+function ServiceRequest({serviceRequests}) {
+  
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -134,7 +135,7 @@ function ServiceRequest( {users}) {
     const token = getToken(); 
     if (!token) {
       setMessage('You are not authenticated')
-      return setTimeout(() => router.push('/admin/login'), 2000)
+      return setTimeout(() => router.push('/admin/login'))
     };
 
   }, []);
@@ -152,7 +153,7 @@ function ServiceRequest( {users}) {
       if(res.status === 200){
         setSuccess(`You have successfully deleted this Service-Request`)
 
-        return setTimeout(() => router.push(`/admin/dashboard`), 2000)
+        return setTimeout(() => router.push(`/admin/dashboard`))
 
       }else if(!res.ok || res.status.response === 500 || res.status.response === 401) setError(res.response.data.message)
         else{
@@ -207,33 +208,33 @@ function ServiceRequest( {users}) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users && users.filter((user) => {
+                {serviceRequests && serviceRequests.filter((serviceRequest) => {
                     if (search === "") {
-                      return user
+                      return serviceRequest
                     } else if 
-                    (user.user.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
-                     || user.user.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
-                      return user
+                    (serviceRequest?.user?.first_name.toString().toLowerCase().includes(search.toString().toLowerCase())
+                     || serviceRequest?.user?.last_name.toString().toLowerCase().includes(search.toString().toLowerCase())){
+                      return serviceRequest
                     }
                   })
-                  .map((user, index) => {
+                  .map((serviceRequest, index) => {
                     return (
                       
-                      <StyledTableRow className={classess.data} key={user._id}>
+                      <StyledTableRow className={classess.data} key={serviceRequest?._id}>
                          <StyledTableCell align="right">
                           {index + 1}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.user.first_name + '  '  +  user.user.last_name}
+                          {serviceRequest?.user?.first_name + '  '  +  serviceRequest?.user?.last_name}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.status}
+                          {serviceRequest?.status}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.coordinates_trail}
+                          {serviceRequest?.coordinates_trail}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/serviceRequest/edit/${user.user._id}`} className={classes.edit}>
+                        <Link href={`/admin/serviceRequest/edit/${serviceRequest?.user?._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit service requests"
@@ -254,8 +255,8 @@ function ServiceRequest( {users}) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user.user._id)} className={classes.delete} >
-                              {user.isDeleting 
+                          <div onClick={()=> deleteArtizan(serviceRequest?._id)} className={classes.delete} >
+                              {serviceRequest.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
                                   <Tooltip
@@ -279,7 +280,7 @@ function ServiceRequest( {users}) {
                               }
                           </div> 
                         </StyledTableCell>
-                        <Link href={`/admin/serviceRequest/${user.user._id}`}>
+                        <Link href={`/admin/serviceRequest/${serviceRequest?._id}`}>
                           <StyledTableCell  align="right">
                             <Button className={classess.buttt}>View...</Button>
                           </StyledTableCell>
@@ -288,15 +289,15 @@ function ServiceRequest( {users}) {
                     )
                   })
                 }
-                { !users &&
+                { !serviceRequests &&
                 <StyledTableRow>
-                <StyledTableCell key={user.sizes} component="th" scope="row">
+                <StyledTableCell key={serviceRequests.sizes} component="th" scope="row">
                   <CircularProgress size={16}/>
                 </StyledTableCell> 
                 </StyledTableRow>
                 }
-                {users && !users.length &&
-                  <StyledTableCell key={user.notFound} component="th" scope="row">
+                {serviceRequests && !serviceRequests.length &&
+                  <StyledTableCell key={serviceRequests.notFound} component="th" scope="row">
                     <p>No Users To Found</p>
                   </StyledTableCell>
                }

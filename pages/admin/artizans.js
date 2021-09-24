@@ -75,7 +75,7 @@ function ArtizanProfiles({ users }) {
 		const token = getToken()
 		if (!token) {
 			setMessage('You are not authenticated')
-			return setTimeout(() => router.push('/admin/login'), 2000)
+			return setTimeout(() => router.push('/admin/login'))
 		}
 	}, [])
 
@@ -86,7 +86,7 @@ function ArtizanProfiles({ users }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Artizan`)
 
-				return setTimeout(() => router.push(`/admin/dashboard`), 2000)
+				return setTimeout(() => router.push(`/admin/dashboard`))
 			} else {
 				setError('Oops! Something Went wrong.')
 			}

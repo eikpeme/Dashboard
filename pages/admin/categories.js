@@ -119,13 +119,13 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-       users: data 
+       categories: data 
       }
     
   }
 }
 
-function Category({ users }) {
+function Category({ categories }) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const classess = useStyless();
@@ -133,7 +133,7 @@ function Category({ users }) {
   const [search, setSearch] = useState('');
   const router = useRouter();
   const [error, setError] = useState('');
-	const [suc, setSuccess] = useState('');
+	const [success, setSuccess] = useState('');
   useEffect(() => {
     const token = getToken();
     if (!token) {
@@ -145,7 +145,7 @@ function Category({ users }) {
   
 
 
-  const deleteArtizan = async(userId) => {
+  const deleteCategory = async(userId) => {
     if(
       window.confirm(`Are you sure you wanna delete this User?`)
     ) {
@@ -171,9 +171,9 @@ function Category({ users }) {
           {message}
         </Alert>
       )}
-       { suc && (
+       { success && (
         <Alert severity="success"  >
-          {suc}
+          {success}
         </Alert>
       )}
 
@@ -209,33 +209,33 @@ function Category({ users }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users && users.filter((user) => {
+                {categories && categories.filter((category) => {
                    if (search === "") {
-                    return user
+                    return category
                   } else if 
-                  (user.name.toString().toLowerCase().includes(search.toString().toLowerCase())
-                  || user._id.toString().toLowerCase().includes(search.toString().toLowerCase())){
-                    return user
+                  (category.name.toString().toLowerCase().includes(search.toString().toLowerCase())
+                  || category._id.toString().toLowerCase().includes(search.toString().toLowerCase())){
+                    return category
                   }
                 })
-                  .map((user, index) => {
+                  .map((category, index) => {
                     return (
                       
-                      <StyledTableRow className={classess.data} key={user._id}>
+                      <StyledTableRow className={classess.data} key={category._id}>
                          <StyledTableCell align="right">
                           {index + 1}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user._id}
+                          {category._id}
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          {user.name}
+                          {category.name}
                         </StyledTableCell>
                         <StyledTableCell  align="right" >
-													<img src={user.image_url} className={classess.image}/>
+													<img src={category.image_url} className={classess.image}/>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                        <Link href={`/admin/categories/edit/${user._id}`} className={classes.edit}>
+                        <Link href={`/admin/categories/edit/${category._id}`} className={classes.edit}>
                           <Tooltip
                             id="tooltip-top"
                             title="Edit Category"
@@ -256,8 +256,8 @@ function Category({ users }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteArtizan(user.email)} className={classes.delete} >
-                              {user.isDeleting 
+                          <div onClick={()=> deleteCategory(category.email)} className={classes.delete} >
+                              {category.isDeleting 
                                 ? <span className={classes.editing}></span>
                                 : <span>
                                   <Tooltip
@@ -281,7 +281,7 @@ function Category({ users }) {
                               }
                           </div> 
                         </StyledTableCell>
-                        <Link href={`/admin/categories/${user._id}`}>
+                        <Link href={`/admin/categories/${category._id}`}>
                           <StyledTableCell  align="right">
                             <Button className={classess.buttt}>View...</Button>
                           </StyledTableCell>
@@ -290,15 +290,15 @@ function Category({ users }) {
                     )
                   })
                 }
-                { !users &&
+                { !categories &&
                 <StyledTableRow>
-                <StyledTableCell key={user.sizes} component="th" scope="row">
+                <StyledTableCell key={categories.sizes} component="th" scope="row">
                   <CircularProgress size={16}/>
                 </StyledTableCell> 
                 </StyledTableRow>
                 }
-                {users && !users.length &&
-                  <StyledTableCell key={user.notFound} component="th" scope="row">
+                {categories && !categories.length &&
+                  <StyledTableCell key={category.notFound} component="th" scope="row">
                     <p>No Users To Found</p>
                   </StyledTableCell>
                }
