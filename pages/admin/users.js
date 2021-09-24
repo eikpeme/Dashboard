@@ -106,10 +106,11 @@ function Users({ users }) {
 	})
 
 	const UserRows = ({ index, user }) => {
+		let idx = 10*(currentPage -1)+ index 
 		return (
 			<>
 				<StyledTableRow className={classess.data} key={user._id}>
-					<StyledTableCell align="right">{index + 1}</StyledTableCell>
+					<StyledTableCell align="right">{idx + 1}</StyledTableCell>
 					<StyledTableCell align="right">{user.first_name + '  ' + user.last_name}</StyledTableCell>
 					<StyledTableCell align="right">{user.email}</StyledTableCell>
 					<StyledTableCell align="right">{user.phone_number}</StyledTableCell>
@@ -223,7 +224,7 @@ function Users({ users }) {
 							</TableHead>
 							<TableBody>
 								{getPaginatedData().map((d, idx) => {
-									return <UserRows key={idx} index={idx} user={d} />
+									return <UserRows key={idx} index={idx} user={d}/>
 								})}
 							</TableBody>
 						</Table>
@@ -232,7 +233,7 @@ function Users({ users }) {
 					<div className="pagination">
 						{dataLimit < filteredUsers.length ? (
 							<>
-								<button onClick={goToPreviousPage} className={`prev ${currentPage === 1 ? 'disabled' : ''}`}>
+								<button onClick={goToPreviousPage} disabled={currentPage === 1} className={`prev ${currentPage === 1 ? 'disabled' : ''}`}>
 									prev
 								</button>
 
@@ -244,7 +245,7 @@ function Users({ users }) {
 								))}
 
 								{/* next button */}
-								<button onClick={goToNextPage} className={`next ${currentPage === pageLimit ? 'disabled' : ''}`}>
+								<button onClick={goToNextPage} disabled={currentPage === pageLimit} className={`next ${currentPage === pageLimit ? 'disabled' : ''}`}>
 									next
 								</button>
 							</>
