@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "assets/jss/nextjs-material-dashboard/components/tasksStyle.js";
 import MuiAlert from "@material-ui/lab/Alert";
-import { getToken } from '../../utility/apihelp';
+import { baseUrl, getToken } from '../../utility/apihelp';
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close"; 
 import {
@@ -102,7 +102,6 @@ const useStyless = makeStyles({
 	}
   
 }); 
-const baseUrl = 'https://artizan-api-staged.herokuapp.com';
 
 export const getServerSideProps = async () => {
   const response = await axios.get(`${baseUrl}/admins/categories`);

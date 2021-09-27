@@ -1,4 +1,5 @@
 import axios from 'axios'
+export const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const post = async (data, url) => {
   const response = await axios.post(url, data).catch((err) => err.response);
@@ -14,14 +15,15 @@ export const getUsers = () => {
 export const getToken = () => { 
   if(process.browser)
   return sessionStorage.getItem("password", 'password');
-
 };
+
 export const setUserSession = (email, password) => {
   sessionStorage.setItem("email", email)
   sessionStorage.setItem("password", JSON.stringify(password));
 };
+
 export const removeUserSession = () => {
   sessionStorage.removeItem('email');
   sessionStorage.removeItem('password');
-
 };
+

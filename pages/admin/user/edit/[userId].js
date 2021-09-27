@@ -80,6 +80,7 @@ import
 	Fab,
 }
 from '@material-ui/core'; 
+import { baseUrl } from "../../../../utility/apihelp";
 
  
 export const getInitialProps = async() => {
@@ -100,8 +101,6 @@ export const getInitialProps = async() => {
     
 }
 
-
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const getServerSideProps = async ({params: {userId}}) => {
 	const res = await axios.get(`${baseUrl}/admins/users/${userId}`);

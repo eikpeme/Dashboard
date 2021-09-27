@@ -34,9 +34,9 @@ function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-import { getToken} from '../../utility/apihelp';
+import { getToken, baseUrl} from '../../utility/apihelp';
 
-const baseUrl = 'https://artizan-api-staged.herokuapp.com'
+
 
 export  const getServerSideProps = async() => {
    const response = await axios.get(`${baseUrl}/admins/users`)

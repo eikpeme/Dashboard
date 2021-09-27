@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'cookies';
+import { baseUrl } from '../../utility/apihelp';
 
 export default async (req, res) => {
   const cookies = new Cookies(req, res);
@@ -9,7 +10,7 @@ export default async (req, res) => {
   };
 
   return axios
-    .post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams )
+    .post(`${baseUrl}/auth/admin/login`, loginParams )
     .then((response) => {
       if (response.data.status === 'success') {
         cookies.set('jwt', response.data.token, {
