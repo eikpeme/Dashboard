@@ -6,9 +6,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import Admin from "layouts/Admin.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
-import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
-import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -77,8 +75,9 @@ import
 	CircularProgress,
 }
 from '@material-ui/core'; 
+import { authAxios } from "../../../utility/apihelp";
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
 
 const add = () => {
 	const router = useRouter(); 
@@ -101,13 +100,12 @@ const add = () => {
 			
 		}
 		setError(null)
-		setLoading(true)
-
+		setLoading(true) 
 		try {
-			await axios.post(`${baseUrl}/admins/categories/create`, users)
+			await authAxios.post(`/admins/categories/create`, users)
 			setLoading(false)
-				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/categories'), 2000)
+				setSuccess('Category added successfully')
+			    return router.push('/admin/categories')
 			
 		} catch (error) {
 			setLoading(false)
@@ -157,12 +155,12 @@ const add = () => {
 												required
 												{...image_url}
 											/>
-                                            <Button  
-                                                fullWidth 
-                                                type="submit" 
-                                                variant="contained"
-                                                className={classes.button}
-                                                disabled={loading}
+										<Button  
+												fullWidth 
+												type="submit" 
+												variant="contained"
+												className={classes.button}
+												disabled={loading}
 											>
 												{loading && <CircularProgress size={16} />}
 												{!loading && 'Add Artizan'}

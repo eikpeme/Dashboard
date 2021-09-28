@@ -7,7 +7,6 @@ import Admin from "layouts/Admin.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import React, {useState} from "react";
-import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -78,11 +77,12 @@ import
 	CircularProgress,
 }
 from '@material-ui/core'; 
+import { authAxios } from "../../../../utility/apihelp";
 
  
 export const getInitialProps = async() => {
-    const response = await axios.get(`${baseUrl}/admins/categories`);
-    const data = await response.data;
+    const response = await authAxios.get(`/categories`);
+    const data = response.data;
     const paths = data.map(category => {
         return {
             params: {
@@ -99,11 +99,11 @@ export const getInitialProps = async() => {
 }
 
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
 
 export const getServerSideProps = async ({params: {categoryId}}) => {
-	const res = await axios.get(`${baseUrl}/admins/categories/${categoryId}`);
-    const artisansData = await res.data;
+	const res = await authAxios.get(`/categories/${categoryId}`);
+    const artisansData = res.data;
 	return {
 	  props: { artisansData}
 	}
@@ -125,7 +125,7 @@ const add = ({ artisansData}) => {
 
 	const { 
 		active,
-        email,
+    email,
 	} = category
 
 	const handleCreateUsers = async(e) => {
@@ -139,7 +139,7 @@ const add = ({ artisansData}) => {
 				active: category.active
 				
 			}
-				await axios.put(`${baseUrl}/admins/categories/update`, requestBody)
+				await authAxios.put(`/admins/categories/`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
 				return setTimeout(() => router.push(`/admin/categoery`), 2000)
@@ -177,31 +177,31 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-                                            <TextField 
-                                                fullWidth
-                                                type="text"
-                                                label="Activeness"
-                                                color="primary"
-                                                required
-                                                name="active"
-                                                value={active}
-                                                onChange={handleInputChange}
-                                            />
-                                            <Button
-                                                fullWidth 
-                                                type="submit" 
-                                                variant="contained"
-                                                className={classes.button}
-                                                disabled={loading}
-                                            >
-                                                {loading && <CircularProgress size={16} />}
-                                                {!loading && 'Submit Changes'}
-                                            </Button> 
-                                            {error && (
-                                                <Alert severity="error">
-                                                    {error}
-                                                </Alert>
-                                            )}
+											<TextField 
+												fullWidth
+												type="text"
+												label="Activeness"
+												color="primary"
+												required
+												name="active"
+												value={active}
+												onChange={handleInputChange}
+											/>
+											<Button
+												fullWidth 
+												type="submit" 
+												variant="contained"
+												className={classes.button}
+												disabled={loading}
+									   	>
+												{loading && <CircularProgress size={16} />}
+												{!loading && 'Submit Changes'}
+											</Button> 
+											{error && (
+												<Alert severity="error">
+													{error}
+												</Alert>
+											)}
 										</Grid>
 									</form>
 								</Container>

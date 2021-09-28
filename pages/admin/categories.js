@@ -4,7 +4,7 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 // layout for this page
 import Admin from "layouts/Admin.js";
-import axios from 'axios';
+
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "assets/jss/nextjs-material-dashboard/components/tasksStyle.js";
 import MuiAlert from "@material-ui/lab/Alert";
-import { baseUrl, getToken } from '../../utility/apihelp';
+import { authAxios, getToken } from '../../utility/apihelp';
 import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close"; 
 import {
@@ -104,13 +104,13 @@ const useStyless = makeStyles({
 }); 
 
 export const getServerSideProps = async () => {
-  const response = await axios.get(`${baseUrl}/admins/categories`);
-  const data = await response.data;
+  const response = await authAxios.get(`/categories`);
+  const data = response.data;
   
   if(!data){
     return{
       redirect: {
-        destination: '/',
+        destination: '/admin/dashboard',
         permanent: false,
       }
     }
@@ -148,13 +148,13 @@ function Category({ categories }) {
     if(
       window.confirm(`Are you sure you wanna delete this User?`)
     ) {
-      const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
+      const res = await authAxios.delete(`/admins/users/${userId}`)
      
      res.data
       if(res.status === 200){
         setSuccess(`You have successfully deleted this User`)
 
-        return setTimeout(() => router.push(`/admin/dashboard`), 2000)
+        return router.push(`/admin/dashboard`)
 
       }else{
         setError('Oops! Something Went wrong.')
@@ -256,28 +256,28 @@ function Category({ categories }) {
                         </StyledTableCell>
                         <StyledTableCell  align="right">
                           <div onClick={()=> deleteCategory(category.email)} className={classes.delete} >
-                              {category.isDeleting 
-                                ? <span className={classes.editing}></span>
-                                : <span>
-                                  <Tooltip
-                                    id="tooltip-top-start"
-                                    title="Delete Category"
-                                    placement="top"
-                                    classes={{ tooltip: classes.tooltip }}
+                            {category.isDeleting 
+                              ? <span className={classes.editing}></span>
+                              : <span>
+                                <Tooltip
+                                  id="tooltip-top-start"
+                                  title="Delete Category"
+                                  placement="top"
+                                  classes={{ tooltip: classes.tooltip }}
+                                >
+                                  <IconButton
+                                    aria-label="Close"
+                                    className={classes.tableActionButton}
                                   >
-                                    <IconButton
-                                      aria-label="Close"
-                                      className={classes.tableActionButton}
-                                    >
-                                      <Close
-                                        className={
-                                          classes.tableActionButtonIcon + "  " + classes.close
-                                        }
-                                      />
-                                    </IconButton>
-                                  </Tooltip>
-                                </span>
-                              }
+                                    <Close
+                                      className={
+                                        classes.tableActionButtonIcon + "  " + classes.close
+                                      }
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                              </span>
+                            }
                           </div> 
                         </StyledTableCell>
                         <Link href={`/admin/categories/${category._id}`}>
