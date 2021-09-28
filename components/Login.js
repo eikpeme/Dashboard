@@ -1,18 +1,19 @@
-import { makeStyles } from '@material-ui/core/styles'
-import styles from 'assets/jss/nextjs-material-dashboard/views/loginStyle.js'
-import Card from 'components/Card/Card.js'
-import Container from '@material-ui/core/Container'
-import CardHeader from 'components/Card/CardHeader.js'
-import CardBody from 'components/Card/CardBody.js'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import { CircularProgress, Button } from '@material-ui/core'
-import { useState, useContext } from 'react'
-import { useRouter } from 'next/router'
-import axios from 'axios'
-import UserContext from '../utility/useContext'
-import { setUserSession } from '../utility/apihelp'
-import MuiAlert from '@material-ui/lab/Alert'
+import { makeStyles } from '@material-ui/core/styles';
+import styles from 'assets/jss/nextjs-material-dashboard/views/loginStyle.js';
+import Card from 'components/Card/Card.js';
+import Container from '@material-ui/core/Container';
+import CardHeader from 'components/Card/CardHeader.js';
+import CardBody from 'components/Card/CardBody.js';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import { CircularProgress, Button } from '@material-ui/core';
+import { useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import UserContext from '../utility/useContext';
+import { setUserSession, baseUrl, adminToken } from '../utility/apihelp';
+import MuiAlert from '@material-ui/lab/Alert';
+
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
 }
@@ -24,12 +25,13 @@ const Login = () => {
 	const email = useFormInput('')
 	const password = useFormInput('')
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [success, setSuccess] = useState('')
 	const [loading, setLoading] = useState()
 	const { dispatch } = useContext(UserContext)
 
 	const handleSubmit = e => {
-		e.preventDefault()
+		e.preventDefault();
+
 		const loginParams = {
 			email: email.value,
 			password: password.value,
@@ -39,19 +41,33 @@ const Login = () => {
 		setLoading(true)
 
 		axios
-			.post('https://artizan-api-staged.herokuapp.com/auth/admin/login', loginParams)
+			.post(`${baseUrl}/auth/admin/login`,loginParams, {
+				headers: {
+					'authorization': `Bearer ${adminToken}`,
+					'Accept' : 'application/json',
+					'Content-Type': 'application/json'
+			}
+			})
 			.then(response => {
 				setLoading(false)
 				setSuccess('Success')
 				setUserSession(response.data.token, response.data.user)
 				dispatch({ type: 'login' })
-				return setTimeout(() => router.push('/admin/dashboard'), 1000)
+				return router.push('/admin/dashboard')
 			})
-			.catch(err => {
+			.catch(error => {
 				setLoading(false)
 
-				if (err.response.status === 401 || err.response.status === 400) setError(err.response.data.message)
-				else if (email.value === '' || password.value === '') setError('Fields are required')
+				if (
+					error.response.status === 401 || 
+					error.response.status === 400 || 
+					error.response.status === 404) 
+					setError(error.response.data.message)
+
+				else if (
+					email.value === '' || 
+					password.value === '') 
+					setError('Fields are required')
 				else {
 					setError('Something went wrong, please try again')
 				}
@@ -59,7 +75,7 @@ const Login = () => {
 	}
 	return (
 		<div>
-			{suc && <Alert severity="success">{suc}</Alert>}
+			{success && <Alert severity="success">{success}</Alert>}
 			<div className={classes.cardsbodies}></div>
 			<Container sm="true">
 				<Grid container spacing={3}>

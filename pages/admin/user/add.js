@@ -1,15 +1,17 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import styles from 'assets/jss/nextjs-material-dashboard/views/loginStyle.js'
-import Card from 'components/Card/Card.js'
-import Container from '@material-ui/core/Container'
-import CardHeader from 'components/Card/CardHeader.js'
-import Admin from 'layouts/Admin.js'
-import CardBody from 'components/Card/CardBody.js'
-import { useRouter } from 'next/router'
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
-import React, { useState } from 'react'
-import axios from 'axios'
-import MuiAlert from '@material-ui/lab/Alert'
+import { makeStyles} from '@material-ui/core/styles';
+import styles from 'assets/jss/nextjs-material-dashboard/views/loginStyle.js';
+import Card from 'components/Card/Card.js';
+import Container from '@material-ui/core/Container';
+import CardHeader from 'components/Card/CardHeader.js';
+import Admin from 'layouts/Admin.js';
+import CardBody from 'components/Card/CardBody.js';
+import { useRouter } from 'next/router';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import React, { useState } from 'react';
+import axios from 'axios';
+import MuiAlert from '@material-ui/lab/Alert';
+import { baseUrl } from '../../../utility/apihelp';
+
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
 }
@@ -68,7 +70,7 @@ const useStyless = makeStyles(theme => ({
 
 import { Grid, TextField, Button, CircularProgress, Fab } from '@material-ui/core'
 
-const baseUrl = 'https://artizan-api-staged.herokuapp.com'
+
 
 const add = () => {
 	const router = useRouter()

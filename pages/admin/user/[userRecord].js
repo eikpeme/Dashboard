@@ -22,6 +22,7 @@ import {
   Fab,
 }
   from '@material-ui/core';
+import { baseUrl } from "../../../utility/apihelp";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -108,7 +109,7 @@ export const getInitialProps = async() => {
   }
 }
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
 
 export const getServerSideProps = async ({params: {userRecord}}) => {
   const res = await axios.get(`${baseUrl}/admins/users/${userRecord}`);
