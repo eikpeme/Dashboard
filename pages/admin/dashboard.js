@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-
+import React, { useEffect, useState} from "react";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
@@ -23,35 +21,31 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Link from "next/link"
-import axios from 'axios';
 import { useRouter } from "next/router";
 import { bugs, pending, resolved } from "variables/general.js";
-
-
+import { getToken, authAxios} from '../../utility/apihelp';
 import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle.js";
 import MuiAlert from "@material-ui/lab/Alert";
+
+
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-import { getToken, baseUrl} from '../../utility/apihelp';
-
-
-
 export  const getServerSideProps = async() => {
-   const response = await axios.get(`${baseUrl}/admins/users`)
+  const response = await authAxios.get(`/admins/users`);
   const resbody =  response.data;
 
-  const res = await axios.get(`${baseUrl}/artizans`)
-	const data = await res.data;
+  const res = await authAxios.get(`/artizans`);
+	const data = res.data;
 
-  const services = await axios.get(`${baseUrl}/service_requests`);
-  const serviceRequest = await services.data;
+  const services = await authAxios.get(`/service_requests`);
+  const serviceRequest = services.data;
 
-  const category = await axios.get(`${baseUrl}/admins/categories`);
-  const categoryBody = await category.data;
+  const category = await authAxios.get(`/categories`);
+  const categoryBody = category.data;
 
-  if(!resbody || !data || !serviceRequest){
+  if(!resbody || !data || !serviceRequest || categoryBody){
     return{
       redirect: {
         destination: 'admin/login',
@@ -64,7 +58,7 @@ export  const getServerSideProps = async() => {
       users: resbody,
       artizans: data,
       serviceRequests: serviceRequest,
-      categoryBodies: categoryBody
+      categoryBodies: categoryBody,
     }
    }
 }
@@ -78,7 +72,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
     const token = getToken();
     if (!token) {
       setMessage('You are not authenticated')
-      return setTimeout(() => router.push('/admin/login'), 2000)
+      return  router.push('/admin/login')
     }
     
   }, []);

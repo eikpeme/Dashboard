@@ -11,7 +11,7 @@ import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import UserContext from '../utility/useContext';
-import { setUserSession, baseUrl } from '../utility/apihelp';
+import { setUserSession, baseUrl, adminToken } from '../utility/apihelp';
 import MuiAlert from '@material-ui/lab/Alert';
 
 function Alert(props) {
@@ -41,7 +41,13 @@ const Login = () => {
 		setLoading(true)
 
 		axios
-			.post(`${baseUrl}/auth/admin/login`, loginParams)
+			.post(`${baseUrl}/auth/admin/login`,loginParams, {
+				headers: {
+					'authorization': `Bearer ${adminToken}`,
+					'Accept' : 'application/json',
+					'Content-Type': 'application/json'
+			}
+			})
 			.then(response => {
 				setLoading(false)
 				setSuccess('Success')

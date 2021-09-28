@@ -103,7 +103,7 @@ export const getServerSideProps = async () => {
 
 	if (!data) {
 		return {
-			redirect: {
+			redirect: { 
 				destination: '/',
 				permanent: false,
 			},
