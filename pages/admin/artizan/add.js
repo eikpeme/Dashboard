@@ -8,7 +8,6 @@ import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
-import axios from 'axios'
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -85,6 +84,7 @@ import
 	InputLabel
 }
 from '@material-ui/core'; 
+import { authAxios } from "../../../utility/apihelp";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -97,11 +97,10 @@ const MenuProps = {
   },
 };
  
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const getServerSideProps = async () => {
-	const response = await axios.get(`${baseUrl}/categories`);
-	const data = await response.data;
+	const response = await authAxios.get(`/categories`);
+	const data = response.data;
   
 	return {
 	  props: { ids: data }
@@ -118,7 +117,7 @@ const add = ({ids}) => {
 	const classess = useStyless();
 	const [loading, setLoading] = useState()
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [success, setSuccess] = useState('')
 	const first_name = useFormInput('')
 	const last_name = useFormInput('')
 	const email = useFormInput('')
@@ -154,7 +153,7 @@ const add = ({ids}) => {
 		setLoading(true)
 
 		try {
-			await axios.post(`${baseUrl}/artizans/create`, artizan)
+			await authAxios.post(`/admins/artizans/create`, artizan)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
 			    return setTimeout(() => router.push('/admin/artizans'), 2000)
@@ -170,9 +169,9 @@ const add = ({ids}) => {
 	
 	return (
 		<div>
-			{suc && (
+			{success && (
 				<Alert severity="success">
-				{suc}
+				{success}
 				</Alert>
 			)}
 		  <div className={classes.cardsbodies}></div>

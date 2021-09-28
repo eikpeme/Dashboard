@@ -4,7 +4,6 @@ import { withStyles, makeStyles } from '@material-ui/core/styles'
 
 // layout for this page
 import Admin from 'layouts/Admin.js'
-import axios from 'axios'
 // core components
 import Card from 'components/Card/Card.js'
 import CardHeader from 'components/Card/CardHeader.js'
@@ -13,7 +12,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styles from 'assets/jss/nextjs-material-dashboard/components/tasksStyle.js'
 import MuiAlert from '@material-ui/lab/Alert'
-import { baseUrl, getToken } from '../../utility/apihelp'
+import { authAxios, getToken } from '../../utility/apihelp'
 import Edit from '@material-ui/icons/Edit'
 import Close from '@material-ui/icons/Close'
 import {
@@ -38,13 +37,13 @@ function Alert(props) {
 
 
 export async function getServerSideProps(context) {
-	const response = await axios.get(`${baseUrl}/artizans`)
-	const data = await response.data
+	const response = await authAxios.get(`admins/artizans`)
+	const data =  response.data
 
 	if (!data) {
 		return {
 			redirect: {
-				destination: '/',
+				destination: '/admin/dashboard',
 				permanent: false,
 			},
 		}
@@ -80,7 +79,7 @@ function ArtizanProfiles({ users }) {
 
 	const deleteArtizan = async artizansid => {
 		if (window.confirm(`Are you sure you wanna delete this Artizan?`)) {
-			const res = await axios.delete(`${baseUrl}/artizans/${artizansid}`)
+			const res = await authAxios.delete(`admins/artizans/${artizansid}`)
 			await res.data
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Artizan`)

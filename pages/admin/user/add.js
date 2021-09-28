@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import React, { useState } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
-import { baseUrl, authAxios } from '../../../utility/apihelp';
+import { authAxios } from '../../../utility/apihelp';
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
