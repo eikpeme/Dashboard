@@ -8,9 +8,8 @@ import CardBody from 'components/Card/CardBody.js';
 import { useRouter } from 'next/router';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import React, { useState } from 'react';
-import axios from 'axios';
 import MuiAlert from '@material-ui/lab/Alert';
-import { baseUrl } from '../../../utility/apihelp';
+import { baseUrl, authAxios } from '../../../utility/apihelp';
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -107,7 +106,7 @@ const add = () => {
 		setLoading(true)
 
 		try {
-			await axios.post(`${baseUrl}/admins/users/create`, users)
+			await authAxios.post(`/admins/users/create`, users)
 			setLoading(false)
 			setSuccess('Artizan added successfully')
 			return setTimeout(() => router.push('/admin/users'), 2000)
