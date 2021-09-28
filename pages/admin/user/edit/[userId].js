@@ -8,13 +8,13 @@ import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
-import axios from 'axios'
+import { baseUrl,authAxios } from "../../../../utility/apihelp";
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-
+ baseUrl
 const useStyless = makeStyles((theme) => ({
 	formControl: {
         margin: theme.spacing(1),
@@ -80,11 +80,11 @@ import
 	Fab,
 }
 from '@material-ui/core'; 
-import { baseUrl } from "../../../../utility/apihelp";
+
 
  
 export const getInitialProps = async() => {
-    const response = await axios.get(`${baseUrl}/admins/users`);
+    const response = await authAxios.get(`/admins/users`);
     const data = await response.data;
     const paths = data.map(user => {
         return {
@@ -103,7 +103,7 @@ export const getInitialProps = async() => {
 
 
 export const getServerSideProps = async ({params: {userId}}) => {
-	const res = await axios.get(`${baseUrl}/admins/users/${userId}`);
+	const res = await authAxios.get(`/admins/users/${userId}`);
     const artisansData = await res.data;
 	return {
 	  props: { artisansData}
@@ -123,22 +123,23 @@ const add = ({ artisansData}) => {
 	const [user, setUser] = useState({
 		
 		email: artisansData.email,
-        phone_number: artisansData.phone_number,
+    phone_number: artisansData.phone_number,
 		rating: artisansData.rating,
 		password: artisansData.password,
 		address: artisansData.address,
-        first_name: artisansData.first_name,
+
 
 	});
 
 	const { 
 		email,
 		last_name,
-        phone_number,
-        first_name,
-        rating,
-        password,
-        address
+		phone_number,
+		rating,
+		password,
+		first_name,
+		update_data,
+		address
 	} = user
 
 	const handleCreateUsers = async(e) => {
@@ -150,18 +151,20 @@ const add = ({ artisansData}) => {
 		try {
 			const requestBody = {
 				email,
-				update_data: { last_name: user.update_data}
+				update_data: { 
+					last_name: user.update_data,
+					first_name: user.update_data
+				}
+
 			}
-				await axios.put(`${baseUrl}/admins/users/update`, requestBody)
+				await authAxios.put(`/admins/users/update`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
-				return setTimeout(() => router.push(`/admin/users`), 2000)
+				return router.push(`/admin/users`)
 		} catch (error) {
 				setLoading(false)
-				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
-			else{
 				setError('Something went wrong, please try again')
-			}
+			
 		}
 		
 	}
@@ -190,17 +193,17 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-                                        <TextField 
+                      <TextField 
 												fullWidth
 												type="text"
 												label="First Name"
 												color="primary"
 												required
-												name="first_name"
-											    value={first_name}
+												name="update_data"
+											  value={first_name}
 												onChange={handleInputChange}
 											/>
-                                            <TextField 
+                        <TextField 
 												fullWidth
 												type="text"
 												label="Last Name"

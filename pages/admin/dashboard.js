@@ -36,16 +36,16 @@ export  const getServerSideProps = async() => {
   const response = await authAxios.get(`/admins/users`);
   const resbody =  response.data;
 
-  const res = await authAxios.get(`/artizans`);
-	const data = res.data;
+  // const res = await authAxios.get(`/artizans`);
+	// const data = res.data;
 
-  const services = await authAxios.get(`/service_requests`);
-  const serviceRequest = services.data;
+  // const services = await authAxios.get(`/service_requests`);
+  // const serviceRequest = services.data;
 
-  const category = await authAxios.get(`/categories`);
-  const categoryBody = category.data;
+  // const category = await authAxios.get(`/categories`);
+  // const categoryBody = category.data;
 
-  if(!resbody || !data || !serviceRequest || categoryBody){
+  if(!resbody){
     return{
       redirect: {
         destination: 'admin/login',
@@ -56,9 +56,9 @@ export  const getServerSideProps = async() => {
    return{
     props: {
       users: resbody,
-      artizans: data,
-      serviceRequests: serviceRequest,
-      categoryBodies: categoryBody,
+      // artizans: data,
+      // serviceRequests: serviceRequest,
+      // categoryBodies: categoryBody,
     }
    }
 }
@@ -120,7 +120,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
               </CardIcon>
               <p className={classes.cardCategory}>Total Artizans</p>
               <h3 className={classes.cardTitle}>
-                <div>{artizans.length}</div>
+                <div></div>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -144,7 +144,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
               </CardIcon>
               <p className={classes.cardCategory}>Total Categories</p>
               <h3 className={classes.cardTitle}>
-                <div>{categoryBodies.length}</div>
+                {/* <div>{categoryBodies.length}</div> */}
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -167,7 +167,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
               <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total Requests</p>
-              <h3 className={classes.cardTitle}>{serviceRequests.length}</h3>
+              {/* <h3 className={classes.cardTitle}>{serviceRequests.length}</h3> */}
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>

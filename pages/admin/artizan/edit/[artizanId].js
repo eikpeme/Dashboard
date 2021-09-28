@@ -155,7 +155,7 @@ const add = ({ artisansData}) => {
                 await axios.put(`${baseUrl}/artizans/update`, requestBody)
                 setLoading(false)
                 setSuccess('Artizan Edited Successfully')
-                return setTimeout(() => router.push(`/admin/artizans`), 2000)
+                return router.push(`/admin/artizans`)
         } catch (error) {
                 setLoading(false)
                 if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
