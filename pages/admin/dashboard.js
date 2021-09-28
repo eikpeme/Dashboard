@@ -42,10 +42,10 @@ export  const getServerSideProps = async() => {
   // const services = await authAxios.get(`/service_requests`);
   // const serviceRequest = services.data;
 
-  // const category = await authAxios.get(`/categories`);
-  // const categoryBody = category.data;
+  const category = await authAxios.get(`/categories`);
+  const categoryBody = category.data;
 
-  if(!resbody || !data){
+  if(!resbody || !data || !categoryBody){
     return{
       redirect: {
         destination: 'admin/dashboard',
@@ -58,7 +58,7 @@ export  const getServerSideProps = async() => {
       users: resbody,
       artizans: data,
       // serviceRequests: serviceRequest,
-      // categoryBodies: categoryBody,
+      categoryBodies: categoryBody,
     }
    }
 }
@@ -144,7 +144,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
               </CardIcon>
               <p className={classes.cardCategory}>Total Categories</p>
               <h3 className={classes.cardTitle}>
-                {/* <div>{categoryBodies.length}</div> */}
+                <div>{categoryBodies.length}</div>
               </h3>
             </CardHeader>
             <CardFooter stats>
