@@ -1,6 +1,7 @@
 import axios from 'axios'
 export const baseUrl =  'https://artizan-api-staged.herokuapp.com'
-export const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDYyNjgxYWNhZDQxMmM4MDNhZDY5YyIsImVtYWlsIjoiZWRnYXJEYXZpZHNAdGVzdC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzE5OTQyMzIsImV4cCI6MTYzMTk5NzgzMn0.YtcK28h2IAulP4plwDJZlNc5ITCA7BgMtSBtgPZ3ZFA'
+export const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMTFmMGZmYWI1MTE5MDAwNDc5ZGM2YSIsImVtYWlsIjoiYWRtaW5AYXJ0aXphbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2MzI4NTg4MzN9.reJxZ2s0sMki3XuziNwUmoP-4sx8YCV8gu0ZZgm0GF8'
+
 
 export const post = async (data, url) => {
   const response = await axios.post(url, data).catch((err) => err.response);
