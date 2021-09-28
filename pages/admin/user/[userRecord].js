@@ -4,7 +4,6 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 // layout for this page
 import Admin from "layouts/Admin.js";
-import axios from 'axios';
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -22,7 +21,7 @@ import {
   Fab,
 }
   from '@material-ui/core';
-import { baseUrl } from "../../../utility/apihelp";
+import { authAxios} from "../../../utility/apihelp";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -94,8 +93,8 @@ const useStyless = makeStyles({
 }); 
 
 export const getInitialProps = async() => {
-  const response = await axios.get(`${baseUrl}/admins/users`);
-  const data = await response.data;
+  const response = await authAxios.get(`/admins/users`);
+  const data = response.data;
   const paths = data.map(artid => {
     return {
       params: {
@@ -112,8 +111,8 @@ export const getInitialProps = async() => {
 
 
 export const getServerSideProps = async ({params: {userRecord}}) => {
-  const res = await axios.get(`${baseUrl}/admins/users/${userRecord}`);
-  const data = await res.data;
+  const res = await authAxios.get(`/admins/users/${userRecord}`);
+  const data = res.data;
   return {
     props: { user: data}
   }

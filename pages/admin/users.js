@@ -78,7 +78,7 @@ function Users({ users }) {
 
 	const deleteArtizan = async userId => {
 		if (window.confirm(`Are you sure you wanna delete this User?`)) {
-			const res = await axios.delete(`${baseUrl}/admins/users/${userId}`)
+			const res = await authAxios.delete(`/admins/users/${userId}`)
 
 			res.data
 			if (res.status === 200) {
