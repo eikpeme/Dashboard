@@ -4,7 +4,6 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 // layout for this page
 import Admin from "layouts/Admin.js";
-import axios from 'axios';
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -22,6 +21,7 @@ import {
   Fab,
 }
   from '@material-ui/core';
+import { authAxios } from "../../../utility/apihelp";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -93,8 +93,8 @@ const useStyless = makeStyles({
 }); 
 
 export const getInitialProps = async() => {
-  const response = await axios.get(`${baseUrl}/artizans`);
-  const data = await response.data;
+  const response = await authAxios.get(`/admins/artizans`);
+  const data = response.data;
   const paths = data.map(artid => {
     return {
       params: {
@@ -108,11 +108,11 @@ export const getInitialProps = async() => {
   }
 }
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
 
 export const getServerSideProps = async ({params: {artizansRecord}}) => {
-  const res = await axios.get(`${baseUrl}/artizans/${artizansRecord}`);
-  const data = await res.data;
+  const res = await authAxios.get(`/admins/artizans/${artizansRecord}`);
+  const data = res.data;
   return {
     props: { user: data}
   }
