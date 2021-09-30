@@ -153,12 +153,14 @@ const add = ({ artisansData}) => {
 			
 			try {
 				const requestBody = {
-					email,
-					update_data: { 
-						last_name:  artizan.last_name,
-						first_name: artizan.first_name
-						
-					}
+					last_name:  artizan.last_name,
+					first_name: artizan.first_name,
+					short_description: artizan.short_description,
+					certifications: artizan.certifications,
+					phone_number: artizan.phone_number,
+					password: artizan.password,
+					address: artizan.address,
+					email: artizan.email,
 				}
 				await authAxios.put(`admins/artizans/update/${artisansData.email}`, requestBody)
 				setLoading(false)
