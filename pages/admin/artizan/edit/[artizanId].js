@@ -129,6 +129,7 @@ const add = ({ artisansData}) => {
 		password: artisansData.password,
 		address: artisansData.address,
 		first_name: artisansData.first_name,
+		last_name: artisansData.last_name,
 		
 			
 	});
@@ -154,7 +155,8 @@ const add = ({ artisansData}) => {
 				const requestBody = {
 					email,
 					update_data: { 
-						last_name:  artizan.update_data,
+						last_name:  artizan.last_name,
+						first_name: artizan.first_name
 						
 					}
 				}
@@ -212,7 +214,7 @@ const add = ({ artisansData}) => {
 														label="Last Name"
 														color="primary"
 														required
-														name="update_data"
+														name="last_name"
 														value={last_name}
 														onChange={handleInputChange}
 													/>
