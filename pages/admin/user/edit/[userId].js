@@ -127,6 +127,7 @@ const add = ({ artisansData}) => {
 		rating: artisansData.rating,
 		password: artisansData.password,
 		address: artisansData.address,
+		
 
 
 	});
@@ -138,7 +139,6 @@ const add = ({ artisansData}) => {
 		rating,
 		password,
 		first_name,
-		update_data,
 		address
 	} = user
 
@@ -152,12 +152,13 @@ const add = ({ artisansData}) => {
 			const requestBody = {
 				email,
 				update_data: { 
-					last_name: user.update_data,
-					first_name: user.update_data
+					last_name: user.last_name,
+					first_name: user.first_name
+					
 				}
 
 			}
-				await authAxios.put(`/admins/users/update`, requestBody)
+				await authAxios.put(`/admins/users/update/${artisansData.email}`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
 				return router.push(`/admin/users`)
@@ -199,7 +200,7 @@ const add = ({ artisansData}) => {
 												label="First Name"
 												color="primary"
 												required
-												name="update_data"
+												name="first_name"
 											  value={first_name}
 												onChange={handleInputChange}
 											/>
@@ -209,7 +210,7 @@ const add = ({ artisansData}) => {
 												label="Last Name"
 												color="primary" 
 												required
-												name="update_data"
+												name="last_name"
 												value={last_name}
 												onChange={handleInputChange}
 											/>
