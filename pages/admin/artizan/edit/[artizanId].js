@@ -89,7 +89,7 @@ export const getInitialProps = async() => {
 	const paths = data.map(artid => {
 		return {
 			params: {
-				artizanId: `${artid._id}`
+				artizanId: `${artid.email}`
 			},
 				
 		}
@@ -128,6 +128,8 @@ const add = ({ artisansData}) => {
 		rating: artisansData.rating,
 		password: artisansData.password,
 		address: artisansData.address,
+		first_name: artisansData.first_name,
+		
 			
 	});
 
@@ -152,11 +154,11 @@ const add = ({ artisansData}) => {
 				const requestBody = {
 					email,
 					update_data: { 
-						last_name: artizan.update_data,
-						first_name: artizan.update_data
+						last_name:  artizan.update_data,
+						
 					}
 				}
-				await authAxios.put(`admins/artizans/update`, requestBody)
+				await authAxios.put(`admins/artizans/update/${artisansData.email}`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
 				return router.push(`/admin/artizans`)
@@ -200,7 +202,7 @@ const add = ({ artisansData}) => {
 														label="First Name"
 														color="primary"
 														required
-														name="update_data"
+														name="first_name"
 														value={first_name}
 														onChange={handleInputChange}
 													/>
