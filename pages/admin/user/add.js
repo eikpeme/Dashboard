@@ -155,7 +155,7 @@ const add = () => {
 											</label>
 											<Button fullWidth type="submit" variant="contained" className={classes.button} disabled={loading}>
 												{loading && <CircularProgress size={16} />}
-												{!loading && 'Add Artizan'}
+												{!loading && 'Create user'}
 											</Button>
 											{error && <Alert severity="error">{error}</Alert>}
 										</Grid>
