@@ -1,4 +1,4 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles} from "@material-ui/core/styles";
 import styles from "assets/jss/nextjs-material-dashboard/views/loginStyle.js";
 import Card from "components/Card/Card.js";
 import Container from "@material-ui/core/Container"
@@ -8,7 +8,7 @@ import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import React, {useState} from "react";
-import axios from 'axios'
+import { authAxios } from "../../../../utility/apihelp";
 import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -17,19 +17,19 @@ function Alert(props) {
 
 const useStyless = makeStyles((theme) => ({
 	formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
+		margin: theme.spacing(1),
+		minWidth: 120,
+		maxWidth: 300,
 	},
 	chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
+		display: 'flex',
+		flexWrap: 'wrap',
 	},
 	chip: {
-        margin: 2,
+    margin: 2,
 	},
 	noLabel: {
-        marginTop: theme.spacing(3),
+     marginTop: theme.spacing(3),
 	},
 	table: {
 		minWidth: 700,
@@ -81,18 +81,19 @@ import
 }
 from '@material-ui/core'; 
 
+
  
 export const getInitialProps = async() => {
-    const response = await axios.get(`${baseUrl}/admins/service_requests`);
-    const data = await response.data;
-    const paths = data.map(user => {
-        return {
-            params: {
-                serviceRequestId: `${user.user._id}`
-            },
-			
-        }
-    })
+	const response = await authAxios.get(`/admins/service_requests`);
+	const data = await response.data;
+	const paths = data.map(user => {
+		return {
+			params: {
+				serviceRequestId: `${user?.user?._id}`
+			},
+
+		}
+	})
 	return {
 		paths,
 		fallback: false
@@ -101,10 +102,10 @@ export const getInitialProps = async() => {
 }
 
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
+
 
 export const getServerSideProps = async ({params: {serviceRequestId}}) => {
-	const res = await axios.get(`${baseUrl}/admins/users/${serviceRequestId}`);
+	const res = await authAxios.get(`/admins/users/${serviceRequestId}`);
     const artisansData = await res.data;
 	return {
 	  props: { artisansData}
@@ -124,22 +125,24 @@ const add = ({ artisansData}) => {
 	const [serviceRequest, setServiceRequest] = useState({
 		
 		email: artisansData.email,
-        phone_number: artisansData.phone_number,
+    phone_number: artisansData.phone_number,
 		rating: artisansData.rating,
 		password: artisansData.password,
 		address: artisansData.address,
-        first_name: artisansData.first_name,
+    user: artisansData.user,
+		artizan: artisansData.artizan,
+
 
 	});
 
 	const { 
 		email,
-		last_name,
-        phone_number,
-        first_name,
-        rating,
-        password,
-        address
+		user,
+		phone_number,
+		artizan,
+		rating,
+		password,
+		address
 	} = serviceRequest
 
 	const handleCreateUsers = async(e) => {
@@ -150,13 +153,13 @@ const add = ({ artisansData}) => {
 		
 		try {
 			const requestBody = {
-				email,
-				update_data: { last_name: serviceRequest.update_data}
+				 user: serviceRequest.user,
+				 artizan: serviceRequest.artizan
 			}
-				await axios.put(`${baseUrl}/admins/service_requests/update`, requestBody)
+				await authAxios.put(`/admins/service_requests/update/${artisansData.email}`, requestBody)
 				setLoading(false)
 				setSuccess('Service-request Edited Successfully')
-				return setTimeout(() => router.push(`/admin/service-request`), 2000)
+				return router.push(`/admin/service-request`)
 		} catch (error) {
 				setLoading(false)
 				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
@@ -191,14 +194,14 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-                                        <TextField 
+                     <TextField 
 											fullWidth
 											type="text"
 											label="First Name"
 											color="primary"
 											required
 											name="first_name"
-											value={first_name}
+											value={artizan}
 											onChange={handleInputChange}
 											/>
 										<TextField 
@@ -207,8 +210,8 @@ const add = ({ artisansData}) => {
 											label="Last Name"
 											color="primary" 
 											required
-											name="update_data"
-											value={last_name}
+											name="last_name"
+											value={user}
 											onChange={handleInputChange}
 										/>
 										<TextField 
