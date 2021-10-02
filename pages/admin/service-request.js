@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 // @material-ui/core components
 import { withStyles, makeStyles } from '@material-ui/core/styles'
-
 // layout for this page
 import Admin from 'layouts/Admin.js'
-import axios from 'axios'
 // core components
 import Card from 'components/Card/Card.js'
 import CardHeader from 'components/Card/CardHeader.js'
@@ -13,7 +11,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styles from 'assets/jss/nextjs-material-dashboard/components/tasksStyle.js'
 import MuiAlert from '@material-ui/lab/Alert'
-import { baseUrl, getToken } from '../../utility/apihelp'
+import { authAxios, getToken } from '../../utility/apihelp'
 import Edit from '@material-ui/icons/Edit'
 import Close from '@material-ui/icons/Close'
 import {
@@ -98,13 +96,13 @@ const useStyless = makeStyles({
 	},
 })
 export const getServerSideProps = async () => {
-	const response = await axios.get(`${baseUrl}/service_requests`)
+	const response = await authAxios.get(`/admins/service_requests`)
 	const data = response.data
 
 	if (!data) {
 		return {
 			redirect: { 
-				destination: '/',
+				destination: '/admins/dashboard',
 				permanent: false,
 			},
 		}
@@ -118,7 +116,6 @@ export const getServerSideProps = async () => {
 }
 
 function ServiceRequest({ serviceRequests }) {
-  console.log('serverStyleSheets', serviceRequests)
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const classess = useStyless()
@@ -126,7 +123,7 @@ function ServiceRequest({ serviceRequests }) {
 	const [search, setSearch] = useState('')
 	const router = useRouter()
 	const [error, setError] = useState('')
-	const [suc, setSuccess] = useState('')
+	const [success, setSuccess] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
 	const dataLimit = 10
 	let pageLimit
@@ -135,21 +132,21 @@ function ServiceRequest({ serviceRequests }) {
 		const token = getToken()
 		if (!token) {
 			setMessage('You are not authenticated')
-			return setTimeout(() => router.push('/admin/login'))
+			return  router.push('/admin/login')
 		}
 	}, [])
 
 	const deleteArtizan = async serviceRequest => {
 		if (window.confirm(`Are you sure you wanna delete this Service-Request?`)) {
-			const res = await axios.delete(`${baseUrl}/admins/service_requests/${serviceRequest}`)
+			const res = await authAxios.delete(`/admins/service_requests/${serviceRequest}`)
 
 			res.data
 
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Service-Request`)
 
-				return setTimeout(() => router.push(`/admin/dashboard`))
-			} else if (!res.ok || res.status.response === 500 || res.status.response === 401) setError(res.response.data.message)
+				return router.push(`/admin/dashboard`)
+			} else if (!res || res.status === 500 || res.status === 401) setError(res.data.message)
 			else {
 				setError('Oops! Something Went wrong.')
 			}
@@ -251,7 +248,7 @@ function ServiceRequest({ serviceRequests }) {
 	return (
 		<div>
 			{message && <Alert severity="error">{message}</Alert>}
-			{suc && <Alert severity="success">{suc}</Alert>}
+			{success && <Alert severity="success">{success}</Alert>}
 
 			<Card>
 				<CardHeader color="primary">

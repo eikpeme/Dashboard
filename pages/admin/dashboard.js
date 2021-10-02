@@ -39,8 +39,8 @@ export  const getServerSideProps = async() => {
   const res = await authAxios.get(`/admins/artizans`);
 	const data = res.data;
 
-  // const services = await authAxios.get(`/service_requests`);
-  // const serviceRequest = services.data;
+  const services = await authAxios.get(`/admins/service_requests`);
+  const serviceRequest = services.data;
 
   const category = await authAxios.get(`/categories`);
   const categoryBody = category.data;
@@ -57,7 +57,7 @@ export  const getServerSideProps = async() => {
     props: {
       users: resbody,
       artizans: data,
-      // serviceRequests: serviceRequest,
+      serviceRequests: serviceRequest,
       categoryBodies: categoryBody,
     }
    }
@@ -167,7 +167,7 @@ function Dashboard({ users, artizans, serviceRequests, categoryBodies }) {
               <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total Requests</p>
-              {/* <h3 className={classes.cardTitle}>{serviceRequests.length}</h3> */}
+              <h3 className={classes.cardTitle}>{serviceRequests.length}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>

@@ -7,12 +7,13 @@ import Admin from "layouts/Admin.js";
 import CardBody from "components/Card/CardBody.js";
 import { useRouter } from "next/router";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import React, {useRef, useState} from "react";
-import axios from 'axios'
+import React, { useState} from "react";
+import { authAxios } from "../../../utility/apihelp";
 import MuiAlert from "@material-ui/lab/Alert";
+
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+}
 
 
 const useStyless = makeStyles((theme) => ({
@@ -97,25 +98,24 @@ const MenuProps = {
   },
 };
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
 
 export const getServerSideProps = async () => {
 
-    const res = await axios.get(`${baseUrl}/artizans`);
+    const res = await authAxios.get(`/admins/artizans`);
     const artizan =  res.data
 
-	const response = await axios.get(`${baseUrl}/admins/users`);
+	const response = await authAxios.get(`/admins/users`);
 	const userRe = response.data;
 
     
     
     if(!userRe || !artizan){
-        return {
-            redirect: { 
-                destination: '/',
-                permanent: false,
-            }
-        }
+			return {
+				redirect: { 
+					destination: '/admins/dashboard',
+					permanent: false,
+				}
+			}
     }
 
 	return {
@@ -152,10 +152,10 @@ const add = ({userRes, artizans}) => {
 		setLoading(true)
 
 		try {
-			await axios.post(`${baseUrl}/admins/service_requests/create`, serviceRequest)
+			await authAxios.post(`/admins/service_requests/create`, serviceRequest)
 			setLoading(false)
 				setSuccess('Service request added successfully')
-			    return setTimeout(() => router.push('/admin/service-request'), 2000)
+			    return router.push('/admin/service-request')
 			
 		} catch (error) {
 			setLoading(false)
@@ -187,7 +187,7 @@ const add = ({userRes, artizans}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateServiceRequest} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-                                        <InputLabel id="demo-mutiple-name-label">Users</InputLabel>
+                      <InputLabel id="demo-mutiple-name-label">Users</InputLabel>
 											<FormControl className={classes.formControl}>
 												<Select
 													labelId="demo-mutiple-name-label"
@@ -207,7 +207,7 @@ const add = ({userRes, artizans}) => {
 												
 												</Select>
 											</FormControl>
-                                            <InputLabel id="demo-mutiple-name-label">Artizans</InputLabel>
+                      <InputLabel id="demo-mutiple-name-label">Artizans</InputLabel>
 											<FormControl className={classes.formControl}>
 												<Select
 													labelId="demo-mutiple-name-label"
