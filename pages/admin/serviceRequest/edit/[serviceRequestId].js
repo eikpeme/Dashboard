@@ -85,7 +85,7 @@ from '@material-ui/core';
  
 export const getInitialProps = async() => {
 	const response = await authAxios.get(`/admins/service_requests`);
-	const data = await response.data;
+	const data = response.data;
 	const paths = data.map(user => {
 		return {
 			params: {
@@ -107,12 +107,15 @@ export const getInitialProps = async() => {
 export const getServerSideProps = async ({params: {serviceRequestId}}) => {
 	const res = await authAxios.get(`/admins/users/${serviceRequestId}`);
     const artisansData = await res.data;
+
+		const resp = await authAxios.get(`/admins/artizans`);
+		const artizans =  resp.data
 	return {
-	  props: { artisansData}
+	  props: { artisansData,artizans}
 	}
   }
 
-const add = ({ artisansData}) => {
+const add = ({ artisansData, artizans}) => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
@@ -129,8 +132,9 @@ const add = ({ artisansData}) => {
 		rating: artisansData.rating,
 		password: artisansData.password,
 		address: artisansData.address,
-    user: artisansData.user,
-		artizan: artisansData.artizan,
+    artizan: artizans.first_name + ' ' + artisansData.last_name,
+		user: artisansData.first_name + ' ' + artisansData.last_name,
+		coordinates_trail: artisansData.coordinate_tail,
 
 
 	});
@@ -142,6 +146,7 @@ const add = ({ artisansData}) => {
 		artizan,
 		rating,
 		password,
+		coordinates_trail,
 		address
 	} = serviceRequest
 
@@ -153,8 +158,9 @@ const add = ({ artisansData}) => {
 		
 		try {
 			const requestBody = {
-				 user: serviceRequest.user,
-				 artizan: serviceRequest.artizan
+				 artizan: artizan,
+				 user: user,
+				 coordinates_trail: [[], []],
 			}
 				await authAxios.put(`/admins/service_requests/update/${artisansData.email}`, requestBody)
 				setLoading(false)
@@ -180,7 +186,7 @@ const add = ({ artisansData}) => {
 				{success}
 				</Alert>
 			)}
-		  <div className={classes.cardsbodies}></div>
+		  <div className={classes.cardsbodies}></div> 
 			<Container sm="true">
 				<Grid container spacing={3}>
 				<Grid item xs={12} sm={12} md={2}></Grid>
@@ -197,21 +203,21 @@ const add = ({ artisansData}) => {
                      <TextField 
 											fullWidth
 											type="text"
-											label="First Name"
+											label="User"
 											color="primary"
 											required
-											name="first_name"
-											value={artizan}
+											name="user"
+											value={user}
 											onChange={handleInputChange}
 											/>
 										<TextField 
 											fullWidth
 											type="text"
-											label="Last Name"
+											label="Artizan"
 											color="primary" 
 											required
-											name="last_name"
-											value={user}
+											name="artizan"
+											value={artizan}
 											onChange={handleInputChange}
 										/>
 										<TextField 
@@ -222,6 +228,16 @@ const add = ({ artisansData}) => {
 											required
 											name="email"
 											value={email}
+											onChange={handleInputChange}
+										/>
+										<TextField 
+											fullWidth
+											type="text"
+											label="Coordinates"
+											color="primary"
+											required
+											name="coordinates_trail"
+											value={coordinates_trail}
 											onChange={handleInputChange}
 										/>
 
@@ -275,7 +291,6 @@ const add = ({ artisansData}) => {
 											label=""
 											type="file"
 										/>
-										
 										<label htmlFor="contained-button-file">
 											<Fab component="span" className={classess.button}>
 													<AddPhotoAlternateIcon />
@@ -290,7 +305,7 @@ const add = ({ artisansData}) => {
 										>
 											{loading && <CircularProgress size={16} />}
 											{!loading && 'Submit Changes'}
-										</Button> 
+										</Button>
 										{error && (
 											<Alert severity="error">
 												{error}

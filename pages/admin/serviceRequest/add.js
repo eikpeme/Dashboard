@@ -79,7 +79,7 @@ import
 	Button,
 	CircularProgress,
 	Fab,
-    Select,
+  Select,
 	MenuItem,
 	Input,
 	FormControl,
@@ -101,8 +101,8 @@ const MenuProps = {
 
 export const getServerSideProps = async () => {
 
-    const res = await authAxios.get(`/admins/artizans`);
-    const artizan =  res.data
+	const res = await authAxios.get(`/admins/artizans`);
+	const artizan =  res.data
 
 	const response = await authAxios.get(`/admins/users`);
 	const userRe = response.data;
