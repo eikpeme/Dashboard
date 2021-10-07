@@ -110,7 +110,7 @@ export const getServerSideProps = async ({params: {serviceRequestId}}) => {
 
 	return {
 	  props: { artisansData}
-	}
+	  }
   }
 
 const add = ({ artisansData}) => {
@@ -130,8 +130,6 @@ const add = ({ artisansData}) => {
 		artizanCoordinates_trailLatitude: artisansData.coordinates_tail,
 		userCoordinates_trailLongitude: artisansData.coordinates_tail,
 		userCoordinates_trailLatitude: artisansData.coordinates_tail,
-
-
 	});
 
 	const { 
@@ -206,33 +204,12 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-                     {/* <TextField 
-											fullWidth
-											type="text"
-											label="User Id"
-											color="primary"
-											required
-											name="user"
-											value={user}
-											onChange={handleInputChange}
-											/>
-										<TextField 
-											fullWidth
-											type="text"
-											label="Artizan Id"
-											color="primary"
-											name='artizan'
-											required
-											value={artizan}
-											onChange={handleInputChange}
-										/> */}
 											<TextField 
 											fullWidth
 											type="text"
 											label="Status"
 											color="primary"
 											name='status'
-											required
 											value={status}
 											onChange={handleInputChange}
 										/>
@@ -241,17 +218,15 @@ const add = ({ artisansData}) => {
 											type="text"
 											label="Artizan Coordinates Trail Longitude"
 											color="primary"
-											required
 											name="artizanCoordinates_trailLongitude"
 											value={artizanCoordinates_trailLongitude}
 											onChange={handleInputChange}
 										/>
-											<TextField 
+										<TextField 
 											fullWidth
 											type="text"
 											label="Artizan Coordinates Trail Latitude"
 											color="primary"
-											required
 											name="artizanCoordinates_trailLatitude"
 											value={artizanCoordinates_trailLatitude}
 											onChange={handleInputChange}
@@ -261,17 +236,15 @@ const add = ({ artisansData}) => {
 											type="text"
 											label="User Coordinates Trail Longitude"
 											color="primary"
-											required
 											name="userCoordinates_trailLongitude"
 											value={userCoordinates_trailLongitude}
 											onChange={handleInputChange}
 										/>
-												<TextField 
+											<TextField 
 											fullWidth
 											type="text"
 											label="User Coordinates Trail Latitude"
 											color="primary"
-											required
 											name="userCoordinates_trailLatitude"
 											value={userCoordinates_trailLatitude}
 											onChange={handleInputChange}
@@ -288,7 +261,7 @@ const add = ({ artisansData}) => {
 										/>
 										<label htmlFor="contained-button-file">
 											<Fab component="span" className={classess.button}>
-													<AddPhotoAlternateIcon />
+												<AddPhotoAlternateIcon />
 											</Fab>
 										</label>
 										<Button

@@ -15,19 +15,19 @@ function Alert(props) {
 
 const useStyless = makeStyles((theme) => ({
 	formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
+		margin: theme.spacing(1),
+		minWidth: 120,
+		maxWidth: 300,
 	},
 	chips: {
-        display: 'flex',
-        flexWrap: 'wrap',
+		display: 'flex',
+		flexWrap: 'wrap',
 	},
 	chip: {
-        margin: 2,
+    margin: 2,
 	},
 	noLabel: {
-        marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3),
 	},
 	table: {
 		minWidth: 700,
@@ -110,6 +110,7 @@ export const getServerSideProps = async ({params: {categoryId}}) => {
   }
 
 const add = ({ artisansData}) => {
+	console.log(artisansData)
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
@@ -121,11 +122,14 @@ const add = ({ artisansData}) => {
 	const [category, setUser] = useState({
 		
 		active: artisansData.active,
+		name: artisansData.name,
+		image_url: artisansData.image_url
 	});
 
 	const { 
 		active,
-    email,
+    name,
+		image_url,
 	} = category
 
 	const handleCreateUsers = async(e) => {
@@ -136,13 +140,15 @@ const add = ({ artisansData}) => {
 		
 		try {
 			const requestBody = {
-				active: category.active
+				active: category.active,
+				name: category.name,
+				image_url: category.image_url,
 				
 			}
-				await authAxios.put(`/admins/categories/`, requestBody)
+				await authAxios.put(`/categories/${artisansData._id}`, requestBody)
 				setLoading(false)
 				setSuccess('Artizan Edited Successfully')
-				return setTimeout(() => router.push(`/admin/categoery`), 2000)
+				return router.push(`/admin/categoery`);
 		} catch (error) {
 				setLoading(false)
 				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
@@ -177,12 +183,29 @@ const add = ({ artisansData}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
+										<TextField 
+												fullWidth
+												type="text"
+												label="Name"
+												color="primary"
+												name="name"
+												value={name}
+												onChange={handleInputChange}
+											/>
+											<TextField 
+												fullWidth
+												type="text"
+												label="Avatar"
+												color="primary"
+												name="image_url"
+												value={image_url}
+												onChange={handleInputChange}
+											/>
 											<TextField 
 												fullWidth
 												type="text"
 												label="Activeness"
 												color="primary"
-												required
 												name="active"
 												value={active}
 												onChange={handleInputChange}

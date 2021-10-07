@@ -128,7 +128,6 @@ export const getServerSideProps = async () => {
   }
 
 const add = ({userRes, artizans}) => {
-	console.log(artizans)
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
@@ -199,7 +198,7 @@ const add = ({userRes, artizans}) => {
 													>
 													{userRes.map((userRe) => (
 													<MenuItem 
-														key={userRe}
+														key={userRe._id}
 														value={userRe}
 													>
 													{userRe.first_name + ' ' +  userRe.last_name}
@@ -219,7 +218,7 @@ const add = ({userRes, artizans}) => {
 													>
 													{artizans.map((artizan) => (
 													<MenuItem 
-														key={artizan}
+														key={artizan._id}
 														value={artizan}
 													>
 													{artizan.first_name + ' ' +  artizan.last_name}
@@ -258,7 +257,6 @@ const add = ({userRes, artizans}) => {
 													{error}
 												</Alert>
 											)}
-											
 										</Grid>
 									</form>
 								</Container>

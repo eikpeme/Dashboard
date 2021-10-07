@@ -148,13 +148,13 @@ function Category({ categories }) {
     if(
       window.confirm(`Are you sure you wanna delete this User?`)
     ) {
-      const res = await authAxios.delete(`/admins/users/${userId}`)
+      const res = await authAxios.delete(`/categories/${userId}`)
      
      res.data
       if(res.status === 200){
         setSuccess(`You have successfully deleted this User`)
 
-        return router.push(`/admin/dashboard`)
+        return router.push(`/admin/categories`)
 
       }else{
         setError('Oops! Something Went wrong.')
@@ -255,7 +255,7 @@ function Category({ categories }) {
                           </Link>
                         </StyledTableCell>
                         <StyledTableCell  align="right">
-                          <div onClick={()=> deleteCategory(category.email)} className={classes.delete} >
+                          <div onClick={()=> deleteCategory(category._id)} className={classes.delete} >
                             {category.isDeleting 
                               ? <span className={classes.editing}></span>
                               : <span>
