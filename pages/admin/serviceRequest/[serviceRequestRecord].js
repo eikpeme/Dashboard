@@ -4,12 +4,12 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 // layout for this page
 import Admin from "layouts/Admin.js";
-import axios from 'axios';
 // core components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import CardBody from "components/Card/CardBody.js";
+import { authAxios } from "../../../utility/apihelp";
 import {
   
   TableBody,
@@ -93,8 +93,8 @@ const useStyless = makeStyles({
 }); 
 
 export const getInitialProps = async() => {
-  const response = await axios.get(`${baseUrl}/service_requests`);
-  const data = await response.data;
+  const response = await authAxios.get(`admins/service_requests`);
+  const data = response.data;
   const paths = data.map(artid => {
     return {
       params: {
@@ -108,11 +108,9 @@ export const getInitialProps = async() => {
   }
 }
 
-const baseUrl =  'https://artizan-api-staged.herokuapp.com'
-
 export const getServerSideProps = async ({params: {serviceRequestRecord}}) => {
-  const res = await axios.get(`${baseUrl}/service_requests/${serviceRequestRecord}`);
-  const data = await res.data;
+  const res = await authAxios.get(`admins/service_requests/${serviceRequestRecord}`);
+  const data = res.data;
   return {
     props: { serviceRequest: data}
   }
@@ -138,19 +136,23 @@ function ArtizanProfiles({ serviceRequest }) {
             <Table className={classess.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="right">First Name</StyledTableCell>
-                  <StyledTableCell align="right">Last Name</StyledTableCell>
+                <StyledTableCell align="right">User Id</StyledTableCell>
+                  <StyledTableCell align="right">Artizan Id</StyledTableCell>
+                  <StyledTableCell align="right">Coordinate Trail</StyledTableCell>
                   <StyledTableCell align="right">Aritzan's Status</StyledTableCell>
                   
                 </TableRow>
               </TableHead>
               <TableBody>
                 <StyledTableRow className={classess.data} key={serviceRequest._id} >
-                  <StyledTableCell  align="right">
-                    {serviceRequest?.first_name}
+                <StyledTableCell  align="right">
+                    {serviceRequest?.user}
                   </StyledTableCell>
                   <StyledTableCell  align="right">
-                    {serviceRequest?.last_name}
+                    {serviceRequest?.artizan}
+                  </StyledTableCell>
+                  <StyledTableCell  align="right">
+                    {serviceRequest?.coordinates_trail}
                   </StyledTableCell>
                   <StyledTableCell  align="right">
                     {serviceRequest?.status}

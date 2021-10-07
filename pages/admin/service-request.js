@@ -163,7 +163,6 @@ function ServiceRequest({ serviceRequests }) {
 			return service
 		}
 	})
-
 	const ServiceRows = ({ index, service }) => {
 		let idx = 10 * (currentPage - 1) + index
 		return (
@@ -203,7 +202,6 @@ function ServiceRequest({ serviceRequests }) {
 						</StyledTableCell>
 					</Link>
 				</StyledTableRow>
-
 				{!serviceRequests && (
 					<StyledTableRow>
 						<StyledTableCell key={serviceRequest.sizes} component="th" scope="row">
