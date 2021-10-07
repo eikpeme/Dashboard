@@ -144,7 +144,7 @@ const add = ({ids}) => {
 			address: address.value,
 			category_id: category_id.value,
 			geo_location: {
-				coordinates: [ parseInt(long.value), parseInt(lat.value) ]
+				coordinates: [ parseFloat(long.value), parseFloat(lat.value) ]
 			},
 			password: password.value,
 			short_description: short_description.value
@@ -156,7 +156,7 @@ const add = ({ids}) => {
 			await authAxios.post(`/admins/artizans/create`, artizan)
 			setLoading(false)
 				setSuccess('Artizan added successfully')
-			    return setTimeout(() => router.push('/admin/artizans'), 2000)
+			    return router.push('/admin/artizans')
 			
 		} catch (error) {
 			setLoading(false)

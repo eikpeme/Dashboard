@@ -98,7 +98,7 @@ const add = () => {
 			phone_number: phone_number.value,
 			address: address.value,
 			geo_location: {
-				coordinates: [parseInt(long.value), parseInt(lat.value)],
+				coordinates: [parseFloat(long.value), parseFloat(lat.value)],
 			},
 			password: password.value,
 		}

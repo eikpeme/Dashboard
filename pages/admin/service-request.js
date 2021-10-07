@@ -145,7 +145,7 @@ function ServiceRequest({ serviceRequests }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Service-Request`)
 
-				return router.push(`/admin/dashboard`)
+				return router.push(`/admin/service-request`)
 			} else if (!res || res.status === 500 || res.status === 401) setError(res.data.message)
 			else {
 				setError('Oops! Something Went wrong.')
@@ -174,7 +174,7 @@ function ServiceRequest({ serviceRequests }) {
 					<StyledTableCell align="right">{service?.status}</StyledTableCell>
 					<StyledTableCell align="right">{service?.coordinates_trail}</StyledTableCell>
 					<StyledTableCell align="right">
-						<Link href={`/admin/serviceRequest/edit/${service?.user?._id}`} className={classes.edit}>
+						<Link href={`/admin/serviceRequest/edit/${service?._id}`} className={classes.edit}>
 							<Tooltip id="tooltip-top" title="Edit service requests" placement="top" classes={{ tooltip: classes.tooltip }}>
 								<IconButton aria-label="Edit" className={classes.tableActionButton}>
 									<Edit className={classes.tableActionButtonIcon + ' ' + classes.edit} />
