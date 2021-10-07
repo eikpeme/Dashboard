@@ -120,14 +120,15 @@ export const getServerSideProps = async () => {
 
 	return {
 	  props: { 
-        userRes: userRe, 
-          artizans: artizan
-        }
+			userRes: userRe, 
+			artizans: artizan
+		}	
 	}
   
   }
 
 const add = ({userRes, artizans}) => {
+	console.log(artizans)
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();

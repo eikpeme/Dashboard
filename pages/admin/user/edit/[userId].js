@@ -129,8 +129,6 @@ const add = ({ artisansData}) => {
 		address: artisansData.address,
 		first_name: artisansData.first_name,
 		last_name: artisansData.last_name,
-		
-
 
 	});
 

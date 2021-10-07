@@ -105,17 +105,15 @@ export const getInitialProps = async() => {
 
 
 export const getServerSideProps = async ({params: {serviceRequestId}}) => {
-	const res = await authAxios.get(`/admins/users/${serviceRequestId}`);
+	const res = await authAxios.get(`/admins/service_requests/${serviceRequestId}`);
     const artisansData = await res.data;
 
-		const resp = await authAxios.get(`/admins/artizans`);
-		const artizans =  resp.data
 	return {
-	  props: { artisansData,artizans}
+	  props: { artisansData}
 	}
   }
 
-const add = ({ artisansData, artizans}) => {
+const add = ({ artisansData}) => {
 	const router = useRouter(); 
 	const useStyles = makeStyles(styles);
 	const classes = useStyles();
@@ -126,28 +124,23 @@ const add = ({ artisansData, artizans}) => {
 
 
 	const [serviceRequest, setServiceRequest] = useState({
-		
-		email: artisansData.email,
-    phone_number: artisansData.phone_number,
-		rating: artisansData.rating,
-		password: artisansData.password,
-		address: artisansData.address,
-    artizan: artizans.first_name + ' ' + artisansData.last_name,
-		user: artisansData.first_name + ' ' + artisansData.last_name,
-		coordinates_trail: artisansData.coordinate_tail,
+    
+		status: artisansData.status,
+		artizanCoordinates_trailLongitude: artisansData.coordinates_tail,
+		artizanCoordinates_trailLatitude: artisansData.coordinates_tail,
+		userCoordinates_trailLongitude: artisansData.coordinates_tail,
+		userCoordinates_trailLatitude: artisansData.coordinates_tail,
 
 
 	});
 
 	const { 
-		email,
-		user,
-		phone_number,
-		artizan,
-		rating,
-		password,
-		coordinates_trail,
-		address
+		status,
+		artizanCoordinates_trailLongitude,
+		artizanCoordinates_trailLatitude,
+		userCoordinates_trailLongitude,
+		userCoordinates_trailLatitude,
+		
 	} = serviceRequest
 
 	const handleCreateUsers = async(e) => {
@@ -158,19 +151,32 @@ const add = ({ artisansData, artizans}) => {
 		
 		try {
 			const requestBody = {
-				 artizan: artizan,
-				 user: user,
-				 coordinates_trail: [[], []],
+				status: serviceRequest.status,
+				coordinates_trail: 
+				[
+					[
+						parseFloat(serviceRequest.artizanCoordinates_trailLongitude),
+						parseFloat(serviceRequest.artizanCoordinates_trailLatitude),
+					],
+					[
+						parseFloat(serviceRequest.userCoordinates_trailLongitude),
+						parseFloat(serviceRequest.userCoordinates_trailLatitude),
+					]
+				],
 			}
-				await authAxios.put(`/admins/service_requests/update/${artisansData.email}`, requestBody)
+				await authAxios.put(`/admins/service_requests/update/${artisansData._id}`, requestBody)
 				setLoading(false)
 				setSuccess('Service-request Edited Successfully')
 				return router.push(`/admin/service-request`)
-		} catch (error) {
+		} catch (error) 
+			{
 				setLoading(false)
-				if(error.response.status === 401 || error.response.status === 400) setError(error.response.data.message)
-			else{
-				setError('Something went wrong, please try again')
+				if(
+					error.response.status === 401 ||
+					error.response.status === 400) 
+					setError(error.response.data.message)
+				else{
+					setError('Something went wrong, please try again')
 			}
 		}
 		
@@ -200,10 +206,10 @@ const add = ({ artisansData, artizans}) => {
 								<Container sm="true">
 									<form onSubmit={handleCreateUsers} autoComplete="email">
 										<Grid item xs={12} sm={12} md={12} className={classes.formControl}>
-                     <TextField 
+                     {/* <TextField 
 											fullWidth
 											type="text"
-											label="User"
+											label="User Id"
 											color="primary"
 											required
 											name="user"
@@ -213,75 +219,64 @@ const add = ({ artisansData, artizans}) => {
 										<TextField 
 											fullWidth
 											type="text"
-											label="Artizan"
-											color="primary" 
+											label="Artizan Id"
+											color="primary"
+											name='artizan'
 											required
-											name="artizan"
 											value={artizan}
 											onChange={handleInputChange}
-										/>
-										<TextField 
+										/> */}
+											<TextField 
 											fullWidth
-											type="Email"
-											label="Email"
+											type="text"
+											label="Status"
 											color="primary"
+											name='status'
 											required
-											name="email"
-											value={email}
+											value={status}
 											onChange={handleInputChange}
 										/>
 										<TextField 
 											fullWidth
 											type="text"
-											label="Coordinates"
+											label="Artizan Coordinates Trail Longitude"
 											color="primary"
 											required
-											name="coordinates_trail"
-											value={coordinates_trail}
+											name="artizanCoordinates_trailLongitude"
+											value={artizanCoordinates_trailLongitude}
+											onChange={handleInputChange}
+										/>
+											<TextField 
+											fullWidth
+											type="text"
+											label="Artizan Coordinates Trail Latitude"
+											color="primary"
+											required
+											name="artizanCoordinates_trailLatitude"
+											value={artizanCoordinates_trailLatitude}
+											onChange={handleInputChange}
+										/>
+											<TextField 
+											fullWidth
+											type="text"
+											label="User Coordinates Trail Longitude"
+											color="primary"
+											required
+											name="userCoordinates_trailLongitude"
+											value={userCoordinates_trailLongitude}
+											onChange={handleInputChange}
+										/>
+												<TextField 
+											fullWidth
+											type="text"
+											label="User Coordinates Trail Latitude"
+											color="primary"
+											required
+											name="userCoordinates_trailLatitude"
+											value={userCoordinates_trailLatitude}
 											onChange={handleInputChange}
 										/>
 
-										<TextField 
-											fullWidth
-											type="text"
-											label="Phone Number"
-											color="primary"
-											required
-											name="phone_number"
-											value={phone_number}
-											onChange={handleInputChange}
-										/>
-										<TextField 
-											fullWidth
-											type="number"
-											label="Rating"
-											color="primary"
-											required
-											name="rating"
-											value={rating}
-											onChange={handleInputChange}
-										/>
-										<TextField 
-											fullWidth
-											type="text"
-											label="Adress"
-											color="primary"
-											required
-											name="address"
-											value={address}
-											onChange={handleInputChange}
-										/>
-										<TextField 
-											fullWidth
-											type="password"
-											label="Password"
-											color="primary"
-											required
-											name="password"
-											value={password}
-											onChange={handleInputChange}
-										/>
-											
 										<div>Upload your certificate</div>
 										<TextField
 											fullWidth

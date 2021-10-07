@@ -84,7 +84,7 @@ function Users({ users }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this User`)
 
-				return setTimeout(() => router.push(`/admin/dashboard`) )
+				return setTimeout(() => router.push(`/admin/users`) )
 			} else {
 				setError('Oops! Something Went wrong.')
 			}

@@ -84,7 +84,7 @@ function ArtizanProfiles({ users }) {
 			if (res.status === 200) {
 				setSuccess(`You have successfully deleted this Artizan`)
 
-				return setTimeout(() => router.push(`/admin/dashboard`))
+				return setTimeout(() => router.push(`/admin/artizans`))
 			} else {
 				setError('Oops! Something Went wrong.')
 			}
