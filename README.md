@@ -4,10 +4,8 @@ Artizans Dashboard is the web interface dashboard for admins to manage the Artiz
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
+```
+npm install
 ```
 
 ## Usage
