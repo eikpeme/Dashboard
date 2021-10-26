@@ -1,4 +1,4 @@
-# Artizans DashBoard
+# Artizans Dashboard
 
 Artizans Dashboard is the web interface dashboard for admins to manage the Artizans mobile application
 
